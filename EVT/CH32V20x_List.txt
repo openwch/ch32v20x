@@ -1,0 +1,198 @@
+
+南京沁恒微电子股份有限公司 2022.01
+最新资料请到我们的网站上查询
+http://wch.cn
+
+
+文件目录
+  |
+  |-- CH32V20x：RISC-V内核微控制器
+  |      |-- EVT: CH32V20x评估板和CH32V20x相关例程
+  |      |      |-- PUB: 
+  |      |      |      |-- CH32V20x评估板说明书.pdf：CH32V20x评估板说明及工程创建说明
+  |      |      |      |-- CH32V20xSCH.pdf：CH32V20x评估板原理图
+  |      |      |-- EXAM: 
+  |      |      |      |-- SRC  
+  |      |      |      |      |-- Core：内核系统头文件
+  |      |      |      |      |-- Debug：延时函数、串口调试源文件及头文件
+  |      |      |      |      |-- Ld：ld文件  
+  |      |      |      |      |-- Peripheral：基本外设驱动源文件及头文件
+  |      |      |      |      |-- Startup：启动文件。针对用户使用芯片型号包含下列相应的启动文件，同时在ch32v20x.h文件中选择匹配芯片型号定义 
+  |      |      |      |      |      |-- startup_ch32v20x_D6.S：适用于CH32V203F6-CH32V203G6-CH32V203K6-CH32V203K8-CH32V203C6-CH32V203C8系列
+  |      |      |      |      |      |-- startup_ch32v20x_D8.S：适用于CH32V203RB系列
+  |      |      |      |      |      |-- startup_ch32v20x_D8W.S：适用于CH32V208系列  
+  |      |      |      |-- ADC
+  |      |      |      |      |-- ADC_DMA：ADC使用DMA采样例程
+  |      |      |      |      |-- AnalogWatchdog：模拟看门狗例程
+  |      |      |      |      |-- Auto_Injection：自动注入模式例程
+  |      |      |      |      |-- Discontinuous_mode：间断模式例程
+  |      |      |      |      |-- DualADC_AlternateTrigger：双ADC交替触发采样例程 ——仅适用于CH32V20x_D6
+  |      |      |      |      |-- DualADC_Combined_RegInjectionSimul：双ADC混合同步规则+注入采样例程 ——仅适用于CH32V20x_D6
+  |      |      |      |      |-- DualADC_FastInterleaved：双ADC快速交叉采样例程 ——仅适用于CH32V20x_D6
+  |      |      |      |      |-- DualADC_InjectionSimul：双ADC同步注入采样例程 ——仅适用于CH32V20x_D6
+  |      |      |      |      |-- DualADC_RegSimul：双ADC同步规则采样例程 ——仅适用于CH32V20x_D6
+  |      |      |      |      |-- DualADC_SlowInterleaved：双ADC慢速交叉采样例程 ——仅适用于CH32V20x_D6
+  |      |      |      |      |-- ExtLines_Trigger：外部触发ADC转换例程
+  |      |      |      |      |-- Internal_Temperature：内部温度传感器例程 
+  |      |      |      |-- BLE ——仅适用于CH32V20x_D8W  
+  |      |      |      |      |-- BackupUpgrade_IAP：备份无线升级IAP例程，检测当前代码标志，判断是否搬运备份区代码到用户区并运行用户区代码 
+  |      |      |      |      |-- BackupUpgrade_OTA：备份无线升级用户例程，外设从机例程基础上添加OTA功能，可将升级固件保存到备份区后跳转IAP程序进行升级  
+  |      |      |      |      |-- BLE_UART：蓝牙串口透传例程，详细说明参考根目录<说明.txt>文档
+  |      |      |      |      |-- BLE_USB：蓝牙与USB合用例程，USB模拟340设备转发蓝牙数据 
+  |      |      |      |      |-- Broadcaster：广播者角色例程，处于广播态一直广播 
+  |      |      |      |      |-- CentPeri：主从一体例程，整合了主机例程和从机例程的功能同时运行 
+  |      |      |      |      |-- Central：主机例程，主动扫描周围设备，连接至给定的从机设备地址，寻找自定义服务及特征，执行读写命令，需与从机例程配合使用,并将从机设备地址修改为该例程目标地址，默认为(84:C2:E4:03:02:02) 
+  |      |      |      |      |-- CyclingSensor：骑行传感器例程，连接主机后定时上传速度和踏频
+  |      |      |      |      |-- DirectTest：直接测试例程，测试指定通信频道发送数据包
+  |      |      |      |      |-- HAL：例程共用的硬件相关文件  
+  |      |      |      |      |-- HeartRate：心率计例程，连接主机后定时上传心率
+  |      |      |      |      |-- HID_Consumer：蓝牙拍照器例程，模拟用户控制设备，连接主机后定时上传音量键下键
+  |      |      |      |      |-- HID_Keyboard：蓝牙键盘例程，模拟键盘设备，连接主机后定时上传键值
+  |      |      |      |      |-- HID_Mouse：蓝牙鼠标例程，模拟鼠标设备，连接主机后定时上传键值  
+  |      |      |      |      |-- HID_Touch：蓝牙触摸例程，模拟触摸笔设备，连接主机后定时上传触摸值
+  |      |      |      |      |-- LIB：BLE协议栈库文件及其头文件
+  |      |      |      |      |-- LWNS：LWNS无线组网例程，包含broadcast、unicast、netflood、mesh等功能。
+  |      |      |      |      |-- MultiCentPeri：多主机多从机例程，支持同时连接三个主机三个从机
+  |      |      |      |      |-- MultiCentral：主机多连接例程，主动扫描周围设备，连接至给定的三个从机设备地址，寻找自定义服务及特征，执行读写命令，需与从机例程配合使用,并将从机设备地址修改为该例程目标地址，三个从机设备地址默认为 (84:C2:E4:03:02:02)、(84:C2:E4:03:02:03)、(84:C2:E4:03:02:04)
+  |      |      |      |      |-- Observer：观察者角色例程，定时扫描，如果扫描结果不为空，则打印扫描到的广播地址
+  |      |      |      |      |-- OnlyUpdateApp_IAP：固定库无线升级IAP例程，具备OTA功能，接收升级固件后对用户区代码进行升级
+  |      |      |      |      |-- OnlyUpdateApp_Peripheral：固定库无线升级用户例程，外设从机例程基础上添加跳转IAP程序进行后续升级的功能 
+  |      |      |      |      |-- Peripheral：外设从机角色例程，自定义包含五种不同属性的服务，包含可读、可写、通知、可读可写、安全可读
+  |      |      |      |      |-- peripheral_ancs_client：外设从机角色例程,包含苹果通知中心服务
+  |      |      |      |      |-- peripheral_ETH：蓝牙以太网例程
+  |      |      |      |      |-- RF_PHY：非标准无线收发例程
+  |      |      |      |      |-- RF_PHY_Hop：非标准无线跳频收发例程    
+  |      |      |      |      |-- RunningSensor：跑步传感器例程，连接主机后定时上传速度
+  |      |      |      |      |-- SpeedTest_Central：蓝牙测速主机例程
+  |      |      |      |      |-- SpeedTest_Peripheral：蓝牙测速从机例程
+  |      |      |      |      |-- SYNC_ADV：周期同步广播例程
+  |      |      |      |      |-- SYNC_SCAN：周期同步扫描例程
+  |      |      |      |      |-- 沁恒低功耗蓝牙软件开发参考手册.pdf
+  |      |      |      |      |-- BLE认证证书：产品：WCH CH32V208  QDID：179771   
+  |      |      |      |      |-- MESH
+  |      |      |      |      |      |-- adv_ali_light：天猫精灵灯例程，可通过天猫精灵找队友配网设备，控制开关状态。默认只有开关属性，如需添加其余属性（亮度，电量，温度等），需要自行根据阿里云产品配置的属性描述添加对应处理函数以及状态上报函数。
+  |      |      |      |      |      |-- adv_ali_light_add_lightness：MESH通用属性添加例程。天猫精灵灯例程的基础上，添加了亮度属性，用于对照原天猫精灵灯例程，快速熟悉添加其他MESH通用属性的方法。
+  |      |      |      |      |      |-- adv_ali_light_add_windspeed：天猫定义属性添加例程。天猫精灵灯例程的基础上，添加了风速属性，用于对照原天猫精灵灯例程，快速熟悉添加其他天猫定义属性的方法。
+  |      |      |      |      |      |-- adv_ali_light_multi_element：多元素天猫精灵风扇灯例程。同时包含风扇开关摇头和灯开关颜色控制。用于对照原天猫精灵灯例程，快速熟悉添加多个属性的方法。
+  |      |      |      |      |      |-- adv_ali_light_with_peripheral：天猫精灵灯例程的基础上，添加亮度和色温控制，并支持手机BLE调试助手连接控制。
+  |      |      |      |      |      |-- adv_proxy：代理节点例程，可通过PB_GATT层（BLE连接）进行配网。
+  |      |      |      |      |      |-- adv_vendor：厂商自定义模型例程，配合self_provisioner_vendor使用，支持有应答传输和无应答透传两种通信属性，自行拟定通信协议。
+  |      |      |      |      |      |-- adv_vendor_friend：厂商自定义模型例程的基础上，支持朋友节点功能
+  |      |      |      |      |      |-- adv_vendor_low_power：厂商自定义模型例程的基础上，支持低功耗节点功能，需与朋友节点配合使用
+  |      |      |      |      |      |-- adv_vendor_self_provision：厂商自定义模型例程的基础上，支持本地自配网，适配无配网者或简化配网流程等特殊应用场景
+  |      |      |      |      |      |-- adv_vendor_self_provision_IAP：MESH备份无线升级IAP例程，检测当前代码标志，判断是否搬运备份区代码到用户区并运行用户区代码
+  |      |      |      |      |      |-- adv_vendor_self_provision_with_peripheral：MESH备份无线升级用户例程，厂商自定义模型例程的基础上，支持手机BLE调试助手连接控制，通过BLE接收配网信息并将自身配网，适用于终端控制组网应用，可自行拟定通信协议实现手机控制mesh网络中所有设备。
+  |      |      |      |      |      |-- self_provisioner_vendor：厂商自定义模型自配网发起者例程，配合adv_vendor使用，自动配网周围未配网设备，并将其加入自身mesh网络，默认支持配网6个设备。默认配置设备绑定1个APPKEY,用于有应答传输和无应答透传，配置设备绑定1个订阅地址，用于群发无应答消息
+  |      |      |      |      |      |-- self_provisioner_vendor_with_peripheral：厂商自定义模型自配网发起者例程的基础上，支持手机BLE调试助手连接控制，中转手机与mesh网络的通信，可自行拟定通信协议实现手机控制mesh网络中所有设备。
+  |      |      |      |      |      |-- MESH_LIB：MESH协议栈库文件及其头文件
+  |      |      |      |      |      |-- 沁恒MESH APP管理配网应用手册.pdf
+  |      |      |      |      |      |-- 沁恒低功耗蓝牙MESH软件开发参考手册.pdf
+  |      |      |      |-- BKP：BKP例程
+  |      |      |      |-- CAN  ——仅适用于CH32V20x_D6-CH32V20x_D8W
+  |      |      |      |      |-- Networking：CAN例程：正常模式，标准帧和扩展帧数据收发
+  |      |      |      |      |-- TestMode：测试模式，包括静默模式、回环模式、回环静默模式
+  |      |      |      |      |-- Time-triggered：时间触发通信模式   
+  |      |      |      |-- CRC：CRC例程  
+  |      |      |      |-- DMA
+  |      |      |      |      |-- DMA_MEM2MEM：储存器到储存器模式例程
+  |      |      |      |      |-- DMA_MEM2PERIP：储存器到外设模式、外设到储存器模式例程见各外设子例程
+  |      |      |      |-- ETH ——仅适用于CH32V20x_D8-CH32V20x_D8W
+  |      |      |      |      |-- 1_Tool_Doc：例程相关文档及配置软件
+  |      |      |      |      |-- DHCP：演示DHCP自动获取IP，并建立TCP连接进行数据回传
+  |      |      |      |      |-- DNS：DHCP自动获取ip后，再请求域名解析演示例程  
+  |      |      |      |      |-- ETH_CFG：ETH_CFG例程，创建一个UDP Server用于与上位机通信，以配置WCHNET功能，包括各项参数以及创建一个新的通信
+  |      |      |      |      |-- ETH_IAP：演示通过TCP数据传输，进行IAP
+  |      |      |      |      |-- ETH_UART：演示以太网与UART的数据透传。默认使用1000000波特率（可在bsp_uart.h中更改）进行串口数据传输
+  |      |      |      |      |-- IPRaw_PING：演示PING功能
+  |      |      |      |      |-- Mail：演示SMTP以及POP3的邮件收发 
+  |      |      |      |      |-- MQTT：演示基于TCP/IP的MQTT协议通讯   
+  |      |      |      |      |-- NetLib：网络协议栈库 
+  |      |      |      |      |-- TcpClient：演示Tcp client连接服务器后接收数据再回传
+  |      |      |      |      |-- TcpServer：演示Tcp Server连接到客户端后接收数据并回传
+  |      |      |      |      |-- UdpClient：演示Udp Client接收数据并回传
+  |      |      |      |      |-- UdpServer：演示Udp Server接收数据并回传
+  |      |      |      |      |-- WebServer： 演示通过Web浏览器配置WCHNET芯片的功能，WCHNET芯片内置web服务器 ，通过网页可以实现WCHNET的网络参数配置，以及密码管理  
+  |      |      |      |-- EXTI：外部中断线例程
+  |      |      |      |-- FLASH：FLASH的擦/读/写，以及快速编程
+  |      |      |      |-- FreeRTOS：FreeRTOS移植例程  
+  |      |      |      |-- GPIO：GPIO例程
+  |      |      |      |-- HarmonyOS：HarmonyOS移植例程  
+  |      |      |      |-- I2C
+  |      |      |      |      |-- I2C_7bit_Mode：7位地址模式，Master/Slave 模式收发例程
+  |      |      |      |      |-- I2C_10bit_Mode：10位地址模式，Master/Slave 模式收发例程
+  |      |      |      |      |-- I2C_DMA：I2C使用DMA，Master/Slave 模式收发例程
+  |      |      |      |      |-- I2C_EEPROM：I2C接口操作EEPROM外设例程
+  |      |      |      |      |-- I2C_PEC：使用PEC错误校验，Master/Slave 模式收发例程  
+  |      |      |      |-- INT
+  |      |      |      |      |-- Interrupt_VTF：使用VTF IRQ中断例程  
+  |      |      |      |-- IAP：IAP升级例程-内置Hex转Bin工具和IAP升级工具  
+  |      |      |      |      |-- USB_UART：USB+UART IAP例程   
+  |      |      |      |-- IWDG：独立看门狗例程
+  |      |      |      |-- OPA：OPA4作电压跟随器输出例程
+  |      |      |      |-- PWR
+  |      |      |      |      |-- Sleep_Mode：低功耗，睡眠模式例程
+  |      |      |      |      |-- Standby_Mode：低功耗，待机模式例程
+  |      |      |      |      |-- Stop_Mode：低功耗，停机模式例程
+  |      |      |      |      |-- Standby_RAM_LV_Mode：待机模式开启LV时，RAM 2K、30K低功耗数据保持例程
+  |      |      |      |      |-- Standby_RAM_Mode：待机模式不开启LV时，RAM 2K、30K低功耗数据保持例程
+  |      |      |      |-- RCC
+  |      |      |      |      |-- Get_CLK：获取system-HCLK-AHB1-AHB2时钟例程   
+  |      |      |      |      |-- MCO：MCO引脚时钟输出例程
+  |      |      |      |      |-- HSI_PLL_Source：HSI或HSI/2作为PLL输入时钟例程   
+  |      |      |      |-- RT-Thread：RT-Thread移植例程 
+  |      |      |      |-- RTC：日历例程  
+  |      |      |      |-- SPI
+  |      |      |      |      |-- 1Lines_half-duplex：单线半双工模式，Master/Slave 模式数据收发
+  |      |      |      |      |-- 2Lines_FullDuplex：双线全双工模式，Master/Slave 模式数据收发
+  |      |      |      |      |-- FullDuplex_HardNSS：硬件NSS模式，Master/Slave 模式数据收发
+  |      |      |      |      |-- SPI_CRC：使用CRC错误校验，Master/Slave 模式收发例程
+  |      |      |      |      |-- SPI_DMA：SPI使用DMA，Master/Slave 模式收发例程
+  |      |      |      |      |-- SPI_FLASH：SPI接口操作FLASH外设例程
+  |      |      |      |-- TencentOS：TencentOS移植例程       
+  |      |      |      |-- TIM
+  |      |      |      |      |-- Clock_Select：时钟源选择例程
+  |      |      |      |      |-- ComplementaryOutput_DeadTime：互补输出和死区插入模式例程
+  |      |      |      |      |-- ExtTrigger_Start_Two_Timer：外部触发同步启动两个定时器例程
+  |      |      |      |      |-- Input_Capture：输入捕获例程
+  |      |      |      |      |-- One_Pulse：单脉冲输出例程
+  |      |      |      |      |-- Output_Compare_Mode：输出比较模式例程
+  |      |      |      |      |-- PWM_Output：PWM输出例程
+  |      |      |      |      |-- Synchro_ExtTrigger：从模式例程，包括复位模式、门控模式、触发模式
+  |      |      |      |      |-- Synchro_Timer：定时器同步模式
+  |      |      |      |      |-- TIM_DMA：定时器使用DMA例程
+  |      |      |      |-- TOUCHKEY：TouchKey检测例程 
+  |      |      |      |-- USART
+  |      |      |      |      |-- USART_DMA：USART使用DMA，Master/Slave 模式收发例程
+  |      |      |      |      |-- USART_HalfDuplex：单线半双工模式，Master/Slave 模式收发例程
+  |      |      |      |      |-- USART_HardwareFlowControl：硬件流控制模式，Master/Slave 模式收发例程
+  |      |      |      |      |-- USART_Interrupt：USART中断例程，Master/Slave 模式收发例程
+  |      |      |      |      |-- USART_MultiProcessorCommunication：多处理器通信模式例程
+  |      |      |      |      |-- USART_Polling：轮询收发模式，Master/Slave 模式收发例程
+  |      |      |      |      |-- USART_Printf：串口打印调试例程
+  |      |      |      |      |-- USART_SynchronousMode：同步模式，Master/Slave 模式收发例程
+  |      |      |      |-- USB
+  |      |      |      |      |-- USBD
+  |      |      |      |      |      |-- CH372：模拟自定义USB设备（CH372设备），端点1，3下传，2，4上传，端点1下传的数据从端点3上传，不取反，端点2下传的数据从端点4上传，取反。
+  |      |      |      |      |      |-- Compatibility_HID：模拟HID设备，数据通过串口上下传
+  |      |      |      |      |      |-- CompositeKM：模拟键盘和鼠标，使用IO模拟按键，同时模拟数据可以通过串口2上传。
+  |      |      |      |      |      |-- MSC_U-Disk: 模拟简单U盘，可选使用片内Flash或外部SPI-Flash
+  |      |      |      |      |      |-- MSC_CD-ROM: 模拟CDROM例程，需要外挂SPI-Flash
+  |      |      |      |      |      |-- SimulateCDC：模拟一个CDC串口，使用串口2收发。
+  |      |      |      |      |      |-- SimulateCDC-HID：模拟一个CDC串口，使用串口2收发,HID中断端点下发数据取反上传。
+  |      |      |      |      |-- USBFS
+  |      |      |      |      |      |-- DEVICE
+  |      |      |      |      |      |      |-- CH372：模拟自定义USB设备（CH372设备），端点1，3下传，2，4上传，端点1下传的数据从端点3上传，不取反，端点2下传的数据从端点4上传，取反。
+  |      |      |      |      |      |      |-- Compatibility_HID：模拟HID设备，数据通过串口上下传。
+  |      |      |      |      |      |      |-- CompositeKM：模拟键盘和鼠标，使用IO模拟按键，同时模拟数据可以通过串口2上传。
+  |      |      |      |      |      |      |-- MSC_U-Disk: 模拟简单U盘，可选使用片内Flash或外部SPI-Flash
+  |      |      |      |      |      |      |-- SimulateCDC：模拟一个CDC串口，使用串口2收发。
+  |      |      |      |      |      |      |-- SimulateCDC-HID：模拟一个CDC串口，使用串口2收发,HID中断端点下发数据取反上传。
+  |      |      |      |      |      |      |-- MSC_CD-ROM: CDROM例程，需要外挂SPI-Flash
+  |      |      |      |      |      |-- HOST_IAP
+  |      |      |      |      |      |      |-- APP: 与HOST_IAP配套使用的APP，工程修改了程序起始位置，编译后需自行将文件转化为bin文件并重命名为APP.bin
+  |      |      |      |      |      |      |-- HOST_IAP:  基于U盘读取文件例程整理的主机U盘IAP例程，从U盘内读取名称位APP.bin的文件，写入内部flash，校验后自动跳转。
+  |      |      |      |      |      |-- HOST_KM: 主机操作键鼠，获取键鼠上传的端点的数据并打印，支持U口下1级hub
+  |      |      |      |      |      |-- HOST_MTP_FileSystem：枚举过程的USB主机到一个支持MTP和PTP协议的设备，支持MTP和PTP协议，并读取其文件
+  |      |      |      |      |      |-- Udisk_Lib：U盘文件系统库文件
+  |      |      |      |      |      |-- Host_Udisk：USB主机操作U盘例程     
+  |      |      |      |-- WWDG：窗口看门狗例程

@@ -1,0 +1,103 @@
+/********************************** (C) COPYRIGHT *******************************
+ * File Name          : main.c
+ * Author             : WCH
+ * Version            : V1.0.0
+ * Date               : 2021/06/06
+ * Description        : Main program body.
+*********************************************************************************
+* Copyright (c) 2021 Nanjing Qinheng Microelectronics Co., Ltd.
+* Attention: This software (modified or not) and binary are used for 
+* microcontroller manufactured by Nanjing Qinheng Microelectronics.
+*******************************************************************************/
+
+/*
+ *@Note
+ Clock source selection routine:
+This example demonstrates two external clock source modes of TIM1.
+ External clock source mode 1: PA8 is used as clock input pin,
+ External clock source mode 2: PA12 is used as clock input pin.
+
+*/
+
+#include "debug.h"
+
+/* External Clock Mode Definition */
+#define ETR_CLK_MODE1    0
+#define ETR_CLK_MODE2    1
+
+/*  External Clock Mode Selection */
+#define ETR_CLK          ETR_CLK_MODE1
+//#define ETR_CLK ETR_CLK_MODE2
+
+/*********************************************************************
+ * @fn      TIM1_ETRClockMode1_Init
+ *
+ * @brief   Configures the External clock Mode1.
+ *
+ * @return  none
+ */
+void TIM1_ETRClockMode1_Init(void)
+{
+    RCC_APB2PeriphClockCmd(RCC_APB2Periph_TIM1, ENABLE);
+
+    TIM_CounterModeConfig(TIM1, TIM_CounterMode_Up);
+    TIM_SetAutoreload(TIM1, 0x3EB);
+    TIM_ETRClockMode1Config(TIM1, TIM_ExtTRGPSC_OFF, TIM_ExtTRGPolarity_Inverted, 0x0);
+    /* GPIOA8 Input as TIM Clock Source */
+    TIM_TIxExternalClockConfig(TIM1, TIM_TIxExternalCLK1Source_TI1, TIM_ICPolarity_Rising, 0x00);
+    TIM_Cmd(TIM1, ENABLE);
+}
+
+/*********************************************************************
+ * @fn      TIM1_ETRClockMode2_Init
+ *
+ * @brief   Configures the External clock Mode2.
+ *
+ * @return  none
+ */
+void TIM1_ETRClockMode2_Init(void)
+{
+    RCC_APB2PeriphClockCmd(RCC_APB2Periph_TIM1, ENABLE);
+
+    TIM_CounterModeConfig(TIM1, TIM_CounterMode_Up);
+    TIM_SetAutoreload(TIM1, 0x3EB);
+    /* GPIOA12 Input as TIM Clock Source */
+    TIM_ETRClockMode2Config(TIM1, TIM_ExtTRGPSC_OFF, TIM_ExtTRGPolarity_Inverted, 0x0);
+    TIM_SelectInputTrigger(TIM1, TIM_TS_ETRF);
+    TIM_Cmd(TIM1, ENABLE);
+}
+/*********************************************************************
+ * @fn      main
+ *
+ * @brief   Main program.
+ *
+ * @return  none
+ */
+int main(void)
+{
+    USART_Printf_Init(115200);
+    printf("SystemClk:%d\r\n", SystemCoreClock);
+
+#if(ETR_CLK == ETR_CLK_MODE1)
+    TIM1_ETRClockMode1_Init();
+
+#elif(ETR_CLK == ETR_CLK_MODE2)
+    TIM1_ETRClockMode2_Init();
+
+#endif
+
+    while(1)
+    {
+        if(TIM_GetFlagStatus(TIM1, TIM_FLAG_CC1) != RESET)
+        {
+            TIM_ClearFlag(TIM1, TIM_FLAG_CC1);
+        }
+
+        if(TIM_GetFlagStatus(TIM1, TIM_FLAG_Update) != RESET)
+        {
+            printf("Count Update\r\n");
+
+            TIM_ClearFlag(TIM1, TIM_FLAG_Update);
+        }
+    }
+}
