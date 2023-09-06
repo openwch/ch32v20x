@@ -77,7 +77,6 @@ static gapDevRec_t ObserverDevList[DEFAULT_MAX_SCAN_RES];
 static void ObserverEventCB(gapRoleEvent_t *pEvent);
 static void Observer_ProcessTMOSMsg(tmos_event_hdr_t *pMsg);
 static void ObserverAddDeviceInfo(uint8_t *pAddr, uint8_t addrType);
-char       *bdAddr2Str(uint8_t *pAddr);
 
 /*********************************************************************
  * PROFILE CALLBACKS
@@ -109,6 +108,12 @@ static const gapRoleObserverCB_t ObserverRoleCB = {
 void Observer_Init()
 {
     ObserverTaskId = TMOS_ProcessEventRegister(Observer_ProcessEvent);
+
+    // Setup Observer Profile
+    {
+        uint8_t scanRes = DEFAULT_MAX_SCAN_RES;
+        GAPRole_SetParameter(GAPROLE_MAX_SCAN_RES, sizeof(uint8_t), &scanRes);
+    }
 
     // Setup GAP
     GAP_SetParamValue(TGAP_DISC_SCAN, DEFAULT_SCAN_DURATION);
@@ -214,11 +219,45 @@ static void ObserverEventCB(gapRoleEvent_t *pEvent)
         case GAP_DEVICE_DISCOVERY_EVENT:
         {
             PRINT("Discovery over...\n");
-            ObserverScanRes = 0;
+
+            // Display discovery results
+            if(pEvent->discCmpl.numDevs > 0)
+            {
+                int i, j;
+                // Increment index of current result (with wraparound)
+                for(j = 0; j < pEvent->discCmpl.numDevs; j++)
+                {
+                    PRINT("Device %d : ", j);
+                    for(i = 0; i < 6; i++)
+                    {
+                        PRINT("%x ", pEvent->discCmpl.pDevList[j].addr[i]);
+                    }
+                    PRINT("\n");
+                }
+            }
+
             GAPRole_ObserverStartDiscovery(DEFAULT_DISCOVERY_MODE,
                                            DEFAULT_DISCOVERY_ACTIVE_SCAN,
                                            DEFAULT_DISCOVERY_WHITE_LIST);
-            PRINT("Discovering...\n");
+            PRINT("Discovering...\n ");
+        }
+        break;
+
+        case GAP_EXT_ADV_DEVICE_INFO_EVENT:
+        {
+            // Display device addr
+            PRINT("Recv ext adv \n");
+            // Add device to list
+            ObserverAddDeviceInfo(pEvent->deviceExtAdvInfo.addr, pEvent->deviceExtAdvInfo.addrType);
+        }
+        break;
+
+        case GAP_DIRECT_DEVICE_INFO_EVENT:
+        {
+            // Display device addr
+            PRINT("Recv direct adv \n");
+            // Add device to list
+            ObserverAddDeviceInfo(pEvent->deviceDirectInfo.addr, pEvent->deviceDirectInfo.addrType);
         }
         break;
 
@@ -253,13 +292,6 @@ static void ObserverAddDeviceInfo(uint8_t *pAddr, uint8_t addrType)
         // Add addr to scan result list
         tmos_memcpy(ObserverDevList[ObserverScanRes].addr, pAddr, B_ADDR_LEN);
         ObserverDevList[ObserverScanRes].addrType = addrType;
-        PRINT("Device %d - Addr %x %x %x %x %x %x \n", ObserverScanRes,
-              pAddr[0],
-              pAddr[1],
-              pAddr[2],
-              pAddr[3],
-              pAddr[4],
-              pAddr[5]);
 
         // Increment scan result count
         ObserverScanRes++;

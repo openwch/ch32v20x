@@ -3,7 +3,9 @@
  * Author             : WCH
  * Version            : V1.0
  * Date               : 2018/12/10
- * Description        : 自定义包含五种不同属性的服务，包含可读、可写、通知、可读可写、安全可读
+ * Description        : Customize services with five different attributes, 
+ *                      including readable, writable, notification, readable and writable, 
+ *                      and safe readable
  *********************************************************************************
  * Copyright (c) 2021 Nanjing Qinheng Microelectronics Co., Ltd.
  * Attention: This software (modified or not) and binary are used for 
@@ -116,7 +118,7 @@ static uint8_t simpleProfileChar4[SIMPLEPROFILE_CHAR4_LEN] = {0};
 // instantiation of the Client Characteristic Configuration. Reads of the
 // Client Characteristic Configuration only shows the configuration for
 // that client and writes only affect the configuration of that client.
-static gattCharCfg_t simpleProfileChar4Config[4];
+static gattCharCfg_t simpleProfileChar4Config[PERIPHERAL_MAX_CONNECTION];
 
 // Simple Profile Characteristic 4 User Description
 static uint8_t simpleProfileChar4UserDesp[] = "Characteristic 4\0";
@@ -510,6 +512,7 @@ static bStatus_t simpleProfile_ReadAttrCB(uint16_t connHandle, gattAttribute_t *
                                           uint8_t *pValue, uint16_t *pLen, uint16_t offset, uint16_t maxLen, uint8_t method)
 {
     bStatus_t status = SUCCESS;
+
 
     // Make sure it's not a blob operation (no attributes in the profile are long)
     if(offset > 0)

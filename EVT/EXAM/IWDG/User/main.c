@@ -4,19 +4,19 @@
  * Version            : V1.0.0
  * Date               : 2021/06/06
  * Description        : Main program body.
-*********************************************************************************
-* Copyright (c) 2021 Nanjing Qinheng Microelectronics Co., Ltd.
-* Attention: This software (modified or not) and binary are used for 
-* microcontroller manufactured by Nanjing Qinheng Microelectronics.
-*******************************************************************************/
+ *********************************************************************************
+ * Copyright (c) 2021 Nanjing Qinheng Microelectronics Co., Ltd.
+ * Attention: This software (modified or not) and binary are used for 
+ * microcontroller manufactured by Nanjing Qinheng Microelectronics.
+ *******************************************************************************/
 
 /*
  *@Note
- Independent watchdog routine:
- This routine demonstrates the pull-down input of the PA0 pin. When the input is high,
- it will feed the dog. If you don't feed the dog,Then trigger independent watchdog reset after 3.2s.
-
-*/
+ *Independent watchdog routine:
+ *This routine demonstrates the pull-down input of the PA0 pin. When the input is high,
+ *it will feed the dog. If you don't feed the dog,Then trigger independent watchdog reset after 3.2s.
+ *
+ */
 
 #include "debug.h"
 
@@ -94,10 +94,12 @@ void IWDG_Feed_Init(u16 prer, u16 rlr)
  */
 int main(void)
 {
+	SystemCoreClockUpdate();
 	USART_Printf_Init(115200);
 	printf("SystemClk:%d\r\n",SystemCoreClock);
+	printf( "ChipID:%08x\r\n", DBGMCU_GetCHIPID() );
 
-  Delay_Init();
+	Delay_Init();
 	KEY_Init();
 	printf("IWDG test...\r\n");
 	Delay_Ms(1000);

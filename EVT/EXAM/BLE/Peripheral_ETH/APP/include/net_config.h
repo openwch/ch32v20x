@@ -89,6 +89,8 @@ extern "C" {
 
 #define WCHNET_NUM_POOL_BUF           (WCHNET_NUM_TCP*2+2)   /* The number of POOL BUFs, the number of receive queues */
 
+#define WCHNET_SIZE_POOL_BUF     (((WCHNET_TCP_MSS + 40 + 14 + 4) + 3) & ~3) /* Buffer size for receiving a single packet */
+
 /* Check the configuration of the SOCKET quantity */
 #if( WCHNET_NUM_TCP_LISTEN && !WCHNET_NUM_TCP )
   #error "WCHNET_NUM_TCP Error)"

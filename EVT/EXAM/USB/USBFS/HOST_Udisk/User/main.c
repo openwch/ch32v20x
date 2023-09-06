@@ -54,6 +54,7 @@ int main(void)
     USART_Printf_Init( 115200 );
     Delay_Init( );
     printf( "SystemClk:%d\r\n", SystemCoreClock );
+    printf( "ChipID:%08x\r\n", DBGMCU_GetCHIPID() );
     printf( "USBFS HOST Test EXAM %d\r\n", DEF_TEST_FUNC_NUM ); 
 
     /* General USB Host UDisk Operation Initialization */

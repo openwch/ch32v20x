@@ -4,19 +4,19 @@
  * Version            : V1.0.0
  * Date               : 2021/06/06
  * Description        : Main program body.
-*********************************************************************************
-* Copyright (c) 2021 Nanjing Qinheng Microelectronics Co., Ltd.
-* Attention: This software (modified or not) and binary are used for 
-* microcontroller manufactured by Nanjing Qinheng Microelectronics.
-*******************************************************************************/
+ *********************************************************************************
+ * Copyright (c) 2021 Nanjing Qinheng Microelectronics Co., Ltd.
+ * Attention: This software (modified or not) and binary are used for 
+ * microcontroller manufactured by Nanjing Qinheng Microelectronics.
+ *******************************************************************************/
 
 /*
  *@Note
- CAN test mode, including silent mode, loopback mode and loopback silent mode:
- CAN_Tx(PB9),CAN_Rx(PB8)
- Standard_Frame:Including one 32bit filter mask bit pattern.
-
-*/
+ *CAN test mode, including silent mode, loopback mode and loopback silent mode:
+ *CAN_Tx(PB9),CAN_Rx(PB8)
+ *Standard_Frame:Including one 32bit filter mask bit pattern.
+ *
+ */
 
 #include "debug.h"
 
@@ -184,9 +184,11 @@ int main(void)
     u8 txbuf[8];
     u8 rxbuf[8];
 
+    SystemCoreClockUpdate();
     Delay_Init();
     USART_Printf_Init(115200);
     printf("SystemClk:%d\r\n", SystemCoreClock);
+    printf( "ChipID:%08x\r\n", DBGMCU_GetCHIPID() );
 
 /* Bps = 333Kbps */
 #if(TEST_MODE == SILENT_MODE)

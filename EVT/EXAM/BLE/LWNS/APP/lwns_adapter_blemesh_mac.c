@@ -15,12 +15,9 @@
 //每个文件单独debug打印的开关，置0可以禁止本文件内部打印
 #define DEBUG_PRINT_IN_THIS_FILE    1
 #if DEBUG_PRINT_IN_THIS_FILE
-  #define PRINTF(...)    PRINT(__VA_ARGS__)
+  #define PRINTF(...)       PRINT(__VA_ARGS__)
 #else
-  #define PRINTF(...) \
-    do                \
-    {                 \
-    } while(0)
+  #define PRINTF(...)       do{} while(0)
 #endif
 
 /*
@@ -67,6 +64,33 @@ static const uint8_t                         ble_phy_channelmap[] = {8, 18, 28};
 static uint8_t                               ble_phy_channelmap_send_seq = 0, ble_phy_channelmap_receive_seq = 0, ble_phy_send_cnt = 0; //发送接收当前通道序号和发送次数管理
 static struct blemesh_mac_phy_manage_struct *blemesh_phy_manage_list_head = NULL;                                                       //mac管理发送LIST列表指针
 static struct blemesh_mac_phy_manage_struct  blemesh_phy_manage_list[LWNS_MAC_SEND_PACKET_MAX_NUM];                                     //mac管理发送列表管理数组
+
+volatile uint8_t tx_end_flag=0;
+
+/*********************************************************************
+ * @fn      RF_Wait_Tx_End
+ *
+ * @brief   手动模式等待发送完成，自动模式等待发送-接收完成，必须在RAM中等待，等待时可以执行用户代码，但需要注意执行的代码必须运行在RAM中，否则影响发送
+ *
+ * @return  none
+ */
+__attribute__((section(".highcode")))
+__attribute__((noinline))
+void RF_Wait_Tx_End()
+{
+    uint32_t i=0;
+    while(!tx_end_flag)
+    {
+        i++;
+        __NOP();
+        __NOP();
+        // 约5ms超时
+        if(i>(SystemCoreClock/1000))
+        {
+            tx_end_flag = TRUE;
+        }
+    }
+}
 
 /*********************************************************************
  * @fn      RF_2G4StatusCallBack
@@ -416,9 +440,12 @@ static uint16_t lwns_phyoutput_ProcessEvent(uint8_t task_id, uint16_t events)
             }
             RF_Shut();
             RF_SetChannel(ble_phy_channelmap[ble_phy_channelmap_send_seq]); //周期性更改发送通道
-            RF_Tx((uint8_t *)(blemesh_phy_manage_list_head->data + 1),
+            if(!RF_Tx((uint8_t *)(blemesh_phy_manage_list_head->data + 1),
                   blemesh_phy_manage_list_head->data[0], USER_RF_RX_TX_TYPE,
-                  USER_RF_RX_TX_TYPE);
+                  USER_RF_RX_TX_TYPE))
+            {
+                RF_Wait_Tx_End();
+            }
             tmos_start_task(lwns_phyoutput_taskid, LWNS_PHY_OUTPUT_FINISH_EVT, MS1_TO_SYSTEM_TIME(LWNS_PHY_OUTPUT_TIMEOUT_MS)); //开始发送超时计数，防止有意外打断发送，导致无法继续发送
             ble_phy_channelmap_send_seq++;
         }

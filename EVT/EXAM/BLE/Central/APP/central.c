@@ -42,7 +42,7 @@
 #define DEFAULT_MIN_CONNECTION_INTERVAL     20
 
 // Connection max interval in 1.25ms
-#define DEFAULT_MAX_CONNECTION_INTERVAL     100
+#define DEFAULT_MAX_CONNECTION_INTERVAL     60
 
 // Connection supervision timeout in 10ms
 #define DEFAULT_CONNECTION_TIMEOUT          100
@@ -93,7 +93,7 @@
 #define DEFAULT_IO_CAPABILITIES             GAPBOND_IO_CAP_NO_INPUT_NO_OUTPUT
 
 // Default service discovery timer delay in 0.625ms
-#define DEFAULT_SVC_DISCOVERY_DELAY         1600
+#define DEFAULT_SVC_DISCOVERY_DELAY         1800
 
 // Default parameter update delay in 0.625ms
 #define DEFAULT_PARAM_UPDATE_DELAY          3200
@@ -638,6 +638,13 @@ static void centralEventCB(gapRoleEvent_t *pEvent)
                 centralState = BLE_STATE_CONNECTED;
                 centralConnHandle = pEvent->linkCmpl.connectionHandle;
                 centralProcedureInProgress = TRUE;
+               
+                // Update MTU
+                attExchangeMTUReq_t req = {
+                    .clientRxMTU = BLE_BUFF_MAX_LEN - 4,
+                };
+
+                GATT_ExchangeMTU(centralConnHandle, &req, centralTaskId);
 
                 // Initiate service discovery
                 tmos_start_task(centralTaskId, START_SVC_DISCOVERY_EVT, DEFAULT_SVC_DISCOVERY_DELAY);
@@ -786,7 +793,7 @@ static void centralPasscodeCB(uint8_t *deviceAddr, uint16_t connectionHandle,
     // Display passcode to user
     if(uiOutputs != 0)
     {
-        PRINT("Passcode:%d\n", (int)passcode);
+        PRINT("Passcode:%06d\n", (int)passcode);
     }
     // Send passcode response
     GAPBondMgr_PasscodeRsp(connectionHandle, SUCCESS, passcode);

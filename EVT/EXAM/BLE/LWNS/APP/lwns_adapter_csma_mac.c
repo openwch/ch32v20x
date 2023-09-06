@@ -15,12 +15,9 @@
 //每个文件单独debug打印的开关，置0可以禁止本文件内部打印
 #define DEBUG_PRINT_IN_THIS_FILE    1
 #if DEBUG_PRINT_IN_THIS_FILE
-  #define PRINTF(...)    PRINT(__VA_ARGS__)
+  #define PRINTF(...)       PRINT(__VA_ARGS__)
 #else
-  #define PRINTF(...) \
-    do                \
-    {                 \
-    } while(0)
+  #define PRINTF(...)       do{} while(0)
 #endif
 
 #if LWNS_USE_CSMA_MAC //是否使能模仿csma的mac协议，注意只能使能一个mac层协议。
@@ -60,6 +57,33 @@ static lwns_fuc_interface_t ble_lwns_fuc_interface = {
 static uint8_t                            ble_phy_manage_state, ble_phy_send_cnt = 0, ble_phy_wait_cnt = 0; //ble phy状态管理，发送次数计数，等待次数计数
 static struct csma_mac_phy_manage_struct *csma_phy_manage_list_head = NULL;                                 //mac管理发送列表指针
 static struct csma_mac_phy_manage_struct  csma_phy_manage_list[LWNS_MAC_SEND_PACKET_MAX_NUM];               //mac管理发送列表管理数组
+
+volatile uint8_t tx_end_flag=0;
+
+/*********************************************************************
+ * @fn      RF_Wait_Tx_End
+ *
+ * @brief   手动模式等待发送完成，自动模式等待发送-接收完成，必须在RAM中等待，等待时可以执行用户代码，但需要注意执行的代码必须运行在RAM中，否则影响发送
+ *
+ * @return  none
+ */
+__attribute__((section(".highcode")))
+__attribute__((noinline))
+void RF_Wait_Tx_End()
+{
+    uint32_t i=0;
+    while(!tx_end_flag)
+    {
+        i++;
+        __NOP();
+        __NOP();
+        // 约5ms超时
+        if(i>(SystemCoreClock/1000))
+        {
+            tx_end_flag = TRUE;
+        }
+    }
+}
 
 /*********************************************************************
  * @fn      RF_2G4StatusCallBack
@@ -416,9 +440,12 @@ static uint16_t lwns_phyoutput_ProcessEvent(uint8_t task_id, uint16_t events)
             tmos_clear_event(lwns_adapter_taskid, LWNS_PHY_RX_OPEN_EVT); //停止可能已经置位的、可能会打开接收的任务
         }
         RF_Shut();
-        RF_Tx((uint8_t *)(csma_phy_manage_list_head->data + 1),
+        if(!RF_Tx((uint8_t *)(csma_phy_manage_list_head->data + 1),
               csma_phy_manage_list_head->data[0], USER_RF_RX_TX_TYPE,
-              USER_RF_RX_TX_TYPE);
+              USER_RF_RX_TX_TYPE))
+        {
+            RF_Wait_Tx_End();
+        }
         tmos_start_task(lwns_phyoutput_taskid, LWNS_PHY_OUTPUT_FINISH_EVT, MS1_TO_SYSTEM_TIME(LWNS_PHY_OUTPUT_TIMEOUT_MS)); //开始发送超时计数
         return (events ^ LWNS_PHY_OUTPUT_EVT);
     }

@@ -63,7 +63,7 @@
 #define DEFAULT_DESIRED_CONN_TIMEOUT         1000
 
 // Sensor sends a slave security request.
-#define DEFAULT_PAIRING_PARAMETER            GAPBOND_PAIRING_MODE_INITIATE
+#define DEFAULT_PAIRING_PARAMETER            GAPBOND_PAIRING_MODE_WAIT_FOR_REQ
 
 // Bonded devices' addresses are stored in white list.
 #define USING_WHITE_LIST                     FALSE
@@ -209,7 +209,8 @@ static gapRolesCBs_t runningPeripheralCB = {
 // Bond Manager Callbacks
 static gapBondCBs_t runningBondCB = {
     NULL, // Passcode callback
-    NULL  // Pairing state callback
+    NULL,  // Pairing state callback
+    NULL  // oob callback
 };
 
 /*********************************************************************
@@ -245,7 +246,7 @@ void RunningSensor_Init()
     }
 
     // Set the GAP Characteristics
-    GGS_SetParameter(GGS_DEVICE_NAME_ATT, GAP_DEVICE_NAME_LEN, attDeviceName);
+    GGS_SetParameter(GGS_DEVICE_NAME_ATT, sizeof(attDeviceName), attDeviceName);
 
     // Setup the GAP Bond Manager
     {

@@ -43,7 +43,6 @@ void RTC_SetTignTime(uint32_t time)
     RTCTigFlag = 0;
 }
 
-
 /*******************************************************************************
  * @fn      HAL_Time0Init
  *
@@ -56,6 +55,9 @@ void RTC_SetTignTime(uint32_t time)
 void HAL_TimeInit(void)
 {
     uint16_t temp=0;
+    uint8_t state=0;
+    bleClockConfig_t  conf;
+
     RCC_APB1PeriphClockCmd(RCC_APB1Periph_PWR|RCC_APB1Periph_BKP, ENABLE);
     PWR_BackupAccessCmd(ENABLE);
 #if( CLK_OSC32K )
@@ -87,13 +89,21 @@ void HAL_TimeInit(void)
 #if( CLK_OSC32K )
     Lib_Calibration_LSI();
 #endif
-    TMOS_TimerInit( RTC_GetCounter );
+    conf.ClockAccuracy = CLK_OSC32K?1000:100;
+    conf.ClockFrequency = CAB_LSIFQ/2;
+    conf.ClockMaxCount = 0xFFFFFFFF;
+    conf.getClockValue = RTC_GetCounter;
+    state = TMOS_TimerInit( &conf );
+    if(state)
+    {
+        PRINT("TMOS_TimerInit err %x\n",state);
+    }
 }
+
 
 __attribute__((interrupt("WCH-Interrupt-fast")))
 void RTCAlarm_IRQHandler(void)
 {
-    TMOS_TimerIRQHandler();
     RTCTigFlag = 1;
     EXTI_ClearITPendingBit(EXTI_Line17);
     RTC_ClearITPendingBit(RTC_IT_ALR);

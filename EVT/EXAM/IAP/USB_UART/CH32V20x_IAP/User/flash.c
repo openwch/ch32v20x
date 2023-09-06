@@ -3,7 +3,7 @@
  * Author             : WCH
  * Version            : V1.0.0
  * Date               : 2020/12/16
- * Description        : CH32F103  fast program
+ * Description        : CH32V203  fast program
 *********************************************************************************
 * Copyright (c) 2021 Nanjing Qinheng Microelectronics Co., Ltd.
 * Attention: This software (modified or not) and binary are used for 

@@ -9,9 +9,7 @@
 * Attention: This software (modified or not) and binary are used for 
 * microcontroller manufactured by Nanjing Qinheng Microelectronics.
 *******************************************************************************/
-
 #include "string.h"
-#include "debug.h"
 #include "eth_driver.h"
 
  __attribute__((__aligned__(4))) ETH_DMADESCTypeDef DMARxDscrTab[ETH_RXBUFNB];      /* MAC receive descriptor, 4-byte aligned*/
@@ -45,18 +43,20 @@ const uint16_t MemSize[8] = {WCHNET_MEM_ALIGN_SIZE(WCHNET_SIZE_IPRAW_PCB),
 
 uint32_t volatile LocalTime;
 ETH_DMADESCTypeDef *DMATxDescToSet;
-
-uint32_t phyLinkTime;
-uint8_t phyLinkStatus = 0;
-uint8_t phyStatus = 0;
-uint8_t phyPN = 0x01;
-uint8_t phyPNChangeCnt = 0;
-uint8_t phyLinkCnt = 0;
-uint8_t phyRetryCnt = 0;
-uint8_t phySucCnt = 0;
 ETH_DMADESCTypeDef *DMARxDescToGet;
 ETH_DMADESCTypeDef *pDMARxSet;
 
+volatile uint8_t phyLinkReset;
+volatile uint32_t phyLinkTime;
+uint8_t phyPN = 0x01;
+uint8_t phyStatus = 0;
+uint8_t phySucCnt = 0;
+uint8_t phyLinkCnt = 0;
+uint8_t phyRetryCnt = 0;
+uint8_t CRCErrPktCnt = 0;
+uint8_t phyLinkStatus = 0;
+uint8_t phyPNChangeCnt = 0;
+uint8_t PhyPolarityDetect = 0;
 /*********************************************************************
  * @fn      WCHNET_GetMacAddr
  *
@@ -243,6 +243,32 @@ void WCHNET_LinkProcess( void )
 }
 
 /*********************************************************************
+ * @fn      WCHNET_PhyPNProcess
+ *
+ * @brief   Phy PN Polarity related processing
+ *
+ * @param   none.
+ *
+ * @return  none.
+ */
+void WCHNET_PhyPNProcess(void)
+{
+    uint32_t PhyVal;
+
+    phyLinkTime = LocalTime;
+    if(CRCErrPktCnt >= 3)
+    {
+        PhyVal = ReadPHYReg(PHY_MDIX);
+        if((PhyVal >> 2) & 0x01)
+            PhyVal &= ~(3 << 2);                //change PHY PN Polarity to normal
+        else
+            PhyVal |= 1 << 2;                   //change PHY PN Polarity to reverse
+        WritePHYReg(PHY_MDIX, PhyVal);
+        CRCErrPktCnt = 0;
+    }
+}
+
+/*********************************************************************
  * @fn      WCHNET_HandlePhyNegotiation
  *
  * @brief   Handle PHY Negotiation.
@@ -253,14 +279,34 @@ void WCHNET_LinkProcess( void )
  */
 void WCHNET_HandlePhyNegotiation(void)
 {
-    if( !phyStatus )                        /* Handling PHY Negotiation Exceptions */
+    if(phyLinkReset)              /* After the PHY link is disconnected, wait 500ms before turning on the PHY clock*/
     {
-        if(phyLinkTime > LocalTime)
-            phyLinkTime = LocalTime;
-        if( LocalTime - phyLinkTime >= PHY_LINK_TASK_PERIOD )  /* 50ms cycle timing call */
+        if( LocalTime - phyLinkTime >= 500 )
         {
-            phyLinkTime = LocalTime;
-            WCHNET_LinkProcess( );
+            phyLinkReset = 0;
+            EXTEN->EXTEN_CTR |= EXTEN_ETH_10M_EN;
+            WritePHYReg(PHY_BMCR, PHY_Reset);
+            PHY_NEGOTIATION_PARAM_INIT();
+        }
+    }
+    else
+    {
+        if( !phyStatus )                        /* Handling PHY Negotiation Exceptions */
+        {
+            if( LocalTime - phyLinkTime >= PHY_LINK_TASK_PERIOD )  /* 50ms cycle timing call */
+            {
+                phyLinkTime = LocalTime;
+                WCHNET_LinkProcess( );
+            }
+        }
+        else{
+            if(PhyPolarityDetect)
+            {
+                if( LocalTime - phyLinkTime >= 2 * PHY_LINK_TASK_PERIOD )
+                {
+                    WCHNET_PhyPNProcess();
+                }
+            }
         }
     }
 }
@@ -404,7 +450,6 @@ void ETH_Start(void)
 {
     R16_ETH_ERXST = DMARxDescToGet->Buffer1Addr;
     R8_ETH_ECON1 |= RB_ETH_ECON1_RXEN;                                //receive enable
-    EXTEN->EXTEN_CTR |= EXTEN_ETH_10M_EN;
 }
 
 /*********************************************************************
@@ -462,14 +507,17 @@ void ETH_Configuration( uint8_t *macAddr )
     R8_ETH_MACON2 |= RB_ETH_MACON2_TXCRCEN;                             //Hardware padded CRC
     R8_ETH_MACON2 &= ~RB_ETH_MACON2_HFRMEN;                             //Jumbo frames are not received
     R16_ETH_MAMXFL = ETH_MAX_PACKET_SIZE;
+
+    EXTEN->EXTEN_CTR |= EXTEN_ETH_10M_EN;
 }
 
 /*********************************************************************
  * @fn      ETH_TxPktChainMode
  *
- * @brief   MAC send a Ethernet frame in chain mode.
+ * @brief   Ethernet sends data frames in chain mode.
  *
- * @param   Send length
+ * @param   len     Send data length
+ *          pBuff   send buffer pointer
  *
  * @return  Send status.
  */
@@ -493,22 +541,24 @@ uint32_t ETH_TxPktChainMode(uint16_t len, uint32_t *pBuff )
     return ETH_SUCCESS;
 }
 
+/*********************************************************************
+ * @fn      ETH_PHYLink
+ *
+ * @brief
+ *
+ * @return  none
+ */
 void ETH_PHYLink( void )
 {
-    uint16_t RegValue;
     uint32_t phy_stat, phy_anlpar;
 
     phy_anlpar = ReadPHYReg(PHY_ANLPAR);
     phy_stat = ReadPHYReg(PHY_BMSR);                            //Read PHY Status Register
 
     if((phy_stat&(PHY_Linked_Status))&&(phy_anlpar == 0)){      //restart negotiation
-        RegValue = ReadPHYReg(PHY_BMCR);
-        RegValue |= PHY_Reset;
-        WritePHYReg(PHY_BMCR, RegValue);
         EXTEN->EXTEN_CTR &= ~EXTEN_ETH_10M_EN;
-        Delay_Ms(500);
-        EXTEN->EXTEN_CTR |= EXTEN_ETH_10M_EN;
-        PHY_NEGOTIATION_PARAM_INIT();
+        phyLinkReset = 1;
+        phyLinkTime = LocalTime;
         return;
     }
     WCHNET_PhyStatus( phy_stat );
@@ -523,11 +573,19 @@ void ETH_PHYLink( void )
         {
             R8_ETH_MACON2 &= ~RB_ETH_MACON2_FULDPX;
         }
+        /* Receive CRC error packets */
+        R8_ETH_ERXFCON |= RB_ETH_ERXFCON_CRCEN;
+        CRCErrPktCnt = 0;
+        PhyPolarityDetect = 1;
+        phyLinkTime = LocalTime;
         phyStatus = PHY_Linked_Status;
+        ETH_Start( );
     }
     else
     {
-        PHY_NEGOTIATION_PARAM_INIT();
+        EXTEN->EXTEN_CTR &= ~EXTEN_ETH_10M_EN;
+        phyLinkReset = 1;
+        phyLinkTime = LocalTime;
     }
 }
 
@@ -568,6 +626,12 @@ void WCHNET_ETHIsr( void )
                 R16_ETH_ERXST = DMARxDescToGet->Buffer1Addr;
             }
         }
+        if(PhyPolarityDetect)
+		{
+			PhyPolarityDetect = 0;
+			/* Discard CRC error packet */
+			R8_ETH_ERXFCON &= ~RB_ETH_ERXFCON_CRCEN;
+		}
     }
     if(eth_irq_flag&RB_ETH_EIR_TXIF)                                //send completed
     {
@@ -586,6 +650,7 @@ void WCHNET_ETHIsr( void )
     }
     if(eth_irq_flag&RB_ETH_EIR_RXERIF)                              //receive error
     {
+        if(PhyPolarityDetect) CRCErrPktCnt++;
         R8_ETH_EIR = RB_ETH_EIR_RXERIF;
     }
 }
@@ -605,7 +670,6 @@ void ETH_Init( uint8_t *macAddr )
     ETH_DMATxDescChainInit(DMATxDscrTab, MACTxBuf, ETH_TXBUFNB);
     ETH_DMARxDescChainInit(DMARxDscrTab, MACRxBuf, ETH_RXBUFNB);
     pDMARxSet = DMARxDscrTab;
-    ETH_Start( );
     NVIC_EnableIRQ(ETH_IRQn);
 }
 

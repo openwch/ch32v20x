@@ -4,26 +4,26 @@
  * Version            : V1.0.0
  * Date               : 2021/06/06
  * Description        : Main program body.
-*********************************************************************************
-* Copyright (c) 2021 Nanjing Qinheng Microelectronics Co., Ltd.
-* Attention: This software (modified or not) and binary are used for 
-* microcontroller manufactured by Nanjing Qinheng Microelectronics.
-*******************************************************************************/
+ *********************************************************************************
+ * Copyright (c) 2021 Nanjing Qinheng Microelectronics Co., Ltd.
+ * Attention: This software (modified or not) and binary are used for 
+ * microcontroller manufactured by Nanjing Qinheng Microelectronics.
+ *******************************************************************************/
 
 /*
  *@Note
- Multiprocessor communication mode routine:
- Master:USART2_Tx(PA2)\USART2_Rx(PA3).
- Slave:USART3_Tx(PB10)\USART3_Rx(PB11).
-
- This routine demonstrates that USART2 works as a master, USART3 works as a slave,
- and USART2 sends address 0x02 to make USART3 exit
- Silent mode, complete follow-up communication.
-
-    Hardware connection:PA2 --PB11
-                        PA3--PB10
-
-*/
+ *Multiprocessor communication mode routine:
+ *Master:USART2_Tx(PA2)\USART2_Rx(PA3).
+ *Slave:USART3_Tx(PB10)\USART3_Rx(PB11).
+ *
+ *This routine demonstrates that USART2 works as a master, USART3 works as a slave,
+ *and USART2 sends address 0x02 to make USART3 exit
+ *Silent mode, complete follow-up communication.
+ *
+ *    Hardware connection:PA2 --PB11
+ *                        PA3--PB10
+ *
+ */
 
 #include "debug.h"
 
@@ -93,10 +93,11 @@ void USARTx_CFG(void)
 int main(void)
 {
     NVIC_PriorityGroupConfig(NVIC_PriorityGroup_2);
+    SystemCoreClockUpdate();
     Delay_Init();
     USART_Printf_Init(115200);
     printf("SystemClk:%d\r\n", SystemCoreClock);
-
+    printf( "ChipID:%08x\r\n", DBGMCU_GetCHIPID() );
     printf("USART MultiProcessor TEST\r\n");
     USARTx_CFG(); /* USART2 & USART3 Initializes */
 

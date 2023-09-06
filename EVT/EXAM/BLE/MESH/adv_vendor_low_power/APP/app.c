@@ -44,7 +44,6 @@ static uint8_t App_TaskID = 0; // Task ID for internal task/event processing
 static uint16_t App_ProcessEvent(uint8_t task_id, uint16_t events);
 
 static uint8_t dev_uuid[16] = {0}; // 此设备的UUID
-uint8_t        MACAddr[6];         // 此设备的mac
 
 #if(!CONFIG_BLE_MESH_PB_GATT)
 NET_BUF_SIMPLE_DEFINE_STATIC(rx_buf, 65);
@@ -64,7 +63,7 @@ static void prov_reset(void);
 
 static struct bt_mesh_cfg_srv cfg_srv = {
     .relay = BLE_MESH_RELAY_DISABLED,
-    .beacon = BLE_MESH_BEACON_ENABLED,
+    .beacon = BLE_MESH_BEACON_DISABLED,
 #if(CONFIG_BLE_MESH_FRIEND)
     .frnd = BLE_MESH_FRIEND_ENABLED,
 #endif
@@ -308,16 +307,16 @@ static void cfg_srv_rsp_handler( const cfg_srv_status_t *val )
  *
  * @brief   朋友关系建立回调
  *
- * @param   friend_addr - 朋友节点地址
+ * @param   frd_addr    - 朋友节点地址
  *          state       - 回调状态
  *
  * @return  none
  */
-static void lpn_state(uint16_t friend_addr, uint8_t state)
+static void lpn_state(uint16_t frd_addr, uint8_t state)
 {
     if(state == LPN_FRIENDSHIP_ESTABLISHED)
     {
-        APP_DBG("lpn friendship established");
+        APP_DBG("lpn friendship established %d",frd_addr);
     }
     else if(state == LPN_FRIENDSHIP_TERMINATED)
     {
@@ -500,9 +499,18 @@ void blemesh_on_sync(void)
     lpn_init_register(bt_mesh_lpn_init, lpn_state);
 #endif /* LPN */
 
-    FLASH_GetMACAddress(MACAddr);
-    tmos_memcpy(dev_uuid, MACAddr, 6);
-    err = bt_mesh_cfg_set(&app_mesh_cfg, &app_dev, MACAddr, &info);
+#if(defined(BLE_MAC)) && (BLE_MAC == TRUE)
+    tmos_memcpy(dev_uuid, MacAddr, 6);
+    err = bt_mesh_cfg_set(&app_mesh_cfg, &app_dev, MacAddr, &info);
+#else
+    {
+        uint8_t MacAddr[6];
+        FLASH_GetMACAddress(MacAddr);
+        tmos_memcpy(dev_uuid, MacAddr, 6);
+        // 使用芯片mac地址
+        err = bt_mesh_cfg_set(&app_mesh_cfg, &app_dev, MacAddr, &info);
+    }
+#endif
     if(err)
     {
         APP_DBG("Unable set configuration (err:%d)", err);

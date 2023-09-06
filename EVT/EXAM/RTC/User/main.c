@@ -4,19 +4,19 @@
  * Version            : V1.0.0
  * Date               : 2021/06/06
  * Description        : Main program body.
-*********************************************************************************
-* Copyright (c) 2021 Nanjing Qinheng Microelectronics Co., Ltd.
-* Attention: This software (modified or not) and binary are used for 
-* microcontroller manufactured by Nanjing Qinheng Microelectronics.
-*******************************************************************************/
+ *********************************************************************************
+ * Copyright (c) 2021 Nanjing Qinheng Microelectronics Co., Ltd.
+ * Attention: This software (modified or not) and binary are used for 
+ * microcontroller manufactured by Nanjing Qinheng Microelectronics.
+ *******************************************************************************/
 
 /*
  *@Note
- Calendar routine:
- This routine demonstrates that the initial time is 13:58:55 on October 8, 2019,
- real-time timing, every 1S through the serial port Print the real-time clock value.
-
-*/
+ *Calendar routine:
+ *This routine demonstrates that the initial time is 13:58:55 on October 8, 2019,
+ *real-time timing, every 1S through the serial port Print the real-time clock value.
+ *
+ */
 
 #include "debug.h"
 
@@ -322,10 +322,11 @@ u8 RTC_Get_Week(u16 year, u8 month, u8 day)
 int main(void)
 {
     NVIC_PriorityGroupConfig(NVIC_PriorityGroup_2);
+    SystemCoreClockUpdate();
     Delay_Init();
     USART_Printf_Init(115200);
     printf("SystemClk:%d\r\n", SystemCoreClock);
-
+    printf( "ChipID:%08x\r\n", DBGMCU_GetCHIPID() );
     printf("RTC Test\r\n");
     RTC_Init();
 

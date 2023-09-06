@@ -18,18 +18,12 @@
 
 #include "debug.h"
 
-#define USE_10M_BASE                            1  // Internal 10M PHY
-
-#ifndef PHY_MODE
-#define PHY_MODE                                USE_10M_BASE
-#endif
-
 #define ROM_CFG_USERADR_ID                      0x1FFFF7E8
 
 #define PHY_LINK_TASK_PERIOD                    50
 
 #define PHY_ANLPAR_SELECTOR_FIELD               0x1F
-#define PHY_ANLPAR_SELECTOR_VALUE               0x01       // 5B'00001
+#define PHY_ANLPAR_SELECTOR_VALUE               0x01        /* 5B'00001 */
 
 #define PHY_LINK_INIT                           0x00
 #define PHY_LINK_SUC_P                          (1<<0)
@@ -53,9 +47,8 @@
         phyLinkStatus = PHY_LINK_INIT;\
 }while(0)
 
-
 /* definition for Ethernet frame */
-#define ETH_MAX_PACKET_SIZE    1536    /* ETH_HEADER + ETH_EXTRA + MAX_ETH_PAYLOAD + ETH_CRC */
+#define ETH_MAX_PACKET_SIZE    1536    /* ETH_HEADER + VLAN_TAG + MAX_ETH_PAYLOAD + ETH_CRC */
 #define ETH_HEADER               14    /* 6 byte Dest addr, 6 byte Src addr, 2 byte length/type */
 #define ETH_CRC                   4    /* Ethernet CRC */
 #define ETH_EXTRA                 2    /* Extra bytes in some cases */
@@ -87,7 +80,6 @@ typedef struct
     uint32_t   Buffer1Addr;           /* Buffer1 address pointer */
     uint32_t   Buffer2NextDescAddr;   /* Buffer2 or next descriptor address pointer */
 } ETH_DMADESCTypeDef;
-
 
 #include "wchnet.h"
 

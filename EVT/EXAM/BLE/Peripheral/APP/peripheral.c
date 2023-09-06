@@ -144,7 +144,7 @@ static uint8_t attDeviceName[GAP_DEVICE_NAME_LEN] = "Simple Peripheral";
 // Connection item list
 static peripheralConnItem_t peripheralConnList;
 
-static uint8_t peripheralMTU = ATT_MTU_SIZE;
+static uint16_t peripheralMTU = ATT_MTU_SIZE;
 /*********************************************************************
  * LOCAL FUNCTIONS
  */
@@ -178,7 +178,8 @@ static gapRolesBroadcasterCBs_t Broadcaster_BroadcasterCBs = {
 // GAP Bond Manager Callbacks
 static gapBondCBs_t Peripheral_BondMgrCBs = {
     NULL, // Passcode callback (not used by application)
-    NULL  // Pairing / Bonding state Callback (not used by application)
+    NULL, // Pairing / Bonding state Callback (not used by application)
+    NULL  // oob callback
 };
 
 // Simple GATT Profile Callbacks
@@ -222,7 +223,7 @@ void Peripheral_Init()
     }
 
     // Set the GAP Characteristics
-    GGS_SetParameter(GGS_DEVICE_NAME_ATT, GAP_DEVICE_NAME_LEN, attDeviceName);
+    GGS_SetParameter(GGS_DEVICE_NAME_ATT, sizeof(attDeviceName), attDeviceName);
 
     {
         uint16_t advInt = DEFAULT_ADVERTISING_INTERVAL;

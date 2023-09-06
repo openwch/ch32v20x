@@ -15,12 +15,9 @@
 //每个文件单独debug打印的开关，置0可以禁止本文件内部打印
 #define DEBUG_PRINT_IN_THIS_FILE    1
 #if DEBUG_PRINT_IN_THIS_FILE
-  #define PRINTF(...)    PRINT(__VA_ARGS__)
+  #define PRINTF(...)       PRINT(__VA_ARGS__)
 #else
-  #define PRINTF(...) \
-    do                \
-    {                 \
-    } while(0)
+  #define PRINTF(...)       do{} while(0)
 #endif
 
 #if LWNS_USE_NO_MAC //是否使能纯透传mac协议，即mac层不参与任何动作，注意只能使能一个mac层协议。
@@ -58,6 +55,33 @@ static lwns_fuc_interface_t ble_lwns_fuc_interface = {
 };
 
 static uint8_t ble_phy_manage_state; //phy状态管理
+
+volatile uint8_t tx_end_flag=0;
+
+/*********************************************************************
+ * @fn      RF_Wait_Tx_End
+ *
+ * @brief   手动模式等待发送完成，自动模式等待发送-接收完成，必须在RAM中等待，等待时可以执行用户代码，但需要注意执行的代码必须运行在RAM中，否则影响发送
+ *
+ * @return  none
+ */
+__attribute__((section(".highcode")))
+__attribute__((noinline))
+void RF_Wait_Tx_End()
+{
+    uint32_t i=0;
+    while(!tx_end_flag)
+    {
+        i++;
+        __NOP();
+        __NOP();
+        // 约5ms超时
+        if(i>(SystemCoreClock/1000))
+        {
+            tx_end_flag = TRUE;
+        }
+    }
+}
 
 /*********************************************************************
  * @fn      RF_2G4StatusCallBack
@@ -356,7 +380,10 @@ static uint16_t lwns_phyoutput_ProcessEvent(uint8_t task_id, uint16_t events)
             // Release the TMOS message,tmos_msg_allocate
             tmos_clear_event(lwns_adapter_taskid, LWNS_PHY_RX_OPEN_EVT); //停止可能已经置位的、可能会打开接收的任务
             RF_Shut();
-            RF_Tx((uint8_t *)(pMsg + 1), pMsg[0], USER_RF_RX_TX_TYPE, USER_RF_RX_TX_TYPE);
+            if(!RF_Tx((uint8_t *)(pMsg + 1), pMsg[0], USER_RF_RX_TX_TYPE, USER_RF_RX_TX_TYPE))
+            {
+                RF_Wait_Tx_End();
+            }
             tmos_start_task(lwns_phyoutput_taskid, LWNS_PHY_OUTPUT_FINISH_EVT, MS1_TO_SYSTEM_TIME(LWNS_PHY_OUTPUT_TIMEOUT_MS)); //开始发送超时计数，防止有意外打断发送，导致无法继续发送
             tmos_msg_deallocate(pMsg);                                                                                          //释放内存
         }

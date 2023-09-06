@@ -4,21 +4,21 @@
  * Version            : V1.0.0
  * Date               : 2021/06/06
  * Description        : Main program body.
-*********************************************************************************
-* Copyright (c) 2021 Nanjing Qinheng Microelectronics Co., Ltd.
-* Attention: This software (modified or not) and binary are used for 
-* microcontroller manufactured by Nanjing Qinheng Microelectronics.
-*******************************************************************************/
+ *********************************************************************************
+ * Copyright (c) 2021 Nanjing Qinheng Microelectronics Co., Ltd.
+ * Attention: This software (modified or not) and binary are used for 
+ * microcontroller manufactured by Nanjing Qinheng Microelectronics.
+ *******************************************************************************/
 
 /*
  *@Note
- when LV is not enabled in standby mode, RAM 2k and 30K low-power data holding routines:
- This routine demonstrates writing data at the specified location of 2K RAM and 30K RAM,
- and then WFI enters STANDBY sleep mode, through the PA0 (wakeup) pin Input high level
- to exit standby mode, print RAM data after waking up, and test whether RAM is maintained
- data.
-
-*/
+ *when LV is not enabled in standby mode, RAM 2k and 30K low-power data holding routines:
+ *This routine demonstrates writing data at the specified location of 2K RAM and 30K RAM,
+ *and then WFI enters STANDBY sleep mode, through the PA0 (wakeup) pin Input high level
+ *to exit standby mode, print RAM data after waking up, and test whether RAM is maintained
+ *data.
+ *
+ */
 
 #include "debug.h"
 
@@ -116,8 +116,11 @@ int main(void)
     GPIO_Init(GPIOE, &GPIO_InitStructure);
 
     NVIC_PriorityGroupConfig(NVIC_PriorityGroup_2);
+    SystemCoreClockUpdate();
     Delay_Init();
     USART_Printf_Init(115200);
+    printf("SystemClk:%d\r\n", SystemCoreClock);
+    printf( "ChipID:%08x\r\n", DBGMCU_GetCHIPID() );
 
     RCC_APB1PeriphClockCmd(RCC_APB1Periph_PWR, ENABLE);
 

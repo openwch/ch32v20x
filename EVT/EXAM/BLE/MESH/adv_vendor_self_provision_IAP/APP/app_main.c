@@ -147,6 +147,7 @@ void ReadImageFlag(void)
  */
 int main(void)
 {
+    SystemCoreClockUpdate();
     Delay_Init();
 #ifdef DEBUG
     USART_Printf_Init( 115200 );

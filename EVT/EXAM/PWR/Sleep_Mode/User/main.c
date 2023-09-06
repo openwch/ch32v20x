@@ -4,20 +4,20 @@
  * Version            : V1.0.0
  * Date               : 2021/06/06
  * Description        : Main program body.
-*********************************************************************************
-* Copyright (c) 2021 Nanjing Qinheng Microelectronics Co., Ltd.
-* Attention: This software (modified or not) and binary are used for 
-* microcontroller manufactured by Nanjing Qinheng Microelectronics.
-*******************************************************************************/
+ *********************************************************************************
+ * Copyright (c) 2021 Nanjing Qinheng Microelectronics Co., Ltd.
+ * Attention: This software (modified or not) and binary are used for 
+ * microcontroller manufactured by Nanjing Qinheng Microelectronics.
+ *******************************************************************************/
 
 /*
  *@Note
- low power, sleep mode routine:
- EXTI_Line0(PA0)
- This routine demonstrates WFI enters sleep mode, PA0 pin input low level triggers external
- interrupt EXTI_Line0 to exit sleep mode,Program execution continues after wake-up.
-
-*/
+ *low power, sleep mode routine:
+ *EXTI_Line0(PA0)
+ *This routine demonstrates WFI enters sleep mode, PA0 pin input low level triggers external
+ *interrupt EXTI_Line0 to exit sleep mode,Program execution continues after wake-up.
+ *
+ */
 
 #include "debug.h"
 
@@ -70,14 +70,19 @@ void EXTI0_INT_INIT(void)
 int main(void)
 {
     NVIC_PriorityGroupConfig(NVIC_PriorityGroup_2);
+    SystemCoreClockUpdate();
     Delay_Init();
     USART_Printf_Init(115200);
     printf("SystemClk:%d\r\n", SystemCoreClock);
-
+    printf( "ChipID:%08x\r\n", DBGMCU_GetCHIPID() );
     printf("Sleep Mode Test\r\n");
     EXTI0_INT_INIT();
 
     printf("\r\n ********** \r\n");
+    if(((RCC->CFGR0 & RCC_SWS)==0x04)||((RCC->CFGR0 & RCC_PLLSRC) == RCC_PLLSRC))
+    {
+        RCC_HSICmd(DISABLE);
+    }
     __WFI();
     printf("\r\n ########## \r\n");
 

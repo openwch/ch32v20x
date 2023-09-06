@@ -1,7 +1,7 @@
 
-南京沁恒微电子股份有限公司 2022.01
+南京沁恒微电子股份有限公司 2023.09
 最新资料请到我们的网站上查询
-http://wch.cn
+https://wch.cn
 
 
 文件目录
@@ -9,8 +9,10 @@ http://wch.cn
   |-- CH32V20x：RISC-V内核微控制器
   |      |-- EVT: CH32V20x评估板和CH32V20x相关例程
   |      |      |-- PUB: 
+  |      |      |      |-- CH32V20x Evaluation Board Reference-EN.pdf：英文版CH32V20x评估板说明及工程创建说明
   |      |      |      |-- CH32V20x评估板说明书.pdf：CH32V20x评估板说明及工程创建说明
   |      |      |      |-- CH32V20xSCH.pdf：CH32V20x评估板原理图
+  |      |      |      |-- SCHPCB: CH32V20x评估板原理图和PCB原文件
   |      |      |-- EXAM: 
   |      |      |      |-- SRC  
   |      |      |      |      |-- Core：内核系统头文件
@@ -18,7 +20,7 @@ http://wch.cn
   |      |      |      |      |-- Ld：ld文件  
   |      |      |      |      |-- Peripheral：基本外设驱动源文件及头文件
   |      |      |      |      |-- Startup：启动文件。针对用户使用芯片型号包含下列相应的启动文件，同时在ch32v20x.h文件中选择匹配芯片型号定义 
-  |      |      |      |      |      |-- startup_ch32v20x_D6.S：适用于CH32V203F6-CH32V203G6-CH32V203K6-CH32V203K8-CH32V203C6-CH32V203C8系列
+  |      |      |      |      |      |-- startup_ch32v20x_D6.S：适用于CH32V203F6-CH32V203G6-CH32V203K6-CH32V203K8-CH32V203C6-CH32V203C8-CH32V203G8系列
   |      |      |      |      |      |-- startup_ch32v20x_D8.S：适用于CH32V203RB系列
   |      |      |      |      |      |-- startup_ch32v20x_D8W.S：适用于CH32V208系列  
   |      |      |      |-- ADC
@@ -57,10 +59,13 @@ http://wch.cn
   |      |      |      |      |-- Observer：观察者角色例程，定时扫描，如果扫描结果不为空，则打印扫描到的广播地址
   |      |      |      |      |-- OnlyUpdateApp_IAP：固定库无线升级IAP例程，具备OTA功能，接收升级固件后对用户区代码进行升级
   |      |      |      |      |-- OnlyUpdateApp_Peripheral：固定库无线升级用户例程，外设从机例程基础上添加跳转IAP程序进行后续升级的功能 
+  |      |      |      |      |-- PAwR_ADV：有响应的周期广播例程，广播者
+  |      |      |      |      |-- PAwR_RSP：有响应的周期广播例程，应答者
   |      |      |      |      |-- Peripheral：外设从机角色例程，自定义包含五种不同属性的服务，包含可读、可写、通知、可读可写、安全可读
   |      |      |      |      |-- peripheral_ancs_client：外设从机角色例程,包含苹果通知中心服务
   |      |      |      |      |-- peripheral_ETH：蓝牙以太网例程
   |      |      |      |      |-- RF_PHY：非标准无线收发例程
+  |      |      |      |      |-- RF_PHY_Auto：非标准无线收发自动切换例程
   |      |      |      |      |-- RF_PHY_Hop：非标准无线跳频收发例程    
   |      |      |      |      |-- RunningSensor：跑步传感器例程，连接主机后定时上传速度
   |      |      |      |      |-- SpeedTest_Central：蓝牙测速主机例程
@@ -114,7 +119,8 @@ http://wch.cn
   |      |      |      |      |-- WebServer： 演示通过Web浏览器配置WCHNET芯片的功能，WCHNET芯片内置web服务器 ，通过网页可以实现WCHNET的网络参数配置，以及密码管理  
   |      |      |      |-- EXTI：外部中断线例程
   |      |      |      |-- FLASH：FLASH的擦/读/写，以及快速编程
-  |      |      |      |-- FreeRTOS：FreeRTOS移植例程  
+  |      |      |      |-- FreeRTOS
+  |      |      |      |      |-- FreeRTOS_Core：FreeRTOS移植例程
   |      |      |      |-- GPIO：GPIO例程
   |      |      |      |-- HarmonyOS：HarmonyOS移植例程  
   |      |      |      |-- I2C
@@ -148,7 +154,9 @@ http://wch.cn
   |      |      |      |      |-- SPI_CRC：使用CRC错误校验，Master/Slave 模式收发例程
   |      |      |      |      |-- SPI_DMA：SPI使用DMA，Master/Slave 模式收发例程
   |      |      |      |      |-- SPI_FLASH：SPI接口操作FLASH外设例程
-  |      |      |      |-- TencentOS：TencentOS移植例程       
+  |      |      |      |-- TencentOS：TencentOS移植例程 
+  |      |      |      |-- SDI_Printf：调试口打印例程       
+  |      |      |      |-- SYSTICK：滴答定时器例程       
   |      |      |      |-- TIM
   |      |      |      |      |-- Clock_Select：时钟源选择例程
   |      |      |      |      |-- ComplementaryOutput_DeadTime：互补输出和死区插入模式例程

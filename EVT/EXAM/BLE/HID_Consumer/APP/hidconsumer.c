@@ -57,7 +57,7 @@
 #define DEFAULT_PASSCODE                     0
 
 // Default GAP pairing mode
-#define DEFAULT_PAIRING_MODE                 GAPBOND_PAIRING_MODE_INITIATE
+#define DEFAULT_PAIRING_MODE                 GAPBOND_PAIRING_MODE_WAIT_FOR_REQ
 
 // Default MITM mode (TRUE to require passcode or OOB when pairing)
 #define DEFAULT_MITM_MODE                    FALSE
@@ -216,7 +216,8 @@ void HidEmu_Init()
     }
 
     // Set the GAP Characteristics
-    GGS_SetParameter(GGS_DEVICE_NAME_ATT, GAP_DEVICE_NAME_LEN, (void *)attDeviceName);
+    GGS_SetParameter(GGS_DEVICE_NAME_ATT, sizeof(attDeviceName), (void *)attDeviceName);
+
     // Setup the GAP Bond Manager
     {
         uint32_t passkey = DEFAULT_PASSCODE;
@@ -399,7 +400,6 @@ static void hidEmuStateCB(gapRole_States_t newState, gapRoleEvent_t *pEvent)
                 hidEmuConnHandle = event->connectionHandle;
                 tmos_start_task(hidEmuTaskId, START_PARAM_UPDATE_EVT, START_PARAM_UPDATE_EVT_DELAY);
                 PRINT("Connected..\n");
-                tmos_start_task(hidEmuTaskId, START_REPORT_EVT, 5500);
             }
             break;
 
@@ -472,7 +472,6 @@ static uint8_t hidEmuRptCB(uint8_t id, uint8_t type, uint16_t uuid,
     // notifications enabled
     else if(oper == HID_DEV_OPER_ENABLE)
     {
-        PRINT("HID_DEV_OPER_ENABLE\n");
         tmos_start_task(hidEmuTaskId, START_REPORT_EVT, 500);
     }
     return status;
