@@ -159,7 +159,8 @@ int         RingMem_Protection(uint8_t enable);
 static gapRolesCBs_t Peripheral_PeripheralCBs = {
     peripheralStateNotificationCB, // Profile State Change Callbacks
     peripheralRssiCB,              // When a valid RSSI is read from controller (not used by application)
-    peripheralParamUpdateCB};
+    peripheralParamUpdateCB
+};
 
 // Broadcast Callbacks
 static gapRolesBroadcasterCBs_t Broadcaster_BroadcasterCBs = {
@@ -214,7 +215,7 @@ void Peripheral_Init()
     }
 
     // Set the GAP Characteristics
-    GGS_SetParameter(GGS_DEVICE_NAME_ATT, GAP_DEVICE_NAME_LEN, attDeviceName);
+    GGS_SetParameter(GGS_DEVICE_NAME_ATT, sizeof(attDeviceName), attDeviceName);
 
     {
         uint16_t advInt = DEFAULT_ADVERTISING_INTERVAL;

@@ -4,21 +4,21 @@
  * Version            : V1.0.0
  * Date               : 2021/06/06
  * Description        : Main program body.
-*********************************************************************************
-* Copyright (c) 2021 Nanjing Qinheng Microelectronics Co., Ltd.
-* Attention: This software (modified or not) and binary are used for 
-* microcontroller manufactured by Nanjing Qinheng Microelectronics.
-*******************************************************************************/
+ *********************************************************************************
+ * Copyright (c) 2021 Nanjing Qinheng Microelectronics Co., Ltd.
+ * Attention: This software (modified or not) and binary are used for 
+ * microcontroller manufactured by Nanjing Qinheng Microelectronics.
+ *******************************************************************************/
 
 /*
  *@Note
- Discontinuous mode routine:
- ADC channel 1 (PA1) - injection group channel, channel 3 (PA3) - injection group channel,
- channel 4 (PA4) - injection group channel, this mode
- Next, an ADC conversion is triggered by the TIM1_CC4 event, and the above-mentioned 1 injection
- group channel is converted in sequence each time.
-
-*/
+ *Discontinuous mode routine:
+ *ADC channel 1 (PA1) - injection group channel, channel 3 (PA3) - injection group channel,
+ *channel 4 (PA4) - injection group channel, this mode
+ *Next, an ADC conversion is triggered by the TIM1_CC4 event, and the above-mentioned 1 injection
+ *group channel is converted in sequence each time.
+ *
+ */
 
 #include "debug.h"
 s16 Calibrattion_Val = 0;
@@ -149,8 +149,10 @@ u16 Get_ConversionVal(s16 val)
  */
 int main(void)
 {
+    SystemCoreClockUpdate();
     USART_Printf_Init(115200);
     printf("SystemClk:%d\r\n", SystemCoreClock);
+    printf( "ChipID:%08x\r\n", DBGMCU_GetCHIPID() );
 
     ADC_Function_Init();
     printf("CalibrattionValue:%d\n", Calibrattion_Val);

@@ -28,16 +28,16 @@ extern "C" {
 /* File Descripton */
 /*
  *@Note
-  ������CH32ϵ�еĵ�Ƭ��������risc-v�ں˵�CH32Vϵ�к�cortex-m3�ں˵�CH32Fϵ��
-  iap_flash.c/iap_flash.h�ļ�����iap��app��Ҫ��iap���������ֹ���壬app���������ֹ���壬
-  оƬflash�Ĳ���������
-  ***2022��6��13��***
-     1���汾0.1��
-  �����Ĵ������flash�֣����֣��ֽڶ���iap�ػ���flash������д�룬��̣���ȡ��У�顣
-  �����漰flash��д�������Ĳ�����ʹ��DEF_FLASH_OPERATION_KEY_CODE������DEF_FLASH_OPERATION_KEY_CODE_0
-  ����������ʼʱд�룬DEF_FLASH_OPERATION_KEY_CODE_1��ÿ�β���flashǰд�롣
-  ʹ�ú궨������iap�����app���룬��iap��app��flash�����Ĵ���ͳһ��һ���ļ���
- iap���뿪�����к������ã�app���������IAP_VerifyCode_Erase(); ������
+ *suitable for CH32 series MCUs(include CH32V series with risc-v core and ch32F series with cortex-m3 core) 
+ *The iap_flash.c/iap_flash.h file includes the definition of the start and end of the iap area code required 
+ *by iap and app, and the start and end definition of the app area code,the operation function of chip flash.
+ ****2022-6-13***
+ *   1 version 0.1,
+ *All operations involving flash read, write and erase use DEF_FLASH_OPERATION_KEY_CODE, DEF_FLASH_OPERATION_KEY_CODE_0
+ *It is written at the beginning of the main function, and DEF_FLASH_OPERATION_KEY_CODE_1 is written before each flash operation.
+ *Use the macro definition to distinguish the iap code and the app code, and unify the iap and app codes for flash operations into one file.
+ *The iap code opens all function calls, and the app code only opens the IAP_VerifyCode_Erase(); function.
+ *
 */
 
 /*******************************************************************************/

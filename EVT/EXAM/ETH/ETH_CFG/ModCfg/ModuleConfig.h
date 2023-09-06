@@ -73,10 +73,15 @@ typedef struct MODULE_CFG {
 }module_cfg,*pmodule_cfg;
 
 extern u8 MACAddr[6];
+
 extern u8  brocastIp[4];
+
 extern u8 Configbuf[MODULE_CFG_LEN];
+
 extern u8 Default_cfg[MODULE_CFG_LEN];
+
 extern u16 brocastPort;
+
 extern pmodule_cfg CFG;
 
 extern u8 ParseConfigbuf(u8 *buf);
@@ -87,4 +92,5 @@ extern void CFG_READ( u32 StartAddr, u8 *Buffer, u32 Length );
 
 extern FLASH_Status CFG_WRITE( u32 StartAddr, u8 *Buffer, u32 Length );
 
+extern uint8_t WCHNET_SocketUdpSendTo( uint8_t socketid, uint8_t *buf, uint32_t *slen, uint8_t *sip, uint16_t port);
 #endif

@@ -4,19 +4,19 @@
  * Version            : V1.0.0
  * Date               : 2021/06/06
  * Description        : Main program body.
-*********************************************************************************
-* Copyright (c) 2021 Nanjing Qinheng Microelectronics Co., Ltd.
-* Attention: This software (modified or not) and binary are used for 
-* microcontroller manufactured by Nanjing Qinheng Microelectronics.
-*******************************************************************************/
+ *********************************************************************************
+ * Copyright (c) 2021 Nanjing Qinheng Microelectronics Co., Ltd.
+ * Attention: This software (modified or not) and binary are used for 
+ * microcontroller manufactured by Nanjing Qinheng Microelectronics.
+ *******************************************************************************/
 
 /*
  *@Note
-  Dual ADC injection simultaneous sampling routine:
- ADC1 channel 1 (PA1), ADC2 channel 2 (PA3).
-
- Note:only applied toCH32V203
-*/
+ *Dual ADC injection simultaneous sampling routine:
+ *ADC1 channel 1 (PA1), ADC2 channel 2 (PA3).
+ *
+ *Note:only applied toCH32V203
+ */
 
 #include "debug.h"
 
@@ -136,8 +136,10 @@ u16 Get_ConversionVal2(s16 val)
 int main(void)
 {
     USART_Printf_Init(115200);
+    SystemCoreClockUpdate();
     Delay_Init();
     printf("SystemClk:%d\r\n", SystemCoreClock);
+    printf( "ChipID:%08x\r\n", DBGMCU_GetCHIPID() );
     ADC_Function_Init();
     printf("CalibrattionValue1:%d\n", Calibrattion_Val1);
     printf("CalibrattionValue2:%d\n", Calibrattion_Val2);

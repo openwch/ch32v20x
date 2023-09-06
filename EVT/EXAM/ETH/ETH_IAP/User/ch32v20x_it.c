@@ -10,7 +10,6 @@
 * microcontroller manufactured by Nanjing Qinheng Microelectronics.
 *******************************************************************************/
 #include "ch32v20x_it.h"
-#include <wchnet.h>
 #include "eth_driver.h"
 
 void NMI_Handler(void) __attribute__((interrupt("WCH-Interrupt-fast")));

@@ -6,7 +6,7 @@
  * Description        : Sleep configuration and its initialization
  *********************************************************************************
  * Copyright (c) 2021 Nanjing Qinheng Microelectronics Co., Ltd.
- * Attention: This software (modified or not) and binary are used for 
+ * Attention: This software (modified or not) and binary are used for
  * microcontroller manufactured by Nanjing Qinheng Microelectronics.
  *******************************************************************************/
 
@@ -14,12 +14,12 @@
 /* Header file contains */
 #include "HAL.h"
 
-#define US_TO_TICK(us)                  (uint32_t)((us)/(1000000/((CAB_LSIFQ/2))))
+#define US_TO_TICK(us)        (uint32_t)((us) / (1000000 / ((CAB_LSIFQ / 2))))
 
-#define SLEEP_PERIOD_MIN_US             200
-#define SLEEP_PERIOD_MAX_TICK           0xFFD2393F
-#define SLEEP_PERIOD_MIN_TICK           US_TO_TICK(SLEEP_PERIOD_MIN_US)
-#define HESREADY_TICK                   US_TO_TICK(WAKE_UP_MAX_TIME_US)
+#define SLEEP_PERIOD_MIN_US   200
+#define SLEEP_PERIOD_MAX_TICK 0xFFD2393F
+#define SLEEP_PERIOD_MIN_TICK US_TO_TICK(SLEEP_PERIOD_MIN_US)
+#define HESREADY_TICK         US_TO_TICK(WAKE_UP_MAX_TIME_US)
 
 /*******************************************************************************
  * @fn          BLE_LowPower
@@ -43,8 +43,8 @@ uint32_t BLE_LowPower(uint32_t time)
     current_time = RTC_GetCounter();
     sleep_period = wake_time - current_time;
 
-    if((sleep_period < SLEEP_PERIOD_MIN_TICK)
-            || (sleep_period > SLEEP_PERIOD_MAX_TICK)) {
+    if((sleep_period < SLEEP_PERIOD_MIN_TICK) || (sleep_period > SLEEP_PERIOD_MAX_TICK))
+    {
         __enable_irq();
         return 2;
     }
@@ -52,18 +52,21 @@ uint32_t BLE_LowPower(uint32_t time)
     RTC_SetTignTime(wake_time);
     __enable_irq();
 
-  #if(DEBUG == DEBUG_UART1) // To use other serial ports to output printing information, you need to modify this line of code
+#if(DEBUG == DEBUG_UART1) // To use other serial ports to output printing information, you need to modify this line of code
     while(USART_GetFlagStatus(USART1, USART_FLAG_TC) == RESET)
     {
         __NOP();
     }
-  #endif
+#endif
     // LOW POWER-sleep
-    if(!RTCTigFlag) {
+    if(!RTCTigFlag)
+    {
         PWR_EnterSTOPMode_RAM_LV(PWR_Regulator_LowPower, PWR_STOPEntry_WFI);
         SystemInit();
-    } else {
-       return 3; 
+    }
+    else
+    {
+        return 3;
     }
 
 #endif

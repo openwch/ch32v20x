@@ -39,7 +39,6 @@ extern "C" {
 #define CONNECT0_ITEM                 0
 #define CONNECT1_ITEM                 1
 #define CONNECT2_ITEM                 2
-#define CONNECT3_ITEM                 3
 
 /*********************************************************************
  * MACROS

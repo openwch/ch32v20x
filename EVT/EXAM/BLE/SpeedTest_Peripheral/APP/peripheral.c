@@ -180,7 +180,8 @@ static gapRolesBroadcasterCBs_t Broadcaster_BroadcasterCBs = {
 // GAP Bond Manager Callbacks
 static gapBondCBs_t Peripheral_BondMgrCBs = {
     NULL, // Passcode callback (not used by application)
-    NULL  // Pairing / Bonding state Callback (not used by application)
+    NULL, // Pairing / Bonding state Callback (not used by application)
+    NULL  // oob callback
 };
 
 // Simple GATT Profile Callbacks
@@ -224,7 +225,7 @@ void Peripheral_Init()
     }
 
     // Set the GAP Characteristics
-    GGS_SetParameter(GGS_DEVICE_NAME_ATT, GAP_DEVICE_NAME_LEN, attDeviceName);
+    GGS_SetParameter(GGS_DEVICE_NAME_ATT, sizeof(attDeviceName), attDeviceName);
 
     // Set advertising interval
     {
@@ -381,6 +382,31 @@ uint16_t Peripheral_ProcessEvent(uint8_t task_id, uint16_t events)
 }
 
 /*********************************************************************
+ * @fn      Peripheral_ProcessGAPMsg
+ *
+ * @brief   Process an incoming task message.
+ *
+ * @param   pMsg - message to process
+ *
+ * @return  none
+ */
+static void Peripheral_ProcessGAPMsg(gapRoleEvent_t *pEvent)
+{
+    switch(pEvent->gap.opcode)
+    {
+
+        case GAP_PHY_UPDATE_EVENT:
+        {
+            PRINT("Phy update Rx:%x Tx:%x ..\n", pEvent->linkPhyUpdate.connRxPHYS, pEvent->linkPhyUpdate.connTxPHYS);
+            break;
+        }
+
+        default:
+            break;
+    }
+}
+
+/*********************************************************************
  * @fn      Peripheral_ProcessTMOSMsg
  *
  * @brief   Process an incoming task message.
@@ -395,6 +421,7 @@ static void Peripheral_ProcessTMOSMsg(tmos_event_hdr_t *pMsg)
     {
         case GAP_MSG_EVENT:
         {
+            Peripheral_ProcessGAPMsg((gapRoleEvent_t *)pMsg);
             break;
         }
 

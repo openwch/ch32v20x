@@ -4,20 +4,20 @@
  * Version            : V1.0.0
  * Date               : 2021/06/06
  * Description        : Main program body.
-*********************************************************************************
-* Copyright (c) 2021 Nanjing Qinheng Microelectronics Co., Ltd.
-* Attention: This software (modified or not) and binary are used for 
-* microcontroller manufactured by Nanjing Qinheng Microelectronics.
-*******************************************************************************/
+ *********************************************************************************
+ * Copyright (c) 2021 Nanjing Qinheng Microelectronics Co., Ltd.
+ * Attention: This software (modified or not) and binary are used for 
+ * microcontroller manufactured by Nanjing Qinheng Microelectronics.
+ *******************************************************************************/
 
 /*
  *@Note
- PWM output routine:
- TIM1_CH1(PA8)
- This example demonstrates that the TIM_CH1(PA8) pin outputs PWM in PWM
- mode 1 and PWM mode 2.
- 
-*/
+ *PWM output routine:
+ *TIM1_CH1(PA8)
+ *This example demonstrates that the TIM_CH1(PA8) pin outputs PWM in PWM
+ *mode 1 and PWM mode 2.
+ *
+ */
 
 #include "debug.h"
 
@@ -86,8 +86,10 @@ void TIM1_PWMOut_Init(u16 arr, u16 psc, u16 ccp)
  */
 int main(void)
 {
+	SystemCoreClockUpdate();
 	USART_Printf_Init(115200);
 	printf("SystemClk:%d\r\n",SystemCoreClock);
+	printf( "ChipID:%08x\r\n", DBGMCU_GetCHIPID() );
 
 	TIM1_PWMOut_Init( 100, 48000-1, 50 );
 

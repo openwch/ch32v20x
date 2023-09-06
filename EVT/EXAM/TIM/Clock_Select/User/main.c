@@ -4,20 +4,20 @@
  * Version            : V1.0.0
  * Date               : 2021/06/06
  * Description        : Main program body.
-*********************************************************************************
-* Copyright (c) 2021 Nanjing Qinheng Microelectronics Co., Ltd.
-* Attention: This software (modified or not) and binary are used for 
-* microcontroller manufactured by Nanjing Qinheng Microelectronics.
-*******************************************************************************/
+ *********************************************************************************
+ * Copyright (c) 2021 Nanjing Qinheng Microelectronics Co., Ltd.
+ * Attention: This software (modified or not) and binary are used for 
+ * microcontroller manufactured by Nanjing Qinheng Microelectronics.
+ *******************************************************************************/
 
 /*
  *@Note
- Clock source selection routine:
-This example demonstrates two external clock source modes of TIM1.
- External clock source mode 1: PA8 is used as clock input pin,
- External clock source mode 2: PA12 is used as clock input pin.
-
-*/
+ *Clock source selection routine:
+ *This example demonstrates two external clock source modes of TIM1.
+ *External clock source mode 1: PA8 is used as clock input pin,
+ *External clock source mode 2: PA12 is used as clock input pin.
+ *
+ */
 
 #include "debug.h"
 
@@ -42,7 +42,6 @@ void TIM1_ETRClockMode1_Init(void)
 
     TIM_CounterModeConfig(TIM1, TIM_CounterMode_Up);
     TIM_SetAutoreload(TIM1, 0x3EB);
-    TIM_ETRClockMode1Config(TIM1, TIM_ExtTRGPSC_OFF, TIM_ExtTRGPolarity_Inverted, 0x0);
     /* GPIOA8 Input as TIM Clock Source */
     TIM_TIxExternalClockConfig(TIM1, TIM_TIxExternalCLK1Source_TI1, TIM_ICPolarity_Rising, 0x00);
     TIM_Cmd(TIM1, ENABLE);
@@ -63,7 +62,6 @@ void TIM1_ETRClockMode2_Init(void)
     TIM_SetAutoreload(TIM1, 0x3EB);
     /* GPIOA12 Input as TIM Clock Source */
     TIM_ETRClockMode2Config(TIM1, TIM_ExtTRGPSC_OFF, TIM_ExtTRGPolarity_Inverted, 0x0);
-    TIM_SelectInputTrigger(TIM1, TIM_TS_ETRF);
     TIM_Cmd(TIM1, ENABLE);
 }
 /*********************************************************************
@@ -75,8 +73,10 @@ void TIM1_ETRClockMode2_Init(void)
  */
 int main(void)
 {
+    SystemCoreClockUpdate();
     USART_Printf_Init(115200);
     printf("SystemClk:%d\r\n", SystemCoreClock);
+    printf( "ChipID:%08x\r\n", DBGMCU_GetCHIPID() );
 
 #if(ETR_CLK == ETR_CLK_MODE1)
     TIM1_ETRClockMode1_Init();

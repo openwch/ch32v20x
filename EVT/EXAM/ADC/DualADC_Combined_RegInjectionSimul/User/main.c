@@ -4,23 +4,23 @@
  * Version            : V1.0.0
  * Date               : 2021/06/06
  * Description        : Main program body.
-*********************************************************************************
-* Copyright (c) 2021 Nanjing Qinheng Microelectronics Co., Ltd.
-* Attention: This software (modified or not) and binary are used for 
-* microcontroller manufactured by Nanjing Qinheng Microelectronics.
-*******************************************************************************/
+ *********************************************************************************
+ * Copyright (c) 2021 Nanjing Qinheng Microelectronics Co., Ltd.
+ * Attention: This software (modified or not) and binary are used for 
+ * microcontroller manufactured by Nanjing Qinheng Microelectronics.
+ *******************************************************************************/
 
 /*
  *@Note
-  dual ADC combined regular + injection + simultaneous sampling routine:
-  Rule group ADC1 channel 1 (PA1), ADC2 channel 4 (PA4), injection group ADC1
-  channel 3 (PA3) ADC2 channel 5 (PA5))
-  The rule group injection groups are all triggered by software, and the dual ADC
-  rule group data is obtained through the DMA interrupt, and the dual ADC injection
-  group data is obtained through the ADC interrupt.
-
-  Note:only applied to CH32V20x_D6
-*/
+ *dual ADC combined regular + injection + simultaneous sampling routine:
+ *Rule group ADC1 channel 1 (PA1), ADC2 channel 4 (PA4), injection group ADC1
+ *channel 3 (PA3) ADC2 channel 5 (PA5))
+ *The rule group injection groups are all triggered by software, and the dual ADC
+ *rule group data is obtained through the DMA interrupt, and the dual ADC injection
+ *group data is obtained through the ADC interrupt.
+ *
+ *Note:only applied to CH32V20x_D6
+ */
 
 #include "debug.h"
 
@@ -201,8 +201,10 @@ u16 Get_ConversionVal2(s16 val)
 int main(void)
 {
     USART_Printf_Init(115200);
+    SystemCoreClockUpdate();
     Delay_Init();
     printf("SystemClk:%d\r\n", SystemCoreClock);
+    printf( "ChipID:%08x\r\n", DBGMCU_GetCHIPID() );
     ADC_Function_Init();
     printf("ADC test\r\n");
     printf("CalibrattionValue1:%d\n", Calibrattion_Val1);

@@ -909,7 +909,7 @@ void DevEP2_OUT_Deal(UINT8 l)
     {
         PRINT("RingMemBLE ERR \n");
     }
-    tmos_start_task(Peripheral_TaskID, SBP_PROCESS_USBDATA_EVT, 32);
+    tmos_set_event(Peripheral_TaskID, SBP_PROCESS_USBDATA_EVT);
 }
 
 /*********************************************************************

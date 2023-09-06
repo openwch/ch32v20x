@@ -4,23 +4,23 @@
  * Version            : V1.0.0
  * Date               : 2021/06/06
  * Description        : Main program body.
-*********************************************************************************
-* Copyright (c) 2021 Nanjing Qinheng Microelectronics Co., Ltd.
-* Attention: This software (modified or not) and binary are used for 
-* microcontroller manufactured by Nanjing Qinheng Microelectronics.
-*******************************************************************************/
+ *********************************************************************************
+ * Copyright (c) 2021 Nanjing Qinheng Microelectronics Co., Ltd.
+ * Attention: This software (modified or not) and binary are used for 
+ * microcontroller manufactured by Nanjing Qinheng Microelectronics.
+ *******************************************************************************/
 
 /*
  *@Note
- Get system-HCLK-AHB1-AHB2 clock routine:
- MCO(PA8)
- This example demonstrates MCO(PA8) pin output system clock and get clock;
-    -RCC_GetClocksFreq() function to get systemclk-HCLK-AHB1-AHB2 clock
-    -SystemCoreClockUpdate() function to get HCLK clock
-    -Configure the HSE two-way frequency division as the PLL source in
-    the system_ch32v20x.c file (applicable only to CH32V20x_D8W)
-
-*/
+ *Get system-HCLK-AHB1-AHB2 clock routine:
+ *MCO(PA8)
+ *This example demonstrates MCO(PA8) pin output system clock and get clock;
+ *    -RCC_GetClocksFreq() function to get systemclk-HCLK-AHB1-AHB2 clock
+ *    -SystemCoreClockUpdate() function to get HCLK clock
+ *    -Configure the HSE two-way frequency division as the PLL source in
+ *    the system_ch32v20x.c file (applicable only to CH32V20x_D8W)
+ *
+ */
 
 #include "debug.h"
 
@@ -40,6 +40,7 @@ int main(void)
     USART_Printf_Init(115200);
     SystemCoreClockUpdate();
     printf("SystemClk:%d\r\n",SystemCoreClock);
+    printf( "ChipID:%08x\r\n", DBGMCU_GetCHIPID() );
 
     RCC_GetClocksFreq(&RCC_ClocksStatus);
     printf("SYSCLK_Frequency-%d\r\n", RCC_ClocksStatus.SYSCLK_Frequency);

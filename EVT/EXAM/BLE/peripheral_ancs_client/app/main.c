@@ -393,6 +393,7 @@ void Main_Circulation(void)
  */
 int main(void)
 {
+    SystemCoreClockUpdate();
     Delay_Init();
 #ifdef DEBUG
     USART_Printf_Init( 115200 );

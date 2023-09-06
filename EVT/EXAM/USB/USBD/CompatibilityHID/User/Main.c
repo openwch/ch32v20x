@@ -72,10 +72,12 @@ void Var_Init(void)
 int main(void)
 {   
 	NVIC_PriorityGroupConfig(NVIC_PriorityGroup_2);
+	SystemCoreClockUpdate();
 	Delay_Init(); 
     USART_Printf_Init(115200);
 	printf("SystemClk:%d\r\n",SystemCoreClock);
-	printf("USBHD Compatibility HID Example\r\n");
+	printf( "ChipID:%08x\r\n", DBGMCU_GetCHIPID() );
+	printf("USBD Compatibility HID Example\r\n");
     /* Variables init */
     Var_Init();
 

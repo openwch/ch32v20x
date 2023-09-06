@@ -1,18 +1,18 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<?xml version="1.0" encoding="UTF-8" ?> 
 <projectDescription>
   <name>LiteOS_m</name>
-  <comment/>
-  <projects/>
+  <comment />
+  <projects />
   <buildSpec>
     <buildCommand>
       <name>org.eclipse.cdt.managedbuilder.core.genmakebuilder</name>
       <triggers>clean,full,incremental,</triggers>
-      <arguments/>
+      <arguments />
     </buildCommand>
     <buildCommand>
       <name>org.eclipse.cdt.managedbuilder.core.ScannerConfigBuilder</name>
       <triggers>full,incremental,</triggers>
-      <arguments/>
+      <arguments />
     </buildCommand>
   </buildSpec>
   <natures>
@@ -23,7 +23,7 @@
   <filteredResources>
     <filter>
       <id>1595986042669</id>
-      <name/>
+      <name />
       <type>22</type>
       <matcher>
         <id>org.eclipse.ui.ide.multiFilter</id>
@@ -41,6 +41,16 @@
       <name>Debug</name>
       <type>2</type>
       <location>PARENT-2-PROJECT_LOC/SRC/Debug</location>
+    </link>
+    <link>
+      <name>Core</name>
+      <type>2</type>
+      <location>PARENT-2-PROJECT_LOC/SRC/Core</location>
+    </link>
+    <link>
+      <name>Ld</name>
+      <type>2</type>
+      <location>PARENT-2-PROJECT_LOC/SRC/Ld</location>
     </link>
   </linkedResources>
 </projectDescription>

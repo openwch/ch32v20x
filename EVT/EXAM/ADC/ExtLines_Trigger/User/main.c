@@ -4,21 +4,21 @@
  * Version            : V1.0.0
  * Date               : 2021/06/06
  * Description        : Main program body.
-*********************************************************************************
-* Copyright (c) 2021 Nanjing Qinheng Microelectronics Co., Ltd.
-* Attention: This software (modified or not) and binary are used for 
-* microcontroller manufactured by Nanjing Qinheng Microelectronics.
-*******************************************************************************/
+ *********************************************************************************
+ * Copyright (c) 2021 Nanjing Qinheng Microelectronics Co., Ltd.
+ * Attention: This software (modified or not) and binary are used for 
+ * microcontroller manufactured by Nanjing Qinheng Microelectronics.
+ *******************************************************************************/
 
 /*
  *@Note
- External lines trigger ADC conversion routine:
- ADC channel 1 (PA1) - injection group channel, external trigger pin (PA15) high
- level triggers EXTI line 15 event,In this mode, an ADC conversion is triggered
- by an event on EXTI line 15, and a JEOC interrupt is generated after the conversion
- is completed.
-
-*/
+ *External lines trigger ADC conversion routine:
+ *ADC channel 1 (PA1) - injection group channel, external trigger pin (PA15) high
+ *level triggers EXTI line 15 event,In this mode, an ADC conversion is triggered
+ *by an event on EXTI line 15, and a JEOC interrupt is generated after the conversion
+ *is completed.
+ *
+ */
 
 #include "debug.h"
 
@@ -132,8 +132,10 @@ u16 Get_ConversionVal(s16 val)
  */
 int main(void)
 {
+    SystemCoreClockUpdate();
     USART_Printf_Init(115200);
     printf("SystemClk:%d\r\n", SystemCoreClock);
+    printf( "ChipID:%08x\r\n", DBGMCU_GetCHIPID() );
 
     ADC_Function_Init();
     printf("CalibrattionValue:%d\n", Calibrattion_Val);

@@ -340,10 +340,6 @@ uint16_t Central_ProcessEvent(uint8_t task_id, uint16_t events)
     {
         return connect_ProcessEvent(task_id, events);
     }
-    else if(task_id == centralConnList[CONNECT3_ITEM].taskID)
-    {
-        return connect_ProcessEvent(task_id, events);
-    }
     // Discard unknown events
     return 0;
 }
@@ -789,6 +785,24 @@ static void centralEventCB(gapRoleEvent_t *pEvent)
         case GAP_LINK_PARAM_UPDATE_EVENT:
         {
             PRINT("Update %x - Int %x \n", pEvent->linkUpdate.connectionHandle, pEvent->linkUpdate.connInterval);
+        }
+        break;
+
+        case GAP_EXT_ADV_DEVICE_INFO_EVENT:
+        {
+            // Display device addr
+            PRINT("Recv ext adv \n");
+            // Add device to list
+            centralAddDeviceInfo(pEvent->deviceExtAdvInfo.addr, pEvent->deviceExtAdvInfo.addrType);
+        }
+        break;
+
+        case GAP_DIRECT_DEVICE_INFO_EVENT:
+        {
+            // Display device addr
+            PRINT("Recv direct adv \n");
+            // Add device to list
+            centralAddDeviceInfo(pEvent->deviceDirectInfo.addr, pEvent->deviceDirectInfo.addrType);
         }
         break;
 

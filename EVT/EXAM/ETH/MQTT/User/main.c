@@ -19,7 +19,6 @@ For details on the selection of engineering chips,
 please refer to the "CH32V20x Evaluation Board Manual" under the CH32V20xEVT\EVT\PUB folder.
 */
 #include "string.h"
-#include "debug.h"
 #include "eth_driver.h"
 #include "MQTTPacket.h"
 
@@ -77,7 +76,7 @@ void TIM2_Init( void )
 
     RCC_APB1PeriphClockCmd(RCC_APB1Periph_TIM2, ENABLE);
 
-    TIM_TimeBaseStructure.TIM_Period = SystemCoreClock / 1000000 - 1;
+    TIM_TimeBaseStructure.TIM_Period = SystemCoreClock / 1000000;
     TIM_TimeBaseStructure.TIM_Prescaler = WCHNETTIMERPERIOD * 1000 - 1;
     TIM_TimeBaseStructure.TIM_ClockDivision = 0;
     TIM_TimeBaseStructure.TIM_CounterMode = TIM_CounterMode_Up;
@@ -285,7 +284,7 @@ void msgDeal(unsigned char *msg, int len)
     unsigned char *ptr = msg;
     printf("payload len = %d\r\n",len);
     printf("payload: ");
-    for(u8 i = 0; i < len; i++)
+    for(int i = 0; i < len; i++)
     {
         printf("%c ",(u16)*ptr);
         ptr++;
@@ -360,7 +359,6 @@ void WCHNET_HandleSockInt(u8 socketid, u8 intstat)
     }
 }
 
-
 /*********************************************************************
  * @fn      WCHNET_HandleGlobalInt
  *
@@ -411,10 +409,13 @@ int main(void)
     u8 i;
     Delay_Init();
     USART_Printf_Init(115200);                                               //USART initialize
-    printf("MQTT\r\n");
-    printf("SystemClk:%d\r\n",SystemCoreClock);
+    printf("MQTT Test\r\n");
+    if((SystemCoreClock == 60000000) || (SystemCoreClock == 120000000))
+        printf("SystemClk:%d\r\n", SystemCoreClock);
+    else
+        printf("Error: Please choose 60MHz and 120MHz clock when using Ethernet!\r\n");
     printf("net version:%x\n",WCHNET_GetVer());
-    if( WCHNET_LIB_VER != WCHNET_GetVer() ){
+    if(WCHNET_LIB_VER != WCHNET_GetVer()){
         printf("version error.\n");
     }
     WCHNET_GetMacAddr(MACAddr);                                              //get the chip MAC address

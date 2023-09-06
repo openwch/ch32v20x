@@ -9,6 +9,10 @@
  *                      It needs to be used with the machine -based process, 
  *                      and modify the address from the machine equipment to 
  *                      this routine target address, default (84: C2: E4: 03: 02: 02)
+ *********************************************************************************
+ * Copyright (c) 2021 Nanjing Qinheng Microelectronics Co., Ltd.
+ * Attention: This software (modified or not) and binary are used for 
+ * microcontroller manufactured by Nanjing Qinheng Microelectronics.
  *******************************************************************************/
 
 /*********************************************************************
@@ -35,10 +39,10 @@
 #define DEFAULT_SCAN_DURATION               2400
 
 // Connection min interval in 1.25ms
-#define DEFAULT_MIN_CONNECTION_INTERVAL     8
+#define DEFAULT_MIN_CONNECTION_INTERVAL     11
 
 // Connection max interval in 1.25ms
-#define DEFAULT_MAX_CONNECTION_INTERVAL     8
+#define DEFAULT_MAX_CONNECTION_INTERVAL     11
 
 // Connection supervision timeout in 10ms
 #define DEFAULT_CONNECTION_TIMEOUT          100

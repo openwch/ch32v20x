@@ -237,12 +237,6 @@ static void ObserverEventCB(gapRoleEvent_t *pEvent)
 
         case GAP_EXT_ADV_DEVICE_INFO_EVENT:
         {
-            PRINT("periodicAdvInterval %d...\n",pEvent->deviceExtAdvInfo.periodicAdvInterval);
-            PRINT("addr %x %x %x %x %x %x...\n",pEvent->deviceExtAdvInfo.addr[0],
-                pEvent->deviceExtAdvInfo.addr[1],pEvent->deviceExtAdvInfo.addr[2],
-                pEvent->deviceExtAdvInfo.addr[3],pEvent->deviceExtAdvInfo.addr[4],
-                pEvent->deviceExtAdvInfo.addr[5]
-                                                                              );
             if(tmos_memcmp(PeerAddrDef, pEvent->deviceExtAdvInfo.addr, B_ADDR_LEN) &&
                pEvent->deviceExtAdvInfo.periodicAdvInterval != 0)
             {
@@ -251,14 +245,17 @@ static void ObserverEventCB(gapRoleEvent_t *pEvent)
                 
                 tmos_memcpy(sync.addr, PeerAddrDef, B_ADDR_LEN);
                 sync.addrType = pEvent->deviceExtAdvInfo.addrType;
-                sync.advertising_SID = 8;
+                sync.advertising_SID = pEvent->deviceExtAdvInfo.advertisingSID;
                 sync.options = DUPLICATE_FILTERING_INITIALLY_ENABLED;
-                sync.syncTimeout = 80; // 800ms
+                sync.syncTimeout = (pEvent->deviceExtAdvInfo.periodicAdvInterval * 6 + 7) / 8; //6 times the periodicAdvInterval
+                
+                /* Only one sync can be established at the same time for now */
                 state = GAPRole_CreateSync(&sync);
+
                 PRINT("GAPRole_CreateSync %d return %d...\n ", pEvent->deviceExtAdvInfo.periodicAdvInterval, state);
                 if (state == SUCCESS) {
                     tmos_start_task(ObserverTaskId, START_SYNC_TIMEOUT_EVT, DEFAULT_CREAT_SYNC_TIMEOUT);
-                }            
+                }
             }
             PRINT("GAP_EXT_ADV_DEVICE_INFO_EVENT...\n");
         }
@@ -279,7 +276,11 @@ static void ObserverEventCB(gapRoleEvent_t *pEvent)
 
         case GAP_PERIODIC_ADV_DEVICE_INFO_EVENT:
         {
-            PRINT("periodic adv - len %d, data[5] %x...\n", pEvent->devicePeriodicInfo.dataLength, pEvent->devicePeriodicInfo.pEvtData[5]);
+            PRINT("periodic adv - len %d (", pEvent->devicePeriodicInfo.dataLength);
+            for (int i = 0 ; i < pEvent->devicePeriodicInfo.dataLength; i++) {
+                PRINT(" %#x", pEvent->devicePeriodicInfo.pEvtData[i]);
+            }
+            PRINT(" )\n");
         }
         break;
 

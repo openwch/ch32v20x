@@ -15,8 +15,6 @@
 #include <string.h>
 #include <stdio.h>
 #include <stdlib.h>
-#include "debug.h"
-#include "wchnet.h"
 #include "eth_driver.h"
 #include "mailcmd.h"
 

@@ -12,7 +12,6 @@
 #include <stdlib.h>
 #include <string.h>
 #include "string.h"
-#include "debug.h"
 #include "eth_driver.h"
 #include "IAP_Task.h"
 /*
@@ -66,7 +65,7 @@ void TIM2_Init( void )
 
     RCC_APB1PeriphClockCmd(RCC_APB1Periph_TIM2, ENABLE);
 
-    TIM_TimeBaseStructure.TIM_Period = SystemCoreClock / 1000000 - 1;
+    TIM_TimeBaseStructure.TIM_Period = SystemCoreClock / 1000000;
     TIM_TimeBaseStructure.TIM_Prescaler = WCHNETTIMERPERIOD * 1000 - 1;
     TIM_TimeBaseStructure.TIM_ClockDivision = 0;
     TIM_TimeBaseStructure.TIM_CounterMode = TIM_CounterMode_Up;
@@ -87,20 +86,20 @@ void TIM2_Init( void )
  */
 void WCHNET_CreateTcpSocket(void)
 {
-   u8 i;
-   SOCK_INF TmpSocketInf;
+    u8 i;
+    SOCK_INF TmpSocketInf;
 
-   memset((void *)&TmpSocketInf,0,sizeof(SOCK_INF));
-   memcpy((void *)TmpSocketInf.IPAddr,DESIP,4);
-   TmpSocketInf.DesPort  = desport;
-   TmpSocketInf.SourPort = srcport;
-   TmpSocketInf.ProtoType = PROTO_TYPE_TCP;
-   TmpSocketInf.RecvBufLen = RECE_BUF_LEN;
-   i = WCHNET_SocketCreat(&SocketId,&TmpSocketInf);
-   printf("WCHNET_SocketCreat %d\r\n",SocketId);
-   mStopIfError(i);
-   i = WCHNET_SocketConnect(SocketId);
-   mStopIfError(i);
+    memset((void *)&TmpSocketInf,0,sizeof(SOCK_INF));
+    memcpy((void *)TmpSocketInf.IPAddr,DESIP,4);
+    TmpSocketInf.DesPort  = desport;
+    TmpSocketInf.SourPort = srcport;
+    TmpSocketInf.ProtoType = PROTO_TYPE_TCP;
+    TmpSocketInf.RecvBufLen = RECE_BUF_LEN;
+    i = WCHNET_SocketCreat(&SocketId,&TmpSocketInf);
+    printf("WCHNET_SocketCreat %d\r\n",SocketId);
+    mStopIfError(i);
+    i = WCHNET_SocketConnect(SocketId);
+    mStopIfError(i);
 }
 
 /*********************************************************************
@@ -163,26 +162,26 @@ void WCHNET_HandleGlobalInt(void)
     intstat = WCHNET_GetGlobalInt();                                             //get global interrupt flag
     if(intstat & GINT_STAT_UNREACH)                                              //Unreachable interrupt
     {
-       printf("GINT_STAT_UNREACH\r\n");
+        printf("GINT_STAT_UNREACH\r\n");
     }
-   if(intstat & GINT_STAT_IP_CONFLI)                                             //IP conflict
-   {
-       printf("GINT_STAT_IP_CONFLI\r\n");
-   }
-   if(intstat & GINT_STAT_PHY_CHANGE)                                            //PHY status change
-   {
-       i = WCHNET_GetPHYStatus();
-       if(i&PHY_Linked_Status)
-       printf("PHY Link Success\r\n");
-   }
-   if(intstat & GINT_STAT_SOCKET)                                                //socket related interrupt
-   {
-       for(i = 0; i < WCHNET_MAX_SOCKET_NUM; i++)
-       {
-           socketint = WCHNET_GetSocketInt(i);
-           if(socketint)WCHNET_HandleSockInt(i,socketint);
-       }
-   }
+    if(intstat & GINT_STAT_IP_CONFLI)                                             //IP conflict
+    {
+        printf("GINT_STAT_IP_CONFLI\r\n");
+    }
+    if(intstat & GINT_STAT_PHY_CHANGE)                                            //PHY status change
+    {
+        i = WCHNET_GetPHYStatus();
+        if(i&PHY_Linked_Status)
+            printf("PHY Link Success\r\n");
+    }
+    if(intstat & GINT_STAT_SOCKET)                                                //socket related interrupt
+    {
+        for(i = 0; i < WCHNET_MAX_SOCKET_NUM; i++)
+        {
+            socketint = WCHNET_GetSocketInt(i);
+            if(socketint)WCHNET_HandleSockInt(i,socketint);
+        }
+    }
 }
 
 /*********************************************************************
@@ -215,7 +214,7 @@ int main(void)
     u32 updateFlag;
 
     Delay_Init();
-    USART_Printf_Init(115200);                                                      //USART initialize
+    USART_Printf_Init(115200);                                                      //USART initialize   	
     GPIOInit();
     /*Detect whether the button(PA0) is pressed, if pressed,
      *make a TCP connection to upgrade, otherwise jump
@@ -223,8 +222,11 @@ int main(void)
     if(GPIO_ReadInputDataBit(GPIOA, GPIO_Pin_0) == 0){
         Delay_Ms(50);
         if(GPIO_ReadInputDataBit(GPIOA, GPIO_Pin_0) == 0){
-            printf("IAP test\r\n");
-            printf("SystemClk:%d\r\n",SystemCoreClock);
+            printf("IAP Test\r\n");
+            if((SystemCoreClock == 60000000) || (SystemCoreClock == 120000000))
+                printf("SystemClk:%d\r\n", SystemCoreClock);
+            else
+                printf("Error: Please choose 60MHz and 120MHz clock when using Ethernet!\r\n");
             printf("net version:%x\n",WCHNET_GetVer());
             if( WCHNET_LIB_VER != WCHNET_GetVer() ){
                 printf("version error.\n");

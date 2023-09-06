@@ -4,23 +4,23 @@
  * Version            : V1.0.0
  * Date               : 2021/06/06
  * Description        : Main program body.
-*********************************************************************************
-* Copyright (c) 2021 Nanjing Qinheng Microelectronics Co., Ltd.
-* Attention: This software (modified or not) and binary are used for 
-* microcontroller manufactured by Nanjing Qinheng Microelectronics.
-*******************************************************************************/
+ *********************************************************************************
+ * Copyright (c) 2021 Nanjing Qinheng Microelectronics Co., Ltd.
+ * Attention: This software (modified or not) and binary are used for 
+ * microcontroller manufactured by Nanjing Qinheng Microelectronics.
+ *******************************************************************************/
 
 /*
  *@Note
- CAN Normal mode, standard frame and expanded frame data transceiver:
- CAN_Tx(PB9),CAN_Rx(PB8)
- This routine requires an external CAN transceiver to demonstrate
- Standard_Frame and Extended_Frame.
- Standard_Frame: including 1 32bit filter mask bit pattern, 2 16bit filter
-  mask bit patterns,one 32bit identifier list mode, 2 16bit identifier list modes;
- Extended_Frame: 1 32bit filter mask bit pattern.
-
-*/
+ *CAN Normal mode, standard frame and expanded frame data transceiver:
+ *CAN_Tx(PB9),CAN_Rx(PB8)
+ *This routine requires an external CAN transceiver to demonstrate
+ *Standard_Frame and Extended_Frame.
+ *Standard_Frame: including 1 32bit filter mask bit pattern, 2 16bit filter
+ * mask bit patterns,one 32bit identifier list mode, 2 16bit identifier list modes;
+ *Extended_Frame: 1 32bit filter mask bit pattern.
+ *
+ */
 
 #include "debug.h"
 
@@ -239,9 +239,11 @@ int main(void)
     u8 px;
     u8 pxbuf[8];
 
+    SystemCoreClockUpdate();
     Delay_Init();
     USART_Printf_Init(115200);
     printf("SystemClk:%d\r\n", SystemCoreClock);
+    printf( "ChipID:%08x\r\n", DBGMCU_GetCHIPID() );
 
 #if(CAN_MODE == TX_MODE)
     printf("Tx Mode\r\n");

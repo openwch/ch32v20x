@@ -21,7 +21,6 @@ extern "C" {
 #include "string.h"
 #include "debug.h"
 #include "string.h"
-#include "PRINTF.h"
 
 /******************************************************************************/
 /* Related macro definitions */

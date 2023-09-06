@@ -16,6 +16,7 @@
 #include "string.h"
 
 tmosTaskID halTaskID;
+uint32_t g_LLE_IRQLibHandlerLocation;
 
 /*******************************************************************************
  * @fn      Lib_Calibration_LSI
@@ -84,6 +85,9 @@ void WCHBLE_Init(void)
 {
     uint8_t     i;
     bleConfig_t cfg;
+
+    g_LLE_IRQLibHandlerLocation = (uint32_t)LLE_IRQLibHandler;
+
     if(!tmos_memcmp(VER_LIB, VER_FILE, strlen(VER_FILE)))
     {
         PRINT("head file error...\n");
@@ -258,7 +262,8 @@ void HAL_Init()
  */
 uint16_t HAL_GetInterTempValue(void)
 {
-    uint32_t rcc_apb2pcenr, rcc_cfgr0, adc1_ctrl1, adc1_ctrl2, adc1_rsqr1, adc1_rsqr3, adc1_samptr1;
+    uint32_t rcc_apb2pcenr, rcc_cfgr0, adc1_ctrl1, adc1_ctrl2, adc1_rsqr1, adc1_rsqr2, adc1_rsqr3, adc1_samptr1, adc1_samptr2;
+    uint32_t adc1_iofr1, adc1_iofr2, adc1_iofr3, adc1_iofr4, adc1_wdhtr, adc1_wdltr, adc1_isqr;
     ADC_InitTypeDef  ADC_InitStructure = {0};
     uint16_t adc_data;
 
@@ -267,8 +272,17 @@ uint16_t HAL_GetInterTempValue(void)
     adc1_ctrl1 = ADC1->CTLR1;
     adc1_ctrl2 = ADC1->CTLR2;
     adc1_rsqr1 = ADC1->RSQR1;
+    adc1_rsqr2 = ADC1->RSQR2;
     adc1_rsqr3 = ADC1->RSQR3;
     adc1_samptr1 = ADC1->SAMPTR1;
+    adc1_samptr2 = ADC1->SAMPTR2;
+    adc1_iofr1 = ADC1->IOFR1;
+    adc1_iofr2 = ADC1->IOFR2;
+    adc1_iofr3 = ADC1->IOFR3;
+    adc1_iofr4 = ADC1->IOFR4;
+    adc1_wdhtr = ADC1->WDHTR;
+    adc1_wdltr = ADC1->WDLTR;
+    adc1_isqr = ADC1->ISQR;
 
     RCC_APB2PeriphClockCmd(RCC_APB2Periph_ADC1, ENABLE);
     RCC_ADCCLKConfig(RCC_PCLK2_Div8);
@@ -295,8 +309,17 @@ uint16_t HAL_GetInterTempValue(void)
     ADC1->CTLR1 = adc1_ctrl1;
     ADC1->CTLR2 = adc1_ctrl2;
     ADC1->RSQR1 = adc1_rsqr1;
+    ADC1->RSQR2 = adc1_rsqr2;
     ADC1->RSQR3 = adc1_rsqr3;
     ADC1->SAMPTR1 = adc1_samptr1;
+    ADC1->SAMPTR2 = adc1_samptr2;
+    ADC1->IOFR1 = adc1_iofr1;
+    ADC1->IOFR2 = adc1_iofr2;
+    ADC1->IOFR3 = adc1_iofr3;
+    ADC1->IOFR4 = adc1_iofr4;
+    ADC1->WDHTR = adc1_wdhtr;
+    ADC1->WDLTR = adc1_wdltr;
+    ADC1->ISQR = adc1_isqr;
     return (adc_data);
 }
 

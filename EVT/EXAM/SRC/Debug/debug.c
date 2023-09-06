@@ -5,11 +5,11 @@
  * Date               : 2021/06/06
  * Description        : This file contains all the functions prototypes for UART
  *                      Printf , Delay functions.
-*********************************************************************************
-* Copyright (c) 2021 Nanjing Qinheng Microelectronics Co., Ltd.
-* Attention: This software (modified or not) and binary are used for 
-* microcontroller manufactured by Nanjing Qinheng Microelectronics.
-*******************************************************************************/
+ *********************************************************************************
+ * Copyright (c) 2021 Nanjing Qinheng Microelectronics Co., Ltd.
+ * Attention: This software (modified or not) and binary are used for 
+ * microcontroller manufactured by Nanjing Qinheng Microelectronics.
+ *******************************************************************************/
 #include "debug.h"
 
 static uint8_t  p_us = 0;
@@ -177,6 +177,7 @@ int _write(int fd, char *buf, int size)
  *
  * @return  size: Data length
  */
+__attribute__((used))
 void *_sbrk(ptrdiff_t incr)
 {
     extern char _end[];

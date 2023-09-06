@@ -10,7 +10,6 @@
 * microcontroller manufactured by Nanjing Qinheng Microelectronics.
 *******************************************************************************/
 #include "ch32v20x_it.h"
-#include <wchnet.h>
 #include "eth_driver.h"
 #include "bsp_uart.h"
 
@@ -87,6 +86,8 @@ void DMA1_Channel7_IRQHandler(void)
         DMA_Cmd(DMA1_Channel7,DISABLE);
         uart_data_t.uart_tx_dma_state = IDLE;
         uart_data_t.tx_read++;
+        /* Prevent access from out-of-bounds */
+        uart_data_t.tx_read = (uart_data_t.tx_read)%UART_TX_BUF_NUM;
         uart_data_t.tx_remainBuffNum++;
         DMA_ClearITPendingBit(DMA1_IT_TC7);
     }

@@ -4,22 +4,22 @@
  * Version            : V1.0.0
  * Date               : 2021/06/06
  * Description        : Main program body.
-*********************************************************************************
-* Copyright (c) 2021 Nanjing Qinheng Microelectronics Co., Ltd.
-* Attention: This software (modified or not) and binary are used for 
-* microcontroller manufactured by Nanjing Qinheng Microelectronics.
-*******************************************************************************/
+ *********************************************************************************
+ * Copyright (c) 2021 Nanjing Qinheng Microelectronics Co., Ltd.
+ * Attention: This software (modified or not) and binary are used for 
+ * microcontroller manufactured by Nanjing Qinheng Microelectronics.
+ *******************************************************************************/
 
 /*
  *@Note
- Hardware flow control mode, master/slave mode, transceiver routine:
- USART1_Tx(PA9)\USART1_Rx(PA10)\USART1_CTS(PA11)\USART1_RTS(PA12)
- This example demonstrates UART1 hardware flow control data sending and receiving,
- connect the UART1 Tx and Rx pins to the serial port tool respectively,
- View through the host computer tool, CTS is connected to VCC, and data cannot be sent,
- but connected to GND, data can be sent normally.
-
-*/
+ *Hardware flow control mode, master/slave mode, transceiver routine:
+ *USART1_Tx(PA9)\USART1_Rx(PA10)\USART1_CTS(PA11)\USART1_RTS(PA12)
+ *This example demonstrates UART1 hardware flow control data sending and receiving,
+ *connect the UART1 Tx and Rx pins to the serial port tool respectively,
+ *View through the host computer tool, CTS is connected to VCC, and data cannot be sent,
+ *but connected to GND, data can be sent normally.
+ *
+ */
 
 #include "debug.h"
 
@@ -114,9 +114,11 @@ void USART1_ReCFG(void)
 int main(void)
 {
     NVIC_PriorityGroupConfig(NVIC_PriorityGroup_2);
+    SystemCoreClockUpdate();
     Delay_Init();
     USART1_ReCFG();
-
+    printf("SystemClk:%d\r\n", SystemCoreClock);
+    printf( "ChipID:%08x\r\n", DBGMCU_GetCHIPID() );
     printf("USART1 Hardware Flow Control TEST\r\n");
 
     while(TxCnt < TxSize)

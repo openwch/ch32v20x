@@ -18,7 +18,6 @@ For details on the selection of engineering chips,
 please refer to the "CH32V20x Evaluation Board Manual" under the CH32V20xEVT\EVT\PUB folder.
  */
 #include "string.h"
-#include "debug.h"
 #include "eth_driver.h"
 #include "HTTPS.h"
 
@@ -27,11 +26,10 @@ u8 IPAddr[4];                                                   //IP address
 u8 GWIPAddr[4];                                                 //Gateway IP address
 u8 IPMask[4];                                                   //subnet mask
 
-u8 DealDataflag = 0;
-u8 SocketId, SocketIdForListen, RecvBuffer[RECE_BUF_LEN];
+u8 SocketId, SocketIdForListen;
+u8 RecvBuffer[RECE_BUF_LEN], HTTPDataBuffer[RECE_BUF_LEN];
 u8 SocketRecvBuf[WCHNET_MAX_SOCKET_NUM][RECE_BUF_LEN];          //socket receive buffer
 u16 DESPORT, SRCPORT;                                           //port
-
 /*********************************************************************
  * @fn      mStopIfError
  *
@@ -61,7 +59,7 @@ void TIM2_Init(void)
 
     RCC_APB1PeriphClockCmd(RCC_APB1Periph_TIM2, ENABLE);
 
-    TIM_TimeBaseStructure.TIM_Period = SystemCoreClock / 1000000 - 1;
+    TIM_TimeBaseStructure.TIM_Period = SystemCoreClock / 1000000;
     TIM_TimeBaseStructure.TIM_Prescaler = WCHNETTIMERPERIOD * 1000 - 1;
     TIM_TimeBaseStructure.TIM_ClockDivision = 0;
     TIM_TimeBaseStructure.TIM_CounterMode = TIM_CounterMode_Up;
@@ -176,12 +174,14 @@ void WCHNET_HandleSockInt(u8 socketid, u8 intstat)
     if (intstat & SINT_STAT_RECV)                                  //receive data
     {
         len = WCHNET_SocketRecvLen(socketid, NULL);
-        printf("WCHNET_SocketRecvLen %d  socket id %d\r\n", len, socketid);
-        if (len) {
-            WCHNET_SocketRecv(socketid, RecvBuffer, &len);
-            DealDataflag = 1;
+        if (SocketInf[socketid].SourPort == HTTP_SERVER_PORT) {    // receive HTTP data
             socket = socketid;
+            WCHNET_SocketRecv(socketid, HTTPDataBuffer, &len);
+            Web_Server();
         }
+        else                                                        //receive the data of the configured socket
+            WCHNET_SocketRecv(socketid, RecvBuffer, &len);
+        printf("socketid:%d Received data length:%d\r\n",socketid, len);
     }
     if (intstat & SINT_STAT_CONNECT)                               //connect successfully
     {
@@ -195,7 +195,7 @@ void WCHNET_HandleSockInt(u8 socketid, u8 intstat)
     if (intstat & SINT_STAT_TIM_OUT)                               //timeout disconnect
     {
         printf("TCP Timeout\r\n");
-        WCHNET_CreateCfgSocket(Port_CfgBuf->mode, Port_CfgBuf->des_ip, DESPORT, SRCPORT);
+        WCHNET_CreateCfgSocket(Port_CfgBuf.mode, Port_CfgBuf.des_ip, DESPORT, SRCPORT);
     }
 }
 
@@ -267,9 +267,12 @@ int main(void)
     USART_Printf_Init(115200);                                                  //USART initialize
     GPIOInit();
     printf("WEB SERVER\r\n");
-    printf("SystemClk:%d\r\n", SystemCoreClock);
+    if((SystemCoreClock == 60000000) || (SystemCoreClock == 120000000))
+        printf("SystemClk:%d\r\n", SystemCoreClock);
+    else
+        printf("Error: Please choose 60MHz and 120MHz clock when using Ethernet!\r\n");
     printf("net version:%x\n", WCHNET_GetVer());
-    if ( WCHNET_LIB_VER != WCHNET_GetVer()) {
+    if (WCHNET_LIB_VER != WCHNET_GetVer()) {
         printf("version error.\n");
     }
     /*After the button(PB6) is pressed, initialize
@@ -281,37 +284,34 @@ int main(void)
             WCHNET_RestoreDefaults();
         }
     }
-    WEB_READ( BASIC_CFG_ADDR, (u8 *)Basic_CfgBuf, BASIC_CFG_LEN );                //Read configuration information
-    WEB_READ( PORT_CFG_ADDR, (u8 *)Port_CfgBuf, PORT_CFG_LEN );
-    WEB_READ( LOGIN_CFG_ADDR, (u8 *)Login_CfgBuf, LOGIN_CFG_LEN );
-    if((Basic_CfgBuf->flag[0] != 0x57) || (Basic_CfgBuf->flag[1] != 0xAB)){       //Determine network configuration information flags
+    WEB_READ( BASIC_CFG_ADDR, (u8 *)&Basic_CfgBuf, BASIC_CFG_LEN );                //Read configuration information
+    WEB_READ( PORT_CFG_ADDR, (u8 *)&Port_CfgBuf, PORT_CFG_LEN );
+    WEB_READ( LOGIN_CFG_ADDR, (u8 *)&Login_CfgBuf, LOGIN_CFG_LEN );
+    if((Basic_CfgBuf.flag[0] != 0x57) || (Basic_CfgBuf.flag[1] != 0xAB)){       //Determine network configuration information flags
         WCHNET_RestoreDefaults();
     }
     else {
-        if((Port_CfgBuf->flag[0] != 0x57) || (Port_CfgBuf->flag[1] != 0xAB)){     //Determine password configuration information
+        if((Port_CfgBuf.flag[0] != 0x57) || (Port_CfgBuf.flag[1] != 0xAB)){     //Determine password configuration information
             WCHNET_RestoreDefaults();
         }
         else {
-            if((Login_CfgBuf->flag[0] != 0x57) || (Login_CfgBuf->flag[1] != 0xAB)) //Determine password configuration information
+            if((Login_CfgBuf.flag[0] != 0x57) || (Login_CfgBuf.flag[1] != 0xAB)) //Determine password configuration information
                 WCHNET_RestoreDefaults();
         }
     }
-    memcpy(MACAddr, Basic_CfgBuf->mac, 6);
-    memcpy(IPAddr, Basic_CfgBuf->ip, 4);
-    memcpy(IPMask, Basic_CfgBuf->mask, 4);
-    memcpy(GWIPAddr, Basic_CfgBuf->gateway, 4);
-    printf("ip:\n");
+    memcpy(MACAddr, Basic_CfgBuf.mac, 6);
+    memcpy(IPAddr, Basic_CfgBuf.ip, 4);
+    memcpy(IPMask, Basic_CfgBuf.mask, 4);
+    memcpy(GWIPAddr, Basic_CfgBuf.gateway, 4);
+    printf("ip: ");
     for (i = 0; i < 4; i++)
         printf("%d.", IPAddr[i]);
     printf("\n");
 
-    WCHNET_GetMacAddr(MACAddr);                                                 //get the chip MAC address
-    printf("mac addr:");
-    for (i = 0; i < 6; i++)
+    printf("mac addr: ");
+    for(i = 0; i < 6; i++) 
         printf("%x ", MACAddr[i]);
     printf("\n");
-    http_request = (st_http_request*) RecvBuffer;
-
     TIM2_Init();
     i = ETH_LibInit(IPAddr, GWIPAddr, IPMask, MACAddr);                         //Ethernet library initialize
     mStopIfError(i);
@@ -319,9 +319,9 @@ int main(void)
         printf("WCHNET_LibInit Success\r\n");
     WCHNET_CreateTcpSocketListen();                                             //Create  TCP Socket
 
-    DESPORT = Port_CfgBuf->des_port[0] * 256 + Port_CfgBuf->des_port[1];
-    SRCPORT = Port_CfgBuf->src_port[0] * 256 + Port_CfgBuf->src_port[1];
-    WCHNET_CreateCfgSocket(Port_CfgBuf->mode, Port_CfgBuf->des_ip, DESPORT, SRCPORT);
+    DESPORT = Port_CfgBuf.des_port[0] * 256 + Port_CfgBuf.des_port[1];
+    SRCPORT = Port_CfgBuf.src_port[0] * 256 + Port_CfgBuf.src_port[1];
+    WCHNET_CreateCfgSocket(Port_CfgBuf.mode, Port_CfgBuf.des_ip, DESPORT, SRCPORT);
     Init_Para_Tab();
 
     while(1)
@@ -335,7 +335,6 @@ int main(void)
         {
             WCHNET_HandleGlobalInt();
         }
-        Web_Server();
     }
 }
 

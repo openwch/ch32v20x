@@ -16,6 +16,7 @@
 #include "HAL.h"
 #include "gattprofile.h"
 #include "peripheral.h"
+#include "app_uart.h"
 
 /*********************************************************************
  * GLOBAL TYPEDEFS
@@ -26,8 +27,6 @@ __attribute__((aligned(4))) u32 MEM_BUF[BLE_MEMHEAP_SIZE / 4];
 uint8_t const MacAddr[6] = {0x84, 0xC2, 0xE4, 0x03, 0x02, 0x02};
 #endif
 
-extern void app_uart_process(void);
-extern void app_uart_init(void);
 
 /*********************************************************************
  * @fn      Main_Circulation
@@ -56,6 +55,7 @@ void Main_Circulation(void)
  *******************************************************************************/
 int main(void)
 {
+    SystemCoreClockUpdate();
     Delay_Init();
 #ifdef DEBUG
     USART_Printf_Init( 115200 );

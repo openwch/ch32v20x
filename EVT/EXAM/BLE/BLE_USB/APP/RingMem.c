@@ -1,6 +1,6 @@
 /********************************** (C) COPYRIGHT *******************************
  * File Name          : RingMem.C
- * Author             : Hikari
+ * Author             : WCH
  * Version            : V1.4
  * Date               : 2019/12/20
  * Description        : 

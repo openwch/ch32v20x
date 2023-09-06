@@ -18,8 +18,36 @@
 /*********************************************************************
  * GLOBAL TYPEDEFS
  */
+
 uint8_t taskID;
 uint8_t TX_DATA[10] = {1, 2, 3, 4, 5, 6, 7, 8, 9, 0};
+
+volatile uint8_t tx_end_flag=0;
+
+/*********************************************************************
+ * @fn      RF_Wait_Tx_End
+ *
+ * @brief   手动模式等待发送完成，自动模式等待发送-接收完成，必须在RAM中等待，等待时可以执行用户代码，但需要注意执行的代码必须运行在RAM中，否则影响发送
+ *
+ * @return  none
+ */
+__attribute__((section(".highcode")))
+__attribute__((noinline))
+void RF_Wait_Tx_End()
+{
+    uint32_t i=0;
+    while(!tx_end_flag)
+    {
+        i++;
+        __NOP();
+        __NOP();
+        // 约5ms超时
+        if(i>(SystemCoreClock/1000))
+        {
+            tx_end_flag = TRUE;
+        }
+    }
+}
 
 /*********************************************************************
  * @fn      RF_2G4StatusCallBack
@@ -40,33 +68,16 @@ void RF_2G4StatusCallBack(uint8_t sta, uint8_t crc, uint8_t *rxBuf)
     {
         case TX_MODE_TX_FINISH:
         {
+            tx_end_flag = TRUE;
             break;
         }
         case TX_MODE_TX_FAIL:
         {
+            tx_end_flag = TRUE;
             break;
         }
         case TX_MODE_RX_DATA:
         {
-            if (crc == 0) {
-                uint8_t i;
-
-                PRINT("tx recv,rssi:%d\n", (int8_t)rxBuf[0]);
-                PRINT("len:%d-", rxBuf[1]);
-
-                for (i = 0; i < rxBuf[1]; i++) {
-                    PRINT("%x ", rxBuf[i + 2]);
-                }
-                PRINT("\n");
-            } else {
-                if (crc & (1<<0)) {
-                    PRINT("crc error\n");
-                }
-
-                if (crc & (1<<1)) {
-                    PRINT("match type error\n");
-                }
-            }
             break;
         }
         case TX_MODE_RX_TIMEOUT: // Timeout is about 200us
@@ -77,7 +88,6 @@ void RF_2G4StatusCallBack(uint8_t sta, uint8_t crc, uint8_t *rxBuf)
         {
             if (crc == 0) {
                 uint8_t i;
-
                 PRINT("rx recv, rssi: %d\n", (int8_t)rxBuf[0]);
                 PRINT("len:%d-", rxBuf[1]);
                 
@@ -99,7 +109,6 @@ void RF_2G4StatusCallBack(uint8_t sta, uint8_t crc, uint8_t *rxBuf)
         }
         case RX_MODE_TX_FINISH:
         {
-            tmos_set_event(taskID, SBP_RF_RF_RX_EVT);
             break;
         }
         case RX_MODE_TX_FAIL:
@@ -107,7 +116,6 @@ void RF_2G4StatusCallBack(uint8_t sta, uint8_t crc, uint8_t *rxBuf)
             break;
         }
     }
-    PRINT("STA: %x\n", sta);
 }
 
 /*********************************************************************
@@ -142,7 +150,11 @@ uint16_t RF_ProcessEvent(uint8_t task_id, uint16_t events)
     if(events & SBP_RF_PERIODIC_EVT)
     {
         RF_Shut();
-        RF_Tx(TX_DATA, 10, 0xFF, 0xFF);
+        tx_end_flag = FALSE;
+        if(!RF_Tx(TX_DATA, 10, 0xFF, 0xFF))
+        {
+            RF_Wait_Tx_End();
+        }
         tmos_start_task(taskID, SBP_RF_PERIODIC_EVT, 1000);
         return events ^ SBP_RF_PERIODIC_EVT;
     }
@@ -161,27 +173,41 @@ uint16_t RF_ProcessEvent(uint8_t task_id, uint16_t events)
 /*********************************************************************
  * @fn      RF_Init
  *
- * @brief   RF initialization
+ * @brief  Frequency(MHz)  channel
+ *              2402      37
+ *              2404      0
+ *                    .
+ *              f =2404+ n*2M
+ *                    .
+ *              2424      10
+ *              2426      38
+ *              2428      11
+ *                    .
+ *              f =2428+ (n-11)*2M
+ *                    .
+ *              2478      36
+ *              2480      39
+ *
  *
  * @return  none
  */
 void RF_Init(void)
 {
     uint8_t    state;
-    rfConfig_t rfConfig;
+    rfConfig_t rf_Config;
 
-    tmos_memset(&rfConfig, 0, sizeof(rfConfig_t));
+    tmos_memset(&rf_Config, 0, sizeof(rfConfig_t));
     taskID = TMOS_ProcessEventRegister(RF_ProcessEvent);
     // 0x55555555 and 0xAAAAAAAA are prohibited (recommended no more than 24 bit reversals, and no more than 6 consecutive 0 or 1)
-    rfConfig.accessAddress = 0x71764129; 
-    rfConfig.CRCInit = 0x555555;
-    rfConfig.Channel = 8;
-    rfConfig.Frequency = 2480000;
+    rf_Config.accessAddress = 0x71764129; 
+    rf_Config.CRCInit = 0x555555;
+    rf_Config.Channel = 39;
+    rf_Config.Frequency = 2480000;
     // Enabling LLE_MODE_EX_CHANNEL means selecting rfConfig.Frequency as the communication frequency
-    rfConfig.LLEMode = LLE_MODE_BASIC | LLE_MODE_EX_CHANNEL; 
-    rfConfig.rfStatusCB = RF_2G4StatusCallBack;
-    rfConfig.RxMaxlen = 251;
-    state = RF_Config(&rfConfig);
+    rf_Config.LLEMode = LLE_MODE_BASIC | LLE_MODE_EX_CHANNEL; 
+    rf_Config.rfStatusCB = RF_2G4StatusCallBack;
+    rf_Config.RxMaxlen = 251;
+    state = RF_Config(&rf_Config);
     PRINT("rf 2.4g init: %x\n", state);
 //    { // RX mode
 //        state = RF_Rx(TX_DATA, 10, 0xFF, 0xFF);
