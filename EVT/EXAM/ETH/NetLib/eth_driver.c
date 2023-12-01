@@ -507,6 +507,8 @@ void ETH_Configuration( uint8_t *macAddr )
     R8_ETH_MACON2 |= RB_ETH_MACON2_TXCRCEN;                             //Hardware padded CRC
     R8_ETH_MACON2 &= ~RB_ETH_MACON2_HFRMEN;                             //Jumbo frames are not received
     R16_ETH_MAMXFL = ETH_MAX_PACKET_SIZE;
+    R8_ETH_ECON2 &= ~(0x07 << 1);
+    R8_ETH_ECON2 |= 5 << 1;
 
     EXTEN->EXTEN_CTR |= EXTEN_ETH_10M_EN;
 }

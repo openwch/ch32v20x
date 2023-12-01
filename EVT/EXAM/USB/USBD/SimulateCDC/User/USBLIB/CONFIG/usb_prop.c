@@ -193,7 +193,7 @@ void USBD_init(void)
 /*******************************************************************************
  * @fn      USBD_Reset
  *
- * @brief   Virtual_Com_Port Mouse reset routine
+ * @brief   USBD reset routine
  *
  * @return  None.
  */
@@ -215,33 +215,33 @@ void USBD_Reset(void)
   _ClearDTOG_RX(ENDP0);
   _ClearDTOG_TX(ENDP0);
 
-    SetEPType(ENDP1, EP_INTERRUPT);
-    SetEPTxStatus(ENDP1, EP_TX_NAK);
-    SetEPTxAddr(ENDP1, ENDP1_TXADDR);
-    SetEPRxStatus(ENDP1, EP_RX_DIS);
-    _ClearDTOG_TX(ENDP1);
-    _ClearDTOG_RX(ENDP1);
+  SetEPType(ENDP1, EP_INTERRUPT);
+  SetEPTxStatus(ENDP1, EP_TX_NAK);
+  SetEPTxAddr(ENDP1, ENDP1_TXADDR);
+  SetEPRxStatus(ENDP1, EP_RX_DIS);
+  _ClearDTOG_TX(ENDP1);
+  _ClearDTOG_RX(ENDP1);
 
-    SetEPType(ENDP2, EP_BULK);
-    SetEPTxStatus(ENDP2, EP_TX_DIS);
-    SetEPRxAddr(ENDP2, ENDP2_RXADDR);
-    SetEPRxCount(ENDP2, DEF_USBD_MAX_PACK_SIZE);
-    SetEPRxStatus(ENDP2,EP_RX_VALID);
-    _ClearDTOG_RX(ENDP2);
-    _ClearDTOG_TX(ENDP2);
+  SetEPType(ENDP2, EP_BULK);
+  SetEPTxStatus(ENDP2, EP_TX_DIS);
+  SetEPRxAddr(ENDP2, ENDP2_RXADDR);
+  SetEPRxCount(ENDP2, DEF_USBD_MAX_PACK_SIZE);
+  SetEPRxStatus(ENDP2,EP_RX_VALID);
+  _ClearDTOG_RX(ENDP2);
+  _ClearDTOG_TX(ENDP2);
 
-    SetEPType(ENDP3, EP_BULK);
-    SetEPTxStatus(ENDP3, EP_TX_NAK);
-    SetEPTxAddr(ENDP3, ENDP3_TXADDR);
-    SetEPRxStatus(ENDP3, EP_RX_DIS);
-    _ClearDTOG_TX(ENDP3);
-    _ClearDTOG_RX(ENDP3);
-    
-    USBD_Endp3_Busy = 0;
+  SetEPType(ENDP3, EP_BULK);
+  SetEPTxStatus(ENDP3, EP_TX_NAK);
+  SetEPTxAddr(ENDP3, ENDP3_TXADDR);
+  SetEPRxStatus(ENDP3, EP_RX_DIS);
+  _ClearDTOG_TX(ENDP3);
+  _ClearDTOG_RX(ENDP3);
+  
+  SetDeviceAddress(0);
 
-    SetDeviceAddress(0);
+  USBD_Endp3_Busy = 0;
 
-    bDeviceState = ATTACHED;
+  bDeviceState = ATTACHED;
 }
 
 /*******************************************************************************

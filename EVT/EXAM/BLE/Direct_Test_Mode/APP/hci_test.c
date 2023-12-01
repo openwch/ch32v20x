@@ -12,6 +12,7 @@
 
 #include "hci_test.h"
 #include "config.h"
+#include "uart.h"
 
 static uint16_t _opcode;
 static uint8_t hci_pool[100];

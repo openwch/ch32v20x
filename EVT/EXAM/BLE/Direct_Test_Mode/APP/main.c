@@ -12,10 +12,12 @@
 
 /******************************************************************************/
 /* Header file contains */
+#include "debug.h"
 #include "CONFIG.h"
 #include "HAL.h"
 #include "test_dtm.h"
 #include "uart.h"
+#include "ch32v20x_usbfs_device.h"
 
 /*********************************************************************
  * GLOBAL TYPEDEFS
@@ -54,13 +56,19 @@ int main(void)
 {
     SystemCoreClockUpdate();
     Delay_Init();
-#ifdef DEBUG
+#ifdef DEBUG                         // 默认Uart1打印 Uart2 Test
     USART_Printf_Init( 115200 );
 #endif
     PRINT("%s\n", VER_LIB);
     WCHBLE_Init();
     HAL_Init();
     uart_task_init();
+#if USB_UartEnable == 1              // 默认使能USB模拟串口
+    /* Usb Init */
+    USBFS_RCC_Init();
+    USBFS_Device_Init( ENABLE );
+    USB_Task_Init();
+#endif
     test_dtm_init();
     GAPRole_BroadcasterInit();
     Main_Circulation();

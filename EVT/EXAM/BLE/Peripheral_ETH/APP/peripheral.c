@@ -179,7 +179,8 @@ static gapRolesBroadcasterCBs_t Broadcaster_BroadcasterCBs = {
 // GAP Bond Manager Callbacks
 static gapBondCBs_t Peripheral_BondMgrCBs = {
     NULL, // Passcode callback (not used by application)
-    NULL  // Pairing / Bonding state Callback (not used by application)
+    NULL, // Pairing / Bonding state Callback (not used by application)
+    NULL  // oob callback
 };
 
 // Simple GATT Profile Callbacks
@@ -223,7 +224,7 @@ void Peripheral_Init()
     }
 
     // Set the GAP Characteristics
-    GGS_SetParameter(GGS_DEVICE_NAME_ATT, GAP_DEVICE_NAME_LEN, attDeviceName);
+    GGS_SetParameter(GGS_DEVICE_NAME_ATT, sizeof(attDeviceName), attDeviceName);
 
     {
         uint16_t advInt = DEFAULT_ADVERTISING_INTERVAL;
@@ -478,7 +479,7 @@ static void Peripheral_LinkEstablished(gapRoleEvent_t *pEvent)
         peripheralConnList.connInterval = event->connInterval;
         peripheralConnList.connSlaveLatency = event->connLatency;
         peripheralConnList.connTimeout = event->connTimeout;
-
+        peripheralMTU = ATT_MTU_SIZE;
         // Set timer for periodic event
         tmos_start_task(Peripheral_TaskID, SBP_PERIODIC_EVT, SBP_PERIODIC_EVT_PERIOD);
 

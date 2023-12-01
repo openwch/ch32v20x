@@ -215,39 +215,41 @@ void USBD_Reset(void)
   _ClearDTOG_TX(ENDP0);
 
 
-    SetEPType(ENDP1, EP_BULK);
-    SetEPTxStatus(ENDP1, EP_TX_DIS);
-    SetEPRxAddr(ENDP1, ENDP1_RXADDR);
-    SetEPRxCount(ENDP1, DEF_USBD_MAX_PACK_SIZE);
-    SetEPRxStatus(ENDP1, EP_RX_VALID );
-    _ClearDTOG_TX(ENDP1);
-    _ClearDTOG_RX(ENDP1);
+  SetEPType(ENDP1, EP_BULK);
+  SetEPTxStatus(ENDP1, EP_TX_DIS);
+  SetEPRxAddr(ENDP1, ENDP1_RXADDR);
+  SetEPRxCount(ENDP1, DEF_USBD_MAX_PACK_SIZE);
+  SetEPRxStatus(ENDP1, EP_RX_VALID );
+  _ClearDTOG_TX(ENDP1);
+  _ClearDTOG_RX(ENDP1);
 
-    SetEPType(ENDP2, EP_BULK);
-    SetEPTxStatus(ENDP2, EP_TX_NAK);
-    SetEPTxAddr(ENDP2, ENDP2_TXADDR);
-    SetEPRxStatus(ENDP2,EP_RX_DIS);
-    _ClearDTOG_RX(ENDP2);
-    _ClearDTOG_TX(ENDP2);
+  SetEPType(ENDP2, EP_BULK);
+  SetEPTxStatus(ENDP2, EP_TX_NAK);
+  SetEPTxAddr(ENDP2, ENDP2_TXADDR);
+  SetEPRxStatus(ENDP2,EP_RX_DIS);
+  _ClearDTOG_RX(ENDP2);
+  _ClearDTOG_TX(ENDP2);
 
-    SetEPType(ENDP3, EP_BULK);
-    SetEPTxStatus(ENDP3, EP_TX_DIS);
-    SetEPRxAddr(ENDP3, ENDP3_RXADDR);
-    SetEPRxCount(ENDP3, DEF_USBD_MAX_PACK_SIZE);
-    SetEPRxStatus(ENDP3, EP_RX_VALID);
-    _ClearDTOG_TX(ENDP3);
-    _ClearDTOG_RX(ENDP3);
+  SetEPType(ENDP3, EP_BULK);
+  SetEPTxStatus(ENDP3, EP_TX_DIS);
+  SetEPRxAddr(ENDP3, ENDP3_RXADDR);
+  SetEPRxCount(ENDP3, DEF_USBD_MAX_PACK_SIZE);
+  SetEPRxStatus(ENDP3, EP_RX_VALID);
+  _ClearDTOG_TX(ENDP3);
+  _ClearDTOG_RX(ENDP3);
 
-    SetEPType(ENDP4, EP_BULK);
-    SetEPTxStatus(ENDP4, EP_TX_NAK);
-    SetEPTxAddr(ENDP4, ENDP4_TXADDR);
-    SetEPRxStatus(ENDP4,EP_RX_DIS);
-    _ClearDTOG_RX(ENDP4);
-    _ClearDTOG_TX(ENDP4);
+  SetEPType(ENDP4, EP_BULK);
+  SetEPTxStatus(ENDP4, EP_TX_NAK);
+  SetEPTxAddr(ENDP4, ENDP4_TXADDR);
+  SetEPRxStatus(ENDP4,EP_RX_DIS);
+  _ClearDTOG_RX(ENDP4);
+  _ClearDTOG_TX(ENDP4);
 
-    SetDeviceAddress(0);
+  SetDeviceAddress(0);
 
-    bDeviceState = ATTACHED;
+  USBD_Endp2_Busy = 0;
+
+  bDeviceState = ATTACHED;
 }
 
 /*******************************************************************************

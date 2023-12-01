@@ -1,9 +1,9 @@
 /********************************** (C) COPYRIGHT  *******************************
  * File Name          : core_riscv.h
  * Author             : WCH
- * Version            : V1.0.0
- * Date               : 2021/06/06
- * Description        : RISC-V Core Peripheral Access Layer Header File for CH32V20x
+ * Version            : V1.0.1
+ * Date               : 2023/11/11
+ * Description        : RISC-V V4 Core Peripheral Access Layer Header File for CH32V20x
 *********************************************************************************
 * Copyright (c) 2021 Nanjing Qinheng Microelectronics Co., Ltd.
 * Attention: This software (modified or not) and binary are used for 
@@ -129,7 +129,7 @@ typedef struct
  */
 __attribute__( ( always_inline ) ) RV_STATIC_INLINE void __enable_irq()
 {
-  __asm volatile ("csrw 0x800, %0" : : "r" (0x6088) );
+  __asm volatile ("csrs 0x800, %0" : : "r" (0x88) );
 }
 
 /*********************************************************************
@@ -141,7 +141,7 @@ __attribute__( ( always_inline ) ) RV_STATIC_INLINE void __enable_irq()
  */
 __attribute__( ( always_inline ) ) RV_STATIC_INLINE void __disable_irq()
 {
-  __asm volatile ("csrw 0x800, %0" : : "r" (0x6000) );
+  __asm volatile ("csrc 0x800, %0" : : "r" (0x88) );
 }
 
 /*********************************************************************
@@ -159,7 +159,7 @@ __attribute__( ( always_inline ) ) RV_STATIC_INLINE void __NOP()
 /*********************************************************************
  * @fn      NVIC_EnableIRQ
  *
- * @brief   Disable Interrupt
+ * @brief   Enable Interrupt
  *
  * @param   IRQn - Interrupt Numbers
  *
@@ -263,9 +263,13 @@ __attribute__( ( always_inline ) ) RV_STATIC_INLINE uint32_t NVIC_GetActive(IRQn
  * @brief   Set Interrupt Priority
  *
  * @param   IRQn - Interrupt Numbers
- *          priority - bit7 - Pre-emption Priority
- *                     bit[6:5] - Subpriority
- *
+ *          interrupt nesting enable(CSR-0x804 bit1 = 1 bit[3:2] = 1)
+ *            priority - bit[7] - Preemption Priority
+ *                       bit[6:4] - Sub priority
+ *                       bit[3:0] - Reserve
+ *          interrupt nesting disable(CSR-0x804 bit1 = 0 bit[3:2] = 0)
+ *            priority - bit[7:4] - Sub priority
+ *                       bit[3:0] - Reserve
  * @return  none
  */
 __attribute__( ( always_inline ) ) RV_STATIC_INLINE void NVIC_SetPriority(IRQn_Type IRQn, uint8_t priority)
@@ -295,11 +299,7 @@ __attribute__( ( always_inline ) ) RV_STATIC_INLINE void __WFI(void)
  */
 __attribute__( ( always_inline ) ) RV_STATIC_INLINE void _SEV(void)
 {
-  uint32_t t;
-
-  t = NVIC->SCTLR;
-  NVIC->SCTLR |= (1<<3)|(1<<5);
-  NVIC->SCTLR = (NVIC->SCTLR & ~(1<<5)) | ( t & (1<<5));
+  NVIC->SCTLR |= (1<<5);
 }
 
 /*********************************************************************
@@ -311,8 +311,11 @@ __attribute__( ( always_inline ) ) RV_STATIC_INLINE void _SEV(void)
  */
 __attribute__( ( always_inline ) ) RV_STATIC_INLINE void _WFE(void)
 {
-  NVIC->SCTLR |= (1<<3);
-  asm volatile ("wfi");
+    uint32_t tmp= NVIC->SCTLR;
+    tmp &= ~(1<<5);
+    tmp |= (1<<3);
+    NVIC->SCTLR = tmp;
+    asm volatile ("wfi");
 }
 
 /*********************************************************************
@@ -327,6 +330,10 @@ __attribute__( ( always_inline ) ) RV_STATIC_INLINE void __WFE(void)
   _SEV();
   _WFE();
   _WFE();
+  if(*(vu32*)(0x40023800) & (1<<6))
+  {
+    NVIC->SCTLR |= (1<<5);
+  }
 }
 
 /*********************************************************************
@@ -341,7 +348,8 @@ __attribute__( ( always_inline ) ) RV_STATIC_INLINE void __WFE(void)
  *
  * @return  none
  */
-__attribute__( ( always_inline ) ) RV_STATIC_INLINE void SetVTFIRQ(uint32_t addr, IRQn_Type IRQn, uint8_t num, FunctionalState NewState){
+__attribute__( ( always_inline ) ) RV_STATIC_INLINE void SetVTFIRQ(uint32_t addr, IRQn_Type IRQn, uint8_t num, FunctionalState NewState)
+{
   if(num > 3)  return ;
 
   if (NewState != DISABLE)
@@ -349,7 +357,8 @@ __attribute__( ( always_inline ) ) RV_STATIC_INLINE void SetVTFIRQ(uint32_t addr
       NVIC->VTFIDR[num] = IRQn;
       NVIC->VTFADDR[num] = ((addr&0xFFFFFFFE)|0x1);
   }
-  else{
+  else
+  {
       NVIC->VTFIDR[num] = IRQn;
       NVIC->VTFADDR[num] = ((addr&0xFFFFFFFE)&(~0x1));
   }

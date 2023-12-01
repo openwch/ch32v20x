@@ -27,7 +27,7 @@
  */
 
 // Maximum number of scan responses
-#define DEFAULT_MAX_SCAN_RES             100
+#define DEFAULT_MAX_SCAN_RES             50
 
 // Scan duration in (625us)
 #define DEFAULT_SCAN_DURATION            4800

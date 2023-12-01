@@ -81,7 +81,6 @@ void USBFS_RCC_Init(void)
  */
 void USBFS_Device_Endp_Init( void )
 {
-    uint8_t i;
 
     USBOTG_FS->UEP4_1_MOD = USBFS_UEP4_TX_EN|USBFS_UEP1_RX_EN;
     USBOTG_FS->UEP2_3_MOD = USBFS_UEP2_TX_EN|USBFS_UEP3_RX_EN;
@@ -113,7 +112,7 @@ void USBFS_Device_Endp_Init( void )
     USBOTG_FS->UEP6_TX_CTRL = USBFS_UEP_T_RES_NAK;
 
     /* Clear End-points Busy Status */
-    for( i=0; i<DEF_UEP_NUM; i++ )
+    for(uint8_t i=0; i<DEF_UEP_NUM; i++ )
     {
         USBFS_Endp_Busy[ i ] = 0;
     }
@@ -409,7 +408,7 @@ void USBHD_IRQHandler( void )
                                 USBFS_EP6_Buf[i] = ~USBFS_EP5_Buf[i];
                             }
                             USBOTG_FS->UEP6_TX_LEN = len;
-                            USBOTG_FS->UEP6_TX_CTRL = (USBOTG_FS->UEP4_TX_CTRL & ~USBFS_UEP_T_RES_MASK) | USBFS_UEP_T_RES_ACK;
+                            USBOTG_FS->UEP6_TX_CTRL = (USBOTG_FS->UEP6_TX_CTRL & ~USBFS_UEP_T_RES_MASK) | USBFS_UEP_T_RES_ACK;
                         }
                         break;
                 }
@@ -800,6 +799,11 @@ void USBHD_IRQHandler( void )
     else if( intflag & USBFS_UIF_BUS_RST )
     {
         /* usb reset interrupt processing */
+        USBFS_DevConfig = 0;
+        USBFS_DevAddr = 0;
+        USBFS_DevSleepStatus = 0;
+        USBFS_DevEnumStatus = 0;
+
         USBOTG_FS->DEV_ADDR = 0;
         USBFS_Device_Endp_Init( );
         USBOTG_FS->INT_FG = USBFS_UIF_BUS_RST;

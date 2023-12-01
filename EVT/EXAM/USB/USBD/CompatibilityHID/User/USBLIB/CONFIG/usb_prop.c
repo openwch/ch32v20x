@@ -24,6 +24,8 @@ __attribute__ ((aligned(4))) uint8_t Data_Buffer[DEF_RING_BUFFER_SIZE];
 
 uint8_t Request = 0;
 
+
+extern uint8_t USBD_Endp2_Busy;
 volatile uint8_t HID_Idle_Value[2] = {0};
 volatile uint8_t HID_Protocol_Value[2] = {0};
 
@@ -237,24 +239,26 @@ void USBD_Reset(void)
   _ClearDTOG_RX(ENDP0);
   _ClearDTOG_TX(ENDP0);
 
-    SetEPType(ENDP1, EP_INTERRUPT);
-    SetEPTxStatus(ENDP1, EP_TX_DIS);
-    SetEPRxAddr(ENDP1, ENDP1_RXADDR);
-    SetEPRxCount(ENDP1, DEF_USBD_MAX_PACK_SIZE);
-    SetEPRxStatus(ENDP1, EP_RX_VALID );
-    _ClearDTOG_TX(ENDP1);
-    _ClearDTOG_RX(ENDP1);
+  SetEPType(ENDP1, EP_INTERRUPT);
+  SetEPTxStatus(ENDP1, EP_TX_DIS);
+  SetEPRxAddr(ENDP1, ENDP1_RXADDR);
+  SetEPRxCount(ENDP1, DEF_USBD_MAX_PACK_SIZE);
+  SetEPRxStatus(ENDP1, EP_RX_VALID );
+  _ClearDTOG_TX(ENDP1);
+  _ClearDTOG_RX(ENDP1);
 
-    SetEPType(ENDP2, EP_INTERRUPT);
-    SetEPTxAddr(ENDP2, ENDP2_TXADDR);
-    SetEPTxStatus(ENDP2, EP_TX_NAK);
-    SetEPRxStatus(ENDP2,EP_RX_DIS);
-    _ClearDTOG_TX(ENDP2);
-    _ClearDTOG_RX(ENDP2);
-    
-    SetDeviceAddress(0);
+  SetEPType(ENDP2, EP_INTERRUPT);
+  SetEPTxAddr(ENDP2, ENDP2_TXADDR);
+  SetEPTxStatus(ENDP2, EP_TX_NAK);
+  SetEPRxStatus(ENDP2,EP_RX_DIS);
+  _ClearDTOG_TX(ENDP2);
+  _ClearDTOG_RX(ENDP2);
+  
+  SetDeviceAddress(0);
 
-    bDeviceState = ATTACHED;
+  USBD_Endp2_Busy = 0;
+
+  bDeviceState = ATTACHED;
 }
 
 /*******************************************************************************

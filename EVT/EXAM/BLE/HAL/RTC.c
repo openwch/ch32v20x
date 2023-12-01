@@ -56,7 +56,7 @@ void HAL_TimeInit(void)
 {
     uint16_t temp=0;
     uint8_t state=0;
-    bleClockConfig_t  conf;
+    bleClockConfig_t  conf={0};
 
     RCC_APB1PeriphClockCmd(RCC_APB1Periph_PWR|RCC_APB1Periph_BKP, ENABLE);
     PWR_BackupAccessCmd(ENABLE);

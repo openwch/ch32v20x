@@ -54,6 +54,7 @@ void ADC_Function_Init(void)
     ADC_InitStructure.ADC_NbrOfChannel = 1;
     ADC_Init(ADC1, &ADC_InitStructure);
 
+    ADC_InjectedSequencerLengthConfig(ADC1, 1);
     ADC_RegularChannelConfig(ADC1, ADC_Channel_1, 1, ADC_SampleTime_239Cycles5);
     ADC_InjectedChannelConfig(ADC1, ADC_Channel_3, 1, ADC_SampleTime_239Cycles5);
     ADC_AutoInjectedConvCmd(ADC1, ENABLE);
@@ -119,7 +120,7 @@ u16 Get_ADC_Val(u8 ch)
  */
 u16 Get_ConversionVal(s16 val)
 {
-    if((val + Calibrattion_Val) < 0)
+    if((val + Calibrattion_Val) < 0||val==0)
         return 0;
     if((Calibrattion_Val + val) > 4095||val==4095)
         return 4095;

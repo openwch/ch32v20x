@@ -185,40 +185,40 @@ void USBD_init(void)
  */
 void USBD_Reset(void)
 {
-    pInformation->Current_Configuration = 0;
-    pInformation->Current_Feature = USBD_ConfigDescriptor[7];
-    pInformation->Current_Interface = 0;
+  pInformation->Current_Configuration = 0;
+  pInformation->Current_Feature = USBD_ConfigDescriptor[7];
+  pInformation->Current_Interface = 0;
 
-    SetBTABLE(BTABLE_ADDRESS);
+  SetBTABLE(BTABLE_ADDRESS);
 
-    SetEPType(ENDP0, EP_CONTROL);
-    SetEPTxStatus(ENDP0, EP_TX_STALL);
-    SetEPRxAddr(ENDP0, ENDP0_RXADDR);
-    SetEPTxAddr(ENDP0, ENDP0_TXADDR);
-    Clear_Status_Out(ENDP0);
-    SetEPRxCount(ENDP0, Device_Property.MaxPacketSize);
-    SetEPRxValid(ENDP0);
-    _ClearDTOG_RX(ENDP0);
-    _ClearDTOG_TX(ENDP0);
+  SetEPType(ENDP0, EP_CONTROL);
+  SetEPTxStatus(ENDP0, EP_TX_STALL);
+  SetEPRxAddr(ENDP0, ENDP0_RXADDR);
+  SetEPTxAddr(ENDP0, ENDP0_TXADDR);
+  Clear_Status_Out(ENDP0);
+  SetEPRxCount(ENDP0, Device_Property.MaxPacketSize);
+  SetEPRxValid(ENDP0);
+  _ClearDTOG_RX(ENDP0);
+  _ClearDTOG_TX(ENDP0);
 
-    SetEPType(ENDP2, EP_BULK);
-    SetEPTxAddr(ENDP2, ENDP2_TXADDR);
-    SetEPTxStatus(ENDP2, EP_TX_NAK);
-    SetEPRxStatus(ENDP2,EP_RX_DIS);
-    _ClearDTOG_TX(ENDP2);
-    _ClearDTOG_RX(ENDP2);
+  SetEPType(ENDP2, EP_BULK);
+  SetEPTxAddr(ENDP2, ENDP2_TXADDR);
+  SetEPTxStatus(ENDP2, EP_TX_NAK);
+  SetEPRxStatus(ENDP2,EP_RX_DIS);
+  _ClearDTOG_TX(ENDP2);
+  _ClearDTOG_RX(ENDP2);
 
-    SetEPType(ENDP3, EP_BULK);
-    SetEPTxStatus(ENDP3, EP_TX_DIS);
-    SetEPRxAddr(ENDP3, ENDP3_RXADDR);
-    SetEPRxCount(ENDP3, DEF_USBD_MAX_PACK_SIZE);
-    SetEPRxStatus(ENDP3, EP_RX_VALID );
-    _ClearDTOG_TX(ENDP3);
-    _ClearDTOG_RX(ENDP3);
-    
-    SetDeviceAddress(0);
+  SetEPType(ENDP3, EP_BULK);
+  SetEPTxStatus(ENDP3, EP_TX_DIS);
+  SetEPRxAddr(ENDP3, ENDP3_RXADDR);
+  SetEPRxCount(ENDP3, DEF_USBD_MAX_PACK_SIZE);
+  SetEPRxStatus(ENDP3, EP_RX_VALID );
+  _ClearDTOG_TX(ENDP3);
+  _ClearDTOG_RX(ENDP3);
+  
+  SetDeviceAddress(0);
 
-    bDeviceState = ATTACHED;
+  bDeviceState = ATTACHED;
 }
 
 /*******************************************************************************
