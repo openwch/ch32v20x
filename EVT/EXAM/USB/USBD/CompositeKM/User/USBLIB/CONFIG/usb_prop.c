@@ -226,21 +226,24 @@ void USBD_Reset(void)
   _ClearDTOG_RX(ENDP0);
   _ClearDTOG_TX(ENDP0);
 
-    SetEPType(ENDP1, EP_INTERRUPT);
-    SetEPTxAddr(ENDP1, ENDP1_TXADDR);
-    SetEPTxStatus(ENDP1, EP_TX_NAK);
-    _ClearDTOG_TX(ENDP1);
-    _ClearDTOG_RX(ENDP1);
+  SetEPType(ENDP1, EP_INTERRUPT);
+  SetEPTxAddr(ENDP1, ENDP1_TXADDR);
+  SetEPTxStatus(ENDP1, EP_TX_NAK);
+  _ClearDTOG_TX(ENDP1);
+  _ClearDTOG_RX(ENDP1);
 
-    SetEPType(ENDP2, EP_INTERRUPT);
-    SetEPTxAddr(ENDP2, ENDP2_TXADDR);
-    SetEPTxStatus(ENDP2, EP_TX_NAK);
-    _ClearDTOG_TX(ENDP2);
-    _ClearDTOG_RX(ENDP2);
-    
-    SetDeviceAddress(0);
+  SetEPType(ENDP2, EP_INTERRUPT);
+  SetEPTxAddr(ENDP2, ENDP2_TXADDR);
+  SetEPTxStatus(ENDP2, EP_TX_NAK);
+  _ClearDTOG_TX(ENDP2);
+  _ClearDTOG_RX(ENDP2);
+  
+  SetDeviceAddress(0);
 
-    bDeviceState = ATTACHED;
+  USBD_Endp1_Busy = 0;
+  USBD_Endp2_Busy = 0;
+
+  bDeviceState = ATTACHED;
 }
 
 /*******************************************************************************

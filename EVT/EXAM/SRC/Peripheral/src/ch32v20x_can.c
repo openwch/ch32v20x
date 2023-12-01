@@ -231,7 +231,7 @@ void CAN_FilterInit(CAN_FilterInitTypeDef* CAN_FilterInitStruct)
 				(0x0000FFFF & (uint32_t)CAN_FilterInitStruct->CAN_FilterMaskIdLow);
 	}
 
-#if defined (CH32V20x_D6)||defined (CH32V20x_D8)
+#if defined (CH32V20x_D6)
 	if(((*(uint32_t *) 0x40022030) & 0x0F000000) == 0)
 	{
 		uint32_t i;
@@ -243,6 +243,27 @@ void CAN_FilterInit(CAN_FilterInitTypeDef* CAN_FilterInitStruct)
 	}
 
 #endif
+
+
+#if defined (CH32V20x_D8)
+	RCC->AHBPCENR |= (1<<17);
+	*(vu32*)0x400250A0 = 0x55aaaa55;
+
+	if(*(vu32*)0x400250A0 != 0x55aaaa55)
+	{
+        uint32_t i;
+
+        for(i = 0; i < 64; i++)
+        {
+            *(__IO uint16_t *)(0x40006000 + 512 + 4 * i) = *(__IO uint16_t *)(0x40006000 + 768 + 4 * i);
+        }
+	}
+
+	RCC->AHBPCENR &= ~(1<<17);
+
+#endif
+
+
 
 	if (CAN_FilterInitStruct->CAN_FilterMode == CAN_FilterMode_IdMask)
 	{

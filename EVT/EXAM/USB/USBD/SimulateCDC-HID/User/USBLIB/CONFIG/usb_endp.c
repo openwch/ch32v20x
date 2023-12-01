@@ -22,7 +22,7 @@ uint8_t USBD_Endp3_Busy;
 uint16_t USB_Rx_Cnt = 0; 
 uint8_t HID_Buffer[DEF_USBD_MAX_PACK_SIZE];
 /*********************************************************************
- * @fn      EP2_IN_Callback
+ * @fn      EP1_IN_Callback
  *
  * @brief  Endpoint 1 IN.
  *

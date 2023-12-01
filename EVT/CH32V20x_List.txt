@@ -1,5 +1,5 @@
 
-南京沁恒微电子股份有限公司 2023.09
+南京沁恒微电子股份有限公司 2023.10
 最新资料请到我们的网站上查询
 https://wch.cn
 
@@ -36,6 +36,11 @@ https://wch.cn
   |      |      |      |      |-- DualADC_SlowInterleaved：双ADC慢速交叉采样例程 ——仅适用于CH32V20x_D6
   |      |      |      |      |-- ExtLines_Trigger：外部触发ADC转换例程
   |      |      |      |      |-- Internal_Temperature：内部温度传感器例程 
+  |      |      |      |-- APPLICATION
+  |      |      |      |      |-- USBPD
+  |      |      |      |      |      |-- I2C_OP_CH223：通过I2C操作CH223例程 ——仅适用于CH32V20x_D8
+  |      |      |      |      |-- WS2812_LED
+  |      |      |      |      |      |-- WS2812_LED：通过SPI\PWM操作WS2812例程 
   |      |      |      |-- BLE ——仅适用于CH32V20x_D8W  
   |      |      |      |      |-- BackupUpgrade_IAP：备份无线升级IAP例程，检测当前代码标志，判断是否搬运备份区代码到用户区并运行用户区代码 
   |      |      |      |      |-- BackupUpgrade_OTA：备份无线升级用户例程，外设从机例程基础上添加OTA功能，可将升级固件保存到备份区后跳转IAP程序进行升级  
@@ -92,12 +97,14 @@ https://wch.cn
   |      |      |      |      |      |-- MESH_LIB：MESH协议栈库文件及其头文件
   |      |      |      |      |      |-- 沁恒MESH APP管理配网应用手册.pdf
   |      |      |      |      |      |-- 沁恒低功耗蓝牙MESH软件开发参考手册.pdf
-  |      |      |      |-- BKP：BKP例程
+  |      |      |      |-- BKP
+  |      |      |      |      |-- BKP：BKP例程  
   |      |      |      |-- CAN  ——仅适用于CH32V20x_D6-CH32V20x_D8W
   |      |      |      |      |-- Networking：CAN例程：正常模式，标准帧和扩展帧数据收发
   |      |      |      |      |-- TestMode：测试模式，包括静默模式、回环模式、回环静默模式
   |      |      |      |      |-- Time-triggered：时间触发通信模式   
-  |      |      |      |-- CRC：CRC例程  
+  |      |      |      |-- CRC
+  |      |      |      |      |-- CRC_Calculation：CRC例程 
   |      |      |      |-- DMA
   |      |      |      |      |-- DMA_MEM2MEM：储存器到储存器模式例程
   |      |      |      |      |-- DMA_MEM2PERIP：储存器到外设模式、外设到储存器模式例程见各外设子例程
@@ -117,24 +124,31 @@ https://wch.cn
   |      |      |      |      |-- UdpClient：演示Udp Client接收数据并回传
   |      |      |      |      |-- UdpServer：演示Udp Server接收数据并回传
   |      |      |      |      |-- WebServer： 演示通过Web浏览器配置WCHNET芯片的功能，WCHNET芯片内置web服务器 ，通过网页可以实现WCHNET的网络参数配置，以及密码管理  
-  |      |      |      |-- EXTI：外部中断线例程
-  |      |      |      |-- FLASH：FLASH的擦/读/写，以及快速编程
+  |      |      |      |-- EXTI
+  |      |      |      |      |-- EXTI0：外部中断线例程 
+  |      |      |      |-- FLASH
+  |      |      |      |      |-- FLASH_Program：FLASH的擦/读/写，以及快速编程  
   |      |      |      |-- FreeRTOS
   |      |      |      |      |-- FreeRTOS_Core：FreeRTOS移植例程
-  |      |      |      |-- GPIO：GPIO例程
-  |      |      |      |-- HarmonyOS：HarmonyOS移植例程  
+  |      |      |      |-- GPIO
+  |      |      |      |      |-- GPIO_Toggle：GPIO例程 
+  |      |      |      |-- HarmonyOS
+  |      |      |      |      |-- LiteOS_m：HarmonyOS移植例程
   |      |      |      |-- I2C
   |      |      |      |      |-- I2C_7bit_Mode：7位地址模式，Master/Slave 模式收发例程
   |      |      |      |      |-- I2C_10bit_Mode：10位地址模式，Master/Slave 模式收发例程
   |      |      |      |      |-- I2C_DMA：I2C使用DMA，Master/Slave 模式收发例程
   |      |      |      |      |-- I2C_EEPROM：I2C接口操作EEPROM外设例程
-  |      |      |      |      |-- I2C_PEC：使用PEC错误校验，Master/Slave 模式收发例程  
+  |      |      |      |      |-- I2C_PEC：使用PEC错误校验，Master/Slave 模式收发例程 
+  |      |      |      |      |-- I2C_7bit_Interrupt_Mode：使用中断进行收发例程 
   |      |      |      |-- INT
   |      |      |      |      |-- Interrupt_VTF：使用VTF IRQ中断例程  
   |      |      |      |-- IAP：IAP升级例程-内置Hex转Bin工具和IAP升级工具  
   |      |      |      |      |-- USB_UART：USB+UART IAP例程   
-  |      |      |      |-- IWDG：独立看门狗例程
-  |      |      |      |-- OPA：OPA4作电压跟随器输出例程
+  |      |      |      |-- IWDG
+  |      |      |      |      |-- IWDG：独立看门狗例程  
+  |      |      |      |-- OPA
+  |      |      |      |      |-- OPA_Voltage_Follower：OPA4作电压跟随器输出例程 
   |      |      |      |-- PWR
   |      |      |      |      |-- Sleep_Mode：低功耗，睡眠模式例程
   |      |      |      |      |-- Standby_Mode：低功耗，待机模式例程
@@ -145,8 +159,10 @@ https://wch.cn
   |      |      |      |      |-- Get_CLK：获取system-HCLK-AHB1-AHB2时钟例程   
   |      |      |      |      |-- MCO：MCO引脚时钟输出例程
   |      |      |      |      |-- HSI_PLL_Source：HSI或HSI/2作为PLL输入时钟例程   
-  |      |      |      |-- RT-Thread：RT-Thread移植例程 
-  |      |      |      |-- RTC：日历例程  
+  |      |      |      |-- RT-Thread 
+  |      |      |      |      |-- RT_Thread_Core：RT-Thread移植例程  
+  |      |      |      |-- RTC
+  |      |      |      |      |-- RTC_Calendar：日历例程
   |      |      |      |-- SPI
   |      |      |      |      |-- 1Lines_half-duplex：单线半双工模式，Master/Slave 模式数据收发
   |      |      |      |      |-- 2Lines_FullDuplex：双线全双工模式，Master/Slave 模式数据收发
@@ -154,9 +170,13 @@ https://wch.cn
   |      |      |      |      |-- SPI_CRC：使用CRC错误校验，Master/Slave 模式收发例程
   |      |      |      |      |-- SPI_DMA：SPI使用DMA，Master/Slave 模式收发例程
   |      |      |      |      |-- SPI_FLASH：SPI接口操作FLASH外设例程
-  |      |      |      |-- TencentOS：TencentOS移植例程 
-  |      |      |      |-- SDI_Printf：调试口打印例程       
-  |      |      |      |-- SYSTICK：滴答定时器例程       
+  |      |      |      |      |-- SPI_LCD：SPI接口操作FLASH和LCD例程
+  |      |      |      |-- TencentOS 
+  |      |      |      |      |-- TencentOS：TencentOS移植例程 
+  |      |      |      |-- SDI_Printf       
+  |      |      |      |      |-- SDI_Printf：调试口打印例程       
+  |      |      |      |-- SYSTICK 
+  |      |      |      |      |-- SYSTICK_Interrupt：滴答定时器例程       
   |      |      |      |-- TIM
   |      |      |      |      |-- Clock_Select：时钟源选择例程
   |      |      |      |      |-- ComplementaryOutput_DeadTime：互补输出和死区插入模式例程
@@ -168,7 +188,8 @@ https://wch.cn
   |      |      |      |      |-- Synchro_ExtTrigger：从模式例程，包括复位模式、门控模式、触发模式
   |      |      |      |      |-- Synchro_Timer：定时器同步模式
   |      |      |      |      |-- TIM_DMA：定时器使用DMA例程
-  |      |      |      |-- TOUCHKEY：TouchKey检测例程 
+  |      |      |      |-- TOUCHKEY
+  |      |      |      |      |-- TKey：TouchKey检测例程  
   |      |      |      |-- USART
   |      |      |      |      |-- USART_DMA：USART使用DMA，Master/Slave 模式收发例程
   |      |      |      |      |-- USART_HalfDuplex：单线半双工模式，Master/Slave 模式收发例程
@@ -178,6 +199,7 @@ https://wch.cn
   |      |      |      |      |-- USART_Polling：轮询收发模式，Master/Slave 模式收发例程
   |      |      |      |      |-- USART_Printf：串口打印调试例程
   |      |      |      |      |-- USART_SynchronousMode：同步模式，Master/Slave 模式收发例程
+  |      |      |      |      |-- USART_Idle_Recv：串口使用DMA进行不定长接收例程
   |      |      |      |-- USB
   |      |      |      |      |-- USBD
   |      |      |      |      |      |-- CH372：模拟自定义USB设备（CH372设备），端点1，3下传，2，4上传，端点1下传的数据从端点3上传，不取反，端点2下传的数据从端点4上传，取反。
@@ -204,3 +226,4 @@ https://wch.cn
   |      |      |      |      |      |-- Udisk_Lib：U盘文件系统库文件
   |      |      |      |      |      |-- Host_Udisk：USB主机操作U盘例程     
   |      |      |      |-- WWDG：窗口看门狗例程
+  |      |      |      |      |-- WWDG：窗口看门狗例程  

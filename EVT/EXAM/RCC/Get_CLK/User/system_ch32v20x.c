@@ -161,6 +161,7 @@ void SystemCoreClockUpdate (void)
  */
 static void SetSysClock(void)
 {
+  //GPIO_IPD_Unused();
 #ifdef SYSCLK_FREQ_HSE
   SetSysClockToHSE();
 #elif defined SYSCLK_FREQ_48MHz

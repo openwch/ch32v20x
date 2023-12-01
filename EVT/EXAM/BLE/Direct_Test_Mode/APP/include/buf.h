@@ -17,6 +17,8 @@
 #include <stddef.h>
 #include <string.h>
 
+
+
 struct simple_buf {
 	/** Pointer to the start of data in the buffer. */
 	uint8_t *data;

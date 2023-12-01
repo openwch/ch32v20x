@@ -22,7 +22,7 @@ extern uint32_t SystemCoreClock; /* System Clock Frequency (Core Clock) */
 /* System_Exported_Functions */
 extern void SystemInit(void);
 extern void SystemCoreClockUpdate(void);
-extern void SetSysClock(void);
+
 
 #ifdef __cplusplus
 }

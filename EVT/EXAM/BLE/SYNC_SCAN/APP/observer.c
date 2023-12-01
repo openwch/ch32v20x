@@ -224,7 +224,7 @@ static void ObserverEventCB(gapRoleEvent_t *pEvent)
 
         case GAP_DEVICE_INFO_EVENT:
         {
-//            ObserverAddDeviceInfo(pEvent->deviceInfo.addr, pEvent->deviceInfo.addrType);
+            ObserverAddDeviceInfo(pEvent->deviceInfo.addr, pEvent->deviceInfo.addrType);
         }
         break;
 

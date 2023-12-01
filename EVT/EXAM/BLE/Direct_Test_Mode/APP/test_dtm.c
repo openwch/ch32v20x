@@ -10,9 +10,9 @@
  * microcontroller manufactured by Nanjing Qinheng Microelectronics.
  *******************************************************************************/
 
+#include "uart.h"
 #include "config.h"
 #include "test_dtm.h"
-#include "uart.h"
 
 tmosTaskID test_taskid = INVALID_TASK_ID;
 
@@ -37,10 +37,23 @@ static void test_dtm_process_msg(tmos_event_hdr_t *pMsg) {
         if(evt)
             uart_send(evt);
 
-        uart_start_receiving();
+            uart_start_receiving();
     }
         break;
 
+    case USB_PROCESS_EVT:{
+        struct simple_buf *evt = NULL;
+        struct usb_process_msg *msg = \
+            (struct usb_process_msg *)pMsg;
+
+        evt = hci_cmd_handle((struct simple_buf*)msg->data);
+
+        if(evt)
+            usb_send(evt);
+
+            usb_start_receiving();
+    }
+        break;
     default:
         break;
     }

@@ -35,6 +35,11 @@ Directory
   |      |      |      |      |-- DualADC_SlowInterleaved: dual ADC slow interleaved sampling routine, only applied to CH32V20x_D6
   |      |      |      |      |-- ExtLines_Trigger: external lines trigger ADC conversion routine
   |      |      |      |      |-- Internal_Temperature: internal temperature sensor routine 
+  |      |      |      |-- APPLICATION
+  |      |      |      |      |-- USBPD
+  |      |      |      |      |      |-- I2C_OP_CH223：I2C Operates CH223 routine, only applied to CH32V20x_D8
+  |      |      |      |      |-- WS2812_LED
+  |      |      |      |      |      |-- WS2812_LED：SPI\PWM Operates WS2812_LED routine
   |      |      |      |-- BLE ----only for CH32V20x_D8W 
   |      |      |      |      |-- BackupUpgrade_IAP: backup wireless upgrade IAP routine. Detect the current code flag, determine whether to move the code from the backup area to the user area, and run the code in the user area 
   |      |      |      |      |-- BackupUpgrade_OTA: backup wireless upgrade user routine. Add OTA function to peripheral slave routines, save the upgrade firmware to the backup area and jump to the IAP program to upgrade 
@@ -91,12 +96,14 @@ Directory
   |      |      |      |      |      |-- MESH_LIB: MESH protocol stack library file and header file
   |      |      |      |      |      |-- Qinheng MESH APP Management Distribution Network Application Manual.pdf
   |      |      |      |      |      |-- Qinheng Low Energy Bluetooth MESH Software Development Reference Manual.pdf
-  |      |      |      |-- BKP: BKP routine
+  |      |      |      |-- BKP
+  |      |      |      |      |-- BKP:BKP routines
   |      |      |      |-- CAN ----only for CH32V20x_D6-CH32V20x_D8W 
   |      |      |      |      |-- Networking: CAN routine: normal mode, standard frame and expanded frame data transceiver
   |      |      |      |      |-- TestMode: test mode, including silent mode, loopback mode and loopback silent mode
   |      |      |      |      |-- Time-triggered: time triggered communication mode   
-  |      |      |      |-- CRC: CRC routine
+  |      |      |      |-- CRC
+  |      |      |      |      |-- CRC_Calculation:CRC routines  
   |      |      |      |-- DMA
   |      |      |      |      |-- DMA_MEM2MEM: Memory to memory mode routine
   |      |      |      |      |-- DMA_MEM2PERIP: Memory to peripheral mode, and peripheral to memory mode routine, see peripheral sub-routines
@@ -116,24 +123,31 @@ Directory
   |      |      |      |      |-- UdpClient: demonstration routine that Udp Client receives data and returns data
   |      |      |      |      |-- UdpServer: demonstration routine that Udp Server receives data and returns data
   |      |      |      |      |-- WebServer: Web Server routine, to demonstrate the configuration of WCHNET device functions through Web browser. As the WCHNET devices have built-in web server, the network parameter configuration and password management of WCHNET can be implemented on the web page.   
-  |      |      |      |-- EXTI: external interrupt line routine
-  |      |      |      |-- FLASH: FLASH erase/read/write, and fast programming
+  |      |      |      |-- EXTI
+  |      |      |      |      |-- EXTI0:External Interrupt Routine
+  |      |      |      |-- FLASH
+  |      |      |      |      |-- FLASH_Program:FLASH erase/read/write, and fast programming 
   |      |      |      |-- FreeRTOS
   |      |      |      |      |-- FreeRTOS_Core:FreeRTOS migration routines
-  |      |      |      |-- GPIO: GPIO routine
-  |      |      |      |-- HarmonyOS:HarmonyOS migration routine  
+  |      |      |      |-- GPIO
+  |      |      |      |      |-- GPIO_Toggle:GPIO routines 
+  |      |      |      |-- HarmonyOS
+  |      |      |      |      |-- LiteOS_m：HarmonyOS migration routine
   |      |      |      |-- I2C
   |      |      |      |      |-- I2C_7bit_Mode: 7-bit addressing mode, master/slave mode, transceiver routine
   |      |      |      |      |-- I2C_10bit_Mode: 10-bit addressing mode, master/slave mode transceiver routine
   |      |      |      |      |-- I2C_DMA: I2C DMA, master/slave mode transceiver routine
   |      |      |      |      |-- I2C_EEPROM: I2C interface routine to operate EEPROM peripheral 
   |      |      |      |      |-- I2C_PEC: PEC error check, master/slave mode transceiver routine
+  |      |      |      |      |-- I2C_7bit_Interrupt_Mode：Use interrupt to receive and send routine 
   |      |      |      |-- INT
   |      |      |      |      |-- Interrupt_VTF: VTF IRQ interrupt routine   
   |      |      |      |-- IAP: IAP upgrade routine, including the Hex to Bin tool and IAP upgrade tool  
   |      |      |      |      |-- USB_UART: USB+UART IAP routine    
-  |      |      |      |-- IWDG: independent watchdog routine
-  |      |      |      |-- OPA: OPA4 as voltage follower output routine
+  |      |      |      |-- IWDG
+  |      |      |      |      |-- IWDG:Independent Watchdog routine 
+  |      |      |      |-- OPA
+  |      |      |      |      |-- OPA_Voltage_Follower：OPA4 as voltage follower output routine 
   |      |      |      |-- PWR
   |      |      |      |      |-- Sleep_Mode: low power, sleep mode routine
   |      |      |      |      |-- Standby_Mode: low power, standby mode routine
@@ -144,8 +158,10 @@ Directory
   |      |      |      |      |-- Get_CLK:Get system-HCLK-AHB1-AHB2 clock routine   
   |      |      |      |      |-- MCO: MCO pin clock output routine
   |      |      |      |      |-- HSI_PLL_Source:HSI or HSI/2 as PLL input clock routine       
-  |      |      |      |-- RT-Thread:RT thread migration routine 
-  |      |      |      |-- RTC: calendar routine
+  |      |      |      |-- RT-Thread
+  |      |      |      |      |-- RT_Thread_Core:RT-Thread migration routine  
+  |      |      |      |-- RTC
+  |      |      |      |      |-- RTC_Calendar:Calendar Routines  
   |      |      |      |-- SPI
   |      |      |      |      |-- 1Lines_half-duplex: single wire half duplex mode, master/slave mode, data transceiver
   |      |      |      |      |-- 2Lines_FullDuplex: two-wire full duplex mode, master/slave mode, data transceiver
@@ -153,10 +169,13 @@ Directory
   |      |      |      |      |-- SPI_CRC: CRC error check and master/slave mode transceiver routine
   |      |      |      |      |-- SPI_DMA: SPI DMA, master/slave mode transceiver routine
   |      |      |      |      |-- SPI_FLASH: SPI interface operation flash peripheral routine
-  |      |      |      |-- TencentOS: TencentOS migration routine     
+  |      |      |      |      |-- SPI_LCD:SPI interface operation FLASH  and LCD peripheral routines
+  |      |      |      |-- TencentOS
+  |      |      |      |      |-- TencentOS:TencentOS migration routine  
   |      |      |      |-- SDI_Printf
   |      |      |      |      |-- SDI_Printf：debug interface SDI, virtual serial port. 
-  |      |      |      |-- SYSTICK: Systick timer routine     
+  |      |      |      |-- SYSTICK 
+  |      |      |      |      |-- SYSTICK_Interrupt：Systick timer routine       
   |      |      |      |-- TIM
   |      |      |      |      |-- Clock_Select: clock source selection routine
   |      |      |      |      |-- ComplementaryOutput_DeadTime: complementary output and deadband insertion mode routines
@@ -168,7 +187,8 @@ Directory
   |      |      |      |      |-- Synchro_ExtTrigger:slave mode routine, including reset mode, gating mode and trigger mode
   |      |      |      |      |-- Synchro_Timer:timer synchronization mode
   |      |      |      |      |-- TIM_DMA: timer DMA routines
-  |      |      |      |-- TOUCHKEY:touchkey detection routine
+  |      |      |      |-- TOUCHKEY
+  |      |      |      |      |-- TKey:TouchKey Detection Routine 
   |      |      |      |-- USART
   |      |      |      |      |-- USART_DMA: USART DMA, master/slave mode transceiver routine
   |      |      |      |      |-- USART_HalfDuplex: single wire half duplex mode, master/slave mode transceiver routine
@@ -178,6 +198,8 @@ Directory
   |      |      |      |      |-- USART_Polling: polling transceiver mode, master/slave transceiver routine
   |      |      |      |      |-- USART_Printf: USART Print debugging routine
   |      |      |      |      |-- USART_SynchronousMode: synchronous mode, master/slave mode, transceiver routine
+  |      |      |      |      |-- USART_Printf:Serial port printing debugging routines
+  |      |      |      |      |-- USART_Idle_Recv：USART use DMA receiving indeterminate length data routines
   |      |      |      |-- USB
   |      |      |      |      |-- USBD
   |      |      |      |      |      |-- CH372:Simulates a custom USB device (CH372 device) with endpoints 1, 3 down and 2, 4 up. Data down from endpoint 1 is uploaded from endpoint 3 and not reversed, and data down from endpoint 2 is uploaded from endpoint 4 and reversed.
@@ -203,5 +225,6 @@ Directory
   |      |      |      |      |      |-- HOST_MTP_FileSystem:Enumeration process of a USB host to a device that supports MTP and PTP protocols, supports MTP and PTP protocols, and reads its files
   |      |      |      |      |      |-- Host_Udisk:USB host operation USB disk routine 
   |      |      |      |      |      |-- Udisk_Lib:U disk file system library file     
-  |      |      |      |-- WWDG: window watchdog routine
+  |      |      |      |-- WWDG
+  |      |      |      |      |-- WWDG:Window Watchdog Routine
 

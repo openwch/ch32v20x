@@ -38,11 +38,27 @@
 // Scan duration in 0.625ms
 #define DEFAULT_SCAN_DURATION               2400
 
+/*  1M Parameter    same as peripheral
+ *  BLE_BUFF_NUM:20
+ *  BLE_TX_NUM_EVENT:6
+ *  CONNECTION_INTERVAL:13
+ */
+//// Connection min interval in 1.25ms
+//#define DEFAULT_MIN_CONNECTION_INTERVAL     13
+//
+//// Connection max interval in 1.25ms
+//#define DEFAULT_MAX_CONNECTION_INTERVAL     13
+
+/*  2M Parameter    same as peripheral
+ *  BLE_BUFF_NUM:20
+ *  BLE_TX_NUM_EVENT:9
+ *  CONNECTION_INTERVAL:12
+ */
 // Connection min interval in 1.25ms
-#define DEFAULT_MIN_CONNECTION_INTERVAL     11
+#define DEFAULT_MIN_CONNECTION_INTERVAL     12
 
 // Connection max interval in 1.25ms
-#define DEFAULT_MAX_CONNECTION_INTERVAL     11
+#define DEFAULT_MAX_CONNECTION_INTERVAL     12
 
 // Connection supervision timeout in 10ms
 #define DEFAULT_CONNECTION_TIMEOUT          100
