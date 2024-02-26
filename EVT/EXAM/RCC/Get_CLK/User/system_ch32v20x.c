@@ -66,10 +66,10 @@ static void SetSysClock(void);
 void SystemInit (void)
 {
   RCC->CTLR |= (uint32_t)0x00000001;
-  RCC->CFGR0 &= (uint32_t)0xF8FF0000;
+  RCC->CFGR0 &= (uint32_t)0xF0FF0000;
   RCC->CTLR &= (uint32_t)0xFEF6FFFF;
   RCC->CTLR &= (uint32_t)0xFFFBFFFF;
-  RCC->CFGR0 &= (uint32_t)0xFF80FFFF;
+  RCC->CFGR0 &= (uint32_t)0xFF00FFFF;
   RCC->INTR = 0x009F0000;    
   SetSysClock();
 }

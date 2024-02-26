@@ -2344,7 +2344,7 @@ static void TI4_Config(TIM_TypeDef *TIMx, uint16_t TIM_ICPolarity, uint16_t TIM_
     }
     else
     {
-        tmpccer &= (uint16_t) ~((uint16_t)(TIM_CC3P | TIM_CC4NP));
+        tmpccer &= (uint16_t) ~((uint16_t)(TIM_CC3P ));
         tmpccer |= (uint16_t)(TIM_ICPolarity | (uint16_t)TIM_CC4E);
     }
 

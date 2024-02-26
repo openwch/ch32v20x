@@ -37,7 +37,7 @@ void USBWakeUp_IRQHandler(void)
 /*******************************************************************************
  * @fn           USBWakeUp_IRQHandler
  *
- * @brief  T     his function handles USB exception.
+ * @brief  This function handles USB exception.
  *
  * @return None
  */

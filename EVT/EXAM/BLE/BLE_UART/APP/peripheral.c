@@ -207,9 +207,6 @@ void Peripheral_Init()
         GAPRole_SetParameter(GAPROLE_MAX_CONN_INTERVAL, sizeof(uint16_t), &desired_max_interval);
     }
 
-    // Set the GAP Characteristics
-    GGS_SetParameter(GGS_DEVICE_NAME_ATT, sizeof(attDeviceName), attDeviceName);
-
     // Set advertising interval
     {
         uint16_t advInt = DEFAULT_ADVERTISING_INTERVAL;
@@ -237,6 +234,9 @@ void Peripheral_Init()
     GATTServApp_AddService(GATT_ALL_SERVICES); // GATT attributes
     DevInfo_AddService();                      // Device Information Service
     ble_uart_add_service(on_bleuartServiceEvt);
+
+    // Set the GAP Characteristics
+    GGS_SetParameter(GGS_DEVICE_NAME_ATT, sizeof(attDeviceName), attDeviceName);
 
     // Init Connection Item
     peripheralInitConnItem(&peripheralConnList);

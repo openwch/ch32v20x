@@ -81,8 +81,8 @@ _vector_base:
     .word   EXTI15_10_IRQHandler       /* EXTI Line 15..10 */
     .word   RTCAlarm_IRQHandler        /* RTC Alarm through EXTI Line */
     .word   USBWakeUp_IRQHandler       /* USB Wake up from suspend */
-    .word   USBHD_IRQHandler           /* USBHD Break */
-    .word   USBHDWakeUp_IRQHandler     /* USBHD Wake up from suspend */
+    .word   USBFS_IRQHandler           /* USBFS Break */
+    .word   USBFSWakeUp_IRQHandler     /* USBFS Wake up from suspend */
     .word   ETH_IRQHandler             /* ETH global */
     .word   ETHWakeUp_IRQHandler       /* ETH Wake up */
     .word   BB_IRQHandler              /* BLE BB */
@@ -145,8 +145,8 @@ _vector_base:
     .weak   EXTI15_10_IRQHandler       /* EXTI Line 15..10 */
     .weak   RTCAlarm_IRQHandler        /* RTC Alarm through EXTI Line */
     .weak   USBWakeUp_IRQHandler       /* USB Wakeup from suspend */
-    .weak   USBHD_IRQHandler           /* USBHD */
-    .weak   USBHDWakeUp_IRQHandler     /* USBHD Wake Up */
+    .weak   USBFS_IRQHandler           /* USBFS */
+    .weak   USBFSWakeUp_IRQHandler     /* USBFS Wake Up */
     .weak   ETH_IRQHandler             /* ETH global */
     .weak   ETHWakeUp_IRQHandler       /* ETHWakeUp */
     .weak   BB_IRQHandler              /* BLE BB */
@@ -207,8 +207,8 @@ USART3_IRQHandler:
 EXTI15_10_IRQHandler:
 RTCAlarm_IRQHandler:
 USBWakeUp_IRQHandler:
-USBHD_IRQHandler:
-USBHDWakeUp_IRQHandler:
+USBFS_IRQHandler:
+USBFSWakeUp_IRQHandler:
 ETH_IRQHandler:
 ETHWakeUp_IRQHandler:
 BB_IRQHandler:

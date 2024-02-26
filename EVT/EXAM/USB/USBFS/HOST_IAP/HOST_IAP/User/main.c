@@ -33,7 +33,7 @@ int main(void)
     USART_Printf_Init(115200);
     Delay_Init( );
     printf("SystemClk:%d\r\n",SystemCoreClock);
-    printf("USBFS-OTG HOST,UDisk IAP.\r\n");
+    printf("USBFS HOST,UDisk IAP.\r\n");
 
     IAP_Initialization( );
 

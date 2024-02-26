@@ -2,7 +2,7 @@
  * File Name          : main.c
  * Author             : WCH
  * Version            : V1.0.0
- * Date               : 2023/06/06
+ * Date               : 2023/12/29
  * Description        : Main program body.
 *********************************************************************************
 * Copyright (c) 2023 Nanjing Qinheng Microelectronics Co., Ltd.
@@ -236,7 +236,7 @@ int main(void)
     u16 n = 0;
     u8 tempV = 0, tempI = 0, tempV0 = 0, tempI0 = 0, tempVmax = 0;
     u8 res = 0, ndo_select = 0, STATE_flag = 0;
-    NVIC_PriorityGroupConfig(NVIC_PriorityGroup_2);
+    NVIC_PriorityGroupConfig(NVIC_PriorityGroup_1);
     Delay_Init();
     USART_Printf_Init( 115200 );
     CH223_Init();

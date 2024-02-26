@@ -31,7 +31,7 @@ int main(void)
 {
 	GPIO_InitTypeDef  GPIO_InitStructure={0};
 	SystemCoreClockUpdate();
-	NVIC_PriorityGroupConfig(NVIC_PriorityGroup_4);
+	NVIC_PriorityGroupConfig(NVIC_PriorityGroup_1);
 	USART_Printf_Init(115200);
 	printf("SystemClk:%d\r\n",SystemCoreClock);
 	printf( "ChipID:%08x\r\n", DBGMCU_GetCHIPID() );

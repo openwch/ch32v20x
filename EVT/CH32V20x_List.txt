@@ -1,5 +1,5 @@
 
-南京沁恒微电子股份有限公司 2023.10
+南京沁恒微电子股份有限公司 2024.02
 最新资料请到我们的网站上查询
 https://wch.cn
 
@@ -36,6 +36,8 @@ https://wch.cn
   |      |      |      |      |-- DualADC_SlowInterleaved：双ADC慢速交叉采样例程 ——仅适用于CH32V20x_D6
   |      |      |      |      |-- ExtLines_Trigger：外部触发ADC转换例程
   |      |      |      |      |-- Internal_Temperature：内部温度传感器例程 
+  |      |      |      |      |-- Temperature_External_channel：温度传感器_外部通道交替注入例程
+  |      |      |      |      |-- TIM_trigger：定时器触发ADC转换例程 
   |      |      |      |-- APPLICATION
   |      |      |      |      |-- USBPD
   |      |      |      |      |      |-- I2C_OP_CH223：通过I2C操作CH223例程 ——仅适用于CH32V20x_D8
@@ -86,14 +88,14 @@ https://wch.cn
   |      |      |      |      |      |-- adv_ali_light_multi_element：多元素天猫精灵风扇灯例程。同时包含风扇开关摇头和灯开关颜色控制。用于对照原天猫精灵灯例程，快速熟悉添加多个属性的方法。
   |      |      |      |      |      |-- adv_ali_light_with_peripheral：天猫精灵灯例程的基础上，添加亮度和色温控制，并支持手机BLE调试助手连接控制。
   |      |      |      |      |      |-- adv_proxy：代理节点例程，可通过PB_GATT层（BLE连接）进行配网。
-  |      |      |      |      |      |-- adv_vendor：厂商自定义模型例程，配合self_provisioner_vendor使用，支持有应答传输和无应答透传两种通信属性，自行拟定通信协议。
+  |      |      |      |      |      |-- adv_vendor：厂商自定义模型例程，配合provisioner_vendor使用，支持有应答传输和无应答透传两种通信属性，自行拟定通信协议。
   |      |      |      |      |      |-- adv_vendor_friend：厂商自定义模型例程的基础上，支持朋友节点功能
   |      |      |      |      |      |-- adv_vendor_low_power：厂商自定义模型例程的基础上，支持低功耗节点功能，需与朋友节点配合使用
   |      |      |      |      |      |-- adv_vendor_self_provision：厂商自定义模型例程的基础上，支持本地自配网，适配无配网者或简化配网流程等特殊应用场景
   |      |      |      |      |      |-- adv_vendor_self_provision_IAP：MESH备份无线升级IAP例程，检测当前代码标志，判断是否搬运备份区代码到用户区并运行用户区代码
   |      |      |      |      |      |-- adv_vendor_self_provision_with_peripheral：MESH备份无线升级用户例程，厂商自定义模型例程的基础上，支持手机BLE调试助手连接控制，通过BLE接收配网信息并将自身配网，适用于终端控制组网应用，可自行拟定通信协议实现手机控制mesh网络中所有设备。
-  |      |      |      |      |      |-- self_provisioner_vendor：厂商自定义模型自配网发起者例程，配合adv_vendor使用，自动配网周围未配网设备，并将其加入自身mesh网络，默认支持配网6个设备。默认配置设备绑定1个APPKEY,用于有应答传输和无应答透传，配置设备绑定1个订阅地址，用于群发无应答消息
-  |      |      |      |      |      |-- self_provisioner_vendor_with_peripheral：厂商自定义模型自配网发起者例程的基础上，支持手机BLE调试助手连接控制，中转手机与mesh网络的通信，可自行拟定通信协议实现手机控制mesh网络中所有设备。
+  |      |      |      |      |      |-- provisioner_vendor：厂商自定义模型自配网发起者例程，配合adv_vendor使用，自动配网周围未配网设备，并将其加入自身mesh网络，默认支持配网6个设备。默认配置设备绑定1个APPKEY,用于有应答传输和无应答透传，配置设备绑定1个订阅地址，用于群发无应答消息
+  |      |      |      |      |      |-- provisioner_vendor_with_peripheral：厂商自定义模型自配网发起者例程的基础上，支持手机BLE调试助手连接控制，中转手机与mesh网络的通信，可自行拟定通信协议实现手机控制mesh网络中所有设备。
   |      |      |      |      |      |-- MESH_LIB：MESH协议栈库文件及其头文件
   |      |      |      |      |      |-- 沁恒MESH APP管理配网应用手册.pdf
   |      |      |      |      |      |-- 沁恒低功耗蓝牙MESH软件开发参考手册.pdf
@@ -155,14 +157,21 @@ https://wch.cn
   |      |      |      |      |-- Stop_Mode：低功耗，停机模式例程
   |      |      |      |      |-- Standby_RAM_LV_Mode：待机模式开启LV时，RAM 2K、30K低功耗数据保持例程
   |      |      |      |      |-- Standby_RAM_Mode：待机模式不开启LV时，RAM 2K、30K低功耗数据保持例程
+  |      |      |      |      |-- PVD_Wakeup：STOP模式PVD中断唤醒例程
+  |      |      |      |      |-- PVD_VoltageJudger：PVD电压判定例程
+  |      |      |      |-- PMP
+  |      |      |      |      |-- PMP：物理内存保护例程
   |      |      |      |-- RCC
   |      |      |      |      |-- Get_CLK：获取system-HCLK-AHB1-AHB2时钟例程   
   |      |      |      |      |-- MCO：MCO引脚时钟输出例程
   |      |      |      |      |-- HSI_PLL_Source：HSI或HSI/2作为PLL输入时钟例程   
+  |      |      |      |      |-- HSI_Calibration：HSI校准例程  
+  |      |      |      |      |-- HSE_CLK：检查HSE频率例程  
   |      |      |      |-- RT-Thread 
   |      |      |      |      |-- RT_Thread_Core：RT-Thread移植例程  
   |      |      |      |-- RTC
   |      |      |      |      |-- RTC_Calendar：日历例程
+  |      |      |      |      |-- RTC_Calibration：RTC校准例程  
   |      |      |      |-- SPI
   |      |      |      |      |-- 1Lines_half-duplex：单线半双工模式，Master/Slave 模式数据收发
   |      |      |      |      |-- 2Lines_FullDuplex：双线全双工模式，Master/Slave 模式数据收发
@@ -188,6 +197,7 @@ https://wch.cn
   |      |      |      |      |-- Synchro_ExtTrigger：从模式例程，包括复位模式、门控模式、触发模式
   |      |      |      |      |-- Synchro_Timer：定时器同步模式
   |      |      |      |      |-- TIM_DMA：定时器使用DMA例程
+  |      |      |      |      |-- Encoder：定时器编码器例程
   |      |      |      |-- TOUCHKEY
   |      |      |      |      |-- TKey：TouchKey检测例程  
   |      |      |      |-- USART

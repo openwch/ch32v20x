@@ -54,7 +54,7 @@ int main(void)
 {
     u8 i = 0;
 
-    NVIC_PriorityGroupConfig(NVIC_PriorityGroup_2);
+    NVIC_PriorityGroupConfig(NVIC_PriorityGroup_1);
     Delay_Init();
 
 #if (SDI_PRINT == SDI_PR_OPEN)

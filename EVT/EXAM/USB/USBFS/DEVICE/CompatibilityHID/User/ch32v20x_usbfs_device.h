@@ -9,8 +9,8 @@
 * Attention: This software (modified or not) and binary are used for 
 * microcontroller manufactured by Nanjing Qinheng Microelectronics.
 *******************************************************************************/
-#ifndef __CH32V20X_USBOTG_DEVICE_H_
-#define __CH32V20X_USBOTG_DEVICE_H_
+#ifndef __CH32V20X_USBFS_DEVICE_H_
+#define __CH32V20X_USBFS_DEVICE_H_
 #ifdef __cplusplus
  extern "C" {
 #endif 

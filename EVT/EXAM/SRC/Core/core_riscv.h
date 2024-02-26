@@ -263,13 +263,14 @@ __attribute__( ( always_inline ) ) RV_STATIC_INLINE uint32_t NVIC_GetActive(IRQn
  * @brief   Set Interrupt Priority
  *
  * @param   IRQn - Interrupt Numbers
- *          interrupt nesting enable(CSR-0x804 bit1 = 1 bit[3:2] = 1)
+ *          interrupt nesting enable(CSR-0x804 bit1 = 1)
  *            priority - bit[7] - Preemption Priority
- *                       bit[6:4] - Sub priority
- *                       bit[3:0] - Reserve
- *          interrupt nesting disable(CSR-0x804 bit1 = 0 bit[3:2] = 0)
- *            priority - bit[7:4] - Sub priority
- *                       bit[3:0] - Reserve
+ *                       bit[6:5] - Sub priority
+ *                       bit[4:0] - Reserve
+ *          interrupt nesting disable(CSR-0x804 bit1 = 0)
+ *            priority - bit[7:5] - Sub priority
+ *                       bit[4:0] - Reserve
+ *
  * @return  none
  */
 __attribute__( ( always_inline ) ) RV_STATIC_INLINE void NVIC_SetPriority(IRQn_Type IRQn, uint8_t priority)

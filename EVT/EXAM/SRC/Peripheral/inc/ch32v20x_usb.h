@@ -2,7 +2,7 @@
  * File Name          : ch32v20x_usb.h
  * Author             : WCH
  * Version            : V1.0.0
- * Date               : 2023/10/24
+ * Date               : 2024/01/30
  * Description        : This file contains all the functions prototypes for the USB
  *                      firmware library.
 *********************************************************************************
@@ -229,7 +229,6 @@ extern "C" {
 #define USBFS_UC_DMA_EN             0x01
 
 /* R8_USB_INT_EN */
-#define USBFS_UIE_DEV_SOF           0x80
 #define USBFS_UIE_DEV_NAK           0x40
 #define USBFS_UIE_FIFO_OV           0x10
 #define USBFS_UIE_HST_SOF           0x08
@@ -268,12 +267,10 @@ extern "C" {
 #define USBFS_UIS_TOG_OK            0x40      // RO, indicate current USB transfer toggle is OK
 #define USBFS_UIS_TOKEN_MASK        0x30      // RO, bit mask of current token PID code received for USB device mode
 #define USBFS_UIS_TOKEN_OUT         0x00
-#define USBFS_UIS_TOKEN_SOF         0x10
 #define USBFS_UIS_TOKEN_IN          0x20
 #define USBFS_UIS_TOKEN_SETUP       0x30
 // bUIS_TOKEN1 & bUIS_TOKEN0: current token PID code received for USB device mode
 //   00: OUT token PID received
-//   01: SOF token PID received
 //   10: IN token PID received
 //   11: SETUP token PID received
 #define USBFS_UIS_ENDP_MASK         0x0F      // RO, bit mask of current transfer endpoint number for USB device mode

@@ -1,8 +1,8 @@
 /********************************** (C) COPYRIGHT *******************************
- * File Name  :usbd_custom_hid.c
- * Author     :OWNER
+ * File Name  : usbd_compatibility_hid.c
+ * Author     : WCH
  * Version    : v0.01
- * Date       : 2022��7��8��
+ * Date       : 2024/02/05
  * Description:
 *******************************************************************************
 * Copyright (c) 2021 Nanjing Qinheng Microelectronics Co., Ltd.

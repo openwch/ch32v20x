@@ -2,7 +2,7 @@
  * File Name          : ch32v20x_it.c
  * Author             : WCH
  * Version            : V1.0.0
- * Date               : 2021/06/06
+ * Date               : 2023/12/29
  * Description        : Main Interrupt Service Routines.
 *********************************************************************************
 * Copyright (c) 2021 Nanjing Qinheng Microelectronics Co., Ltd.
@@ -13,7 +13,6 @@
 
 void NMI_Handler(void) __attribute__((interrupt("WCH-Interrupt-fast")));
 void HardFault_Handler(void) __attribute__((interrupt("WCH-Interrupt-fast")));
-void I2C1_ER_IRQHandler(void) __attribute__((interrupt("WCH-Interrupt-fast")));
 
 /*********************************************************************
  * @fn      NMI_Handler
@@ -24,6 +23,9 @@ void I2C1_ER_IRQHandler(void) __attribute__((interrupt("WCH-Interrupt-fast")));
  */
 void NMI_Handler(void)
 {
+  while (1)
+  {
+  }
 }
 
 /*********************************************************************
@@ -40,20 +42,5 @@ void HardFault_Handler(void)
   }
 }
 
-/*********************************************************************
- * @fn      I2C1_ER_IRQHandler
- *
- * @brief   This function IIC PEC error exception.
- *
- * @return  none
- */
-void I2C1_ER_IRQHandler(void )
-{
-	if( I2C_GetITStatus( I2C1, I2C_IT_PECERR ) != RESET )
-	{
-		printf( "PECEER\r\n" );
-		I2C_ClearITPendingBit( I2C1, I2C_IT_PECERR );
-	}
-}
 
 

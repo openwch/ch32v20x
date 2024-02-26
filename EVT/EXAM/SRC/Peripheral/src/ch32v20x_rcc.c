@@ -2,7 +2,7 @@
  * File Name          : ch32v20x_rcc.c
  * Author             : WCH
  * Version            : V1.0.0
- * Date               : 2021/06/06
+ * Date               : 2024/01/30
  * Description        : This file provides all the RCC firmware functions.
 *********************************************************************************
 * Copyright (c) 2021 Nanjing Qinheng Microelectronics Co., Ltd.
@@ -82,10 +82,10 @@ static __I uint8_t ADCPrescTable[4] = {2, 4, 6, 8};
 void RCC_DeInit(void)
 {
   RCC->CTLR |= (uint32_t)0x00000001;
-  RCC->CFGR0 &= (uint32_t)0xF8FF0000;  
+  RCC->CFGR0 &= (uint32_t)0xF0FF0000;  
   RCC->CTLR &= (uint32_t)0xFEF6FFFF;
   RCC->CTLR &= (uint32_t)0xFFFBFFFF;
-  RCC->CFGR0 &= (uint32_t)0xFF80FFFF;
+  RCC->CFGR0 &= (uint32_t)0xFF00FFFF;
   RCC->INTR = 0x009F0000;
 }
 
@@ -506,7 +506,8 @@ void RCC_LSICmd(FunctionalState NewState)
  * @param   RCC_RTCCLKSource - specifies the RTC clock source.
  *            RCC_RTCCLKSource_LSE - LSE selected as RTC clock.
  *            RCC_RTCCLKSource_LSI - LSI selected as RTC clock.
- *            RCC_RTCCLKSource_HSE_Div128 - HSE clock divided by 128 selected as RTC clock.
+ *            RCC_RTCCLKSource_HSE_Div128 - HSE clock divided by 128 selected as RTC clock(CH32V20x_D6)
+ *            RCC_RTCCLKSource_HSE_Div512 - HSE clock divided by 512 selected as RTC clock(CH32V20x_D8,CH32V20x_D8W)
  *         Note-   
  *           Once the RTC clock is selected it can't be changed unless the Backup domain is reset.
  * @return  none
@@ -645,7 +646,7 @@ void RCC_GetClocksFreq(RCC_ClocksTypeDef* RCC_Clocks)
  *            RCC_AHBPeriph_DMA2.
  *            RCC_AHBPeriph_SRAM.
  *            RCC_AHBPeriph_CRC.
- *            RCC_AHBPeriph_OTG_FS
+ *            RCC_AHBPeriph_USBFS
  *          Note-
  *          SRAM  clock can be disabled only during sleep mode.
  *          NewState: ENABLE or DISABLE.

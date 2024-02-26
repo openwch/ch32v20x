@@ -24,11 +24,11 @@ __attribute__ ((aligned(4))) uint8_t  UDisk_Down_Buffer[DEF_FLASH_SECTOR_SIZE];
 __attribute__ ((aligned(4))) uint8_t  UDisk_Pack_Buffer[DEF_UDISK_PACK_64];
 
 /******************************************************************************/
-/* INQUITYÐÅÏ¢ */
+/* INQUITY */
 uint8_t UDISK_Inquity_Tab[ ] =
 {
     /* UDISK */
-    0x00,                                                /* Peripheral Device Type£ºUDISK = 0x00 */
+    0x00,                                                /* Peripheral Device Type UDISK = 0x00 */
     0x80,                                                /* Removable */
     0x02,                                                /* ISO/ECMA */
     0x02,
@@ -184,13 +184,13 @@ void UDISK_CMD_Deal_Fail( void )
     if( Udisk_Transfer_Status & DEF_UDISK_BLUCK_UP_FLAG )
     {
         /* EP2 -> STALL */
-        USBOTG_FS->UEP2_TX_CTRL = ( USBOTG_FS->UEP2_TX_CTRL & ~USBFS_UEP_T_RES_MASK ) | USBFS_UEP_T_RES_STALL;
+        USBFSD->UEP2_TX_CTRL = ( USBFSD->UEP2_TX_CTRL & ~USBFS_UEP_T_RES_MASK ) | USBFS_UEP_T_RES_STALL;
         Udisk_Transfer_Status &= ~DEF_UDISK_BLUCK_UP_FLAG;
     }
     if( Udisk_Transfer_Status & DEF_UDISK_BLUCK_DOWN_FLAG )
     {
         /* EP3 -> STALL */
-        USBOTG_FS->UEP3_RX_CTRL = ( USBOTG_FS->UEP3_RX_CTRL & ~USBFS_UEP_R_RES_MASK ) | USBFS_UEP_R_RES_STALL;
+        USBFSD->UEP3_RX_CTRL = ( USBFSD->UEP3_RX_CTRL & ~USBFS_UEP_R_RES_MASK ) | USBFS_UEP_R_RES_STALL;
         Udisk_Transfer_Status &= ~DEF_UDISK_BLUCK_DOWN_FLAG;
     }
 }
