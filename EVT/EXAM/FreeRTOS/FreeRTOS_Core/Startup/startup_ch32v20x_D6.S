@@ -2,7 +2,7 @@
 ;* File Name          : startup_ch32v20x_D6.s
 ;* Author             : WCH
 ;* Version            : V1.0.1
-;* Date               : 2023/11/13
+;* Date               : 2024/01/31
 ;* Description        :  CH32V203F6-CH32V203F8-CH32V203G6-CH32V203G8-CH32V203K6-CH32V203K8-CH32V203C6-CH32V203C8-CH32V203G8
 ;*                    vector table for eclipse toolchain.
 ;*********************************************************************************
@@ -81,8 +81,8 @@ _vector_base:
     .word   EXTI15_10_IRQHandler       /* EXTI Line 15..10 */
     .word   RTCAlarm_IRQHandler        /* RTC Alarm through EXTI Line */
     .word   USBWakeUp_IRQHandler       /* USB Wake up from suspend */
-    .word   USBHD_IRQHandler           /* USBHD Break */
-    .word   USBHDWakeUp_IRQHandler     /* USBHD Wake up from suspend */
+    .word   USBFS_IRQHandler           /* USBFS Break */
+    .word   USBFSWakeUp_IRQHandler     /* USBFS Wake up from suspend */
     .word   UART4_IRQHandler           /* UART4 */
     .word   DMA1_Channel8_IRQHandler   /* DMA1 Channel8 */
 
@@ -138,8 +138,8 @@ _vector_base:
     .weak   EXTI15_10_IRQHandler       /* EXTI Line 15..10 */
     .weak   RTCAlarm_IRQHandler        /* RTC Alarm through EXTI Line */
     .weak   USBWakeUp_IRQHandler       /* USB Wakeup from suspend */
-    .weak   USBHD_IRQHandler           /* USBHD */
-    .weak   USBHDWakeUp_IRQHandler     /* USBHD Wake Up */
+    .weak   USBFS_IRQHandler           /* USBFS */
+    .weak   USBFSWakeUp_IRQHandler     /* USBFS Wake Up */
     .weak   UART4_IRQHandler           /* UART4 */
     .weak   DMA1_Channel8_IRQHandler   /* DMA1 Channel8 */
 
@@ -193,8 +193,8 @@ USART3_IRQHandler:
 EXTI15_10_IRQHandler:
 RTCAlarm_IRQHandler:
 USBWakeUp_IRQHandler:
-USBHD_IRQHandler:
-USBHDWakeUp_IRQHandler:
+USBFS_IRQHandler:
+USBFSWakeUp_IRQHandler:
 UART4_IRQHandler:
 DMA1_Channel8_IRQHandler:
 1:

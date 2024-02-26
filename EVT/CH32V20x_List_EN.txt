@@ -1,5 +1,5 @@
 
-Nanjing Qinheng Microelectronics Co., Ltd. 2023.09
+Nanjing Qinheng Microelectronics Co., Ltd. 2024.02
 
 https://wch-ic.com
 
@@ -35,6 +35,8 @@ Directory
   |      |      |      |      |-- DualADC_SlowInterleaved: dual ADC slow interleaved sampling routine, only applied to CH32V20x_D6
   |      |      |      |      |-- ExtLines_Trigger: external lines trigger ADC conversion routine
   |      |      |      |      |-- Internal_Temperature: internal temperature sensor routine 
+  |      |      |      |      |-- TIM_Trigger:TIM trigger ADC conversion routine 
+  |      |      |      |      |-- Temperature_External_channel:Temperature External channel Injection alternating inversion routine 
   |      |      |      |-- APPLICATION
   |      |      |      |      |-- USBPD
   |      |      |      |      |      |-- I2C_OP_CH223：I2C Operates CH223 routine, only applied to CH32V20x_D8
@@ -85,14 +87,14 @@ Directory
   |      |      |      |      |      |-- adv_ali_light_multi_element: Multi-element fan lamp, which is used to compare the original Tmall Genie light routine to quickly become familiar with the method of adding multi-element Tmall definition attributes.
   |      |      |      |      |      |-- adv_ali_light_with_peripheral: Based on the Tmall Genie light routine, add brightness and color temperature controls, it supports the connection control of BLE debugging tool on the mobile phone.
   |      |      |      |      |      |-- adv_proxy: proxy node routine, which can be used to provision network through the PV_GATT layer (BLE connection).
-  |      |      |      |      |      |-- adv_vendor: vendor-defined model routine, used with self_provisioner_vendor, supports two communication attributes of response transmission and non-response transparent transmission, and develops the communication protocol by yourself.
+  |      |      |      |      |      |-- adv_vendor: vendor-defined model routine, used with provisioner_vendor, supports two communication attributes of response transmission and non-response transparent transmission, and develops the communication protocol by yourself.
   |      |      |      |      |      |-- adv_vendor_friend: based on vendor-defined model routine, support friend node function
   |      |      |      |      |      |-- adv_vendor_low_power: On the basis of the vendor custom model routine, support low-power node functions and should be used with friend nodes
   |      |      |      |      |      |-- adv_vendor_self_provision: On the basis of the vendor custom model routine, support local provision
   |      |      |      |      |      |-- adv_vendor_self_provision_IAP:MESH backup wireless upgrade IAP routine, detect the current code flag, judge whether to move the backup area code to the user area and run the user area code
   |      |      |      |      |      |-- adv_vendor_self_provision_with_peripheral: MESH backup wireless upgrade user routine, On the basis of the vendor custom model routine, supports the connection control of the mobile phone BLE debugging assistant, receives the distribution network information through BLE and distributes the network itself. It is suitable for terminal control networking applications. It can formulate the communication protocol by itself to realize the mobile phone control all devices in the mesh network.
-  |      |      |      |      |      |-- self_provisioner_vendor: vendor-defined model self-provisioning network initiator routine, used with adv_vendor, automatically provision network to the surrounding devices without network, and add it to its own mesh network, support provision network to six devices by default . The default configuration device is bound with single APPKEY, which is used for response transmission and non-response transparent transmission, and the configuration device is bound with single subscription address, which is used for mass sending of unanswered messages
-  |      |      |      |      |      |-- self_provisioner_vendor_with_peripheral: Based on the vendor-defined model self-provisioning network initiator routine, can be connected and controlled by BLE debugging tool on the mobile phone, transfer the communication between the mobile phone and the mesh network, and can draw up the communication protocol to implement that all devices in mesh network can be controlled the mobile phone.
+  |      |      |      |      |      |-- provisioner_vendor: vendor-defined model self-provisioning network initiator routine, used with adv_vendor, automatically provision network to the surrounding devices without network, and add it to its own mesh network, support provision network to six devices by default . The default configuration device is bound with single APPKEY, which is used for response transmission and non-response transparent transmission, and the configuration device is bound with single subscription address, which is used for mass sending of unanswered messages
+  |      |      |      |      |      |-- provisioner_vendor_with_peripheral: Based on the vendor-defined model self-provisioning network initiator routine, can be connected and controlled by BLE debugging tool on the mobile phone, transfer the communication between the mobile phone and the mesh network, and can draw up the communication protocol to implement that all devices in mesh network can be controlled the mobile phone.
   |      |      |      |      |      |-- MESH_LIB: MESH protocol stack library file and header file
   |      |      |      |      |      |-- Qinheng MESH APP Management Distribution Network Application Manual.pdf
   |      |      |      |      |      |-- Qinheng Low Energy Bluetooth MESH Software Development Reference Manual.pdf
@@ -154,14 +156,21 @@ Directory
   |      |      |      |      |-- Stop_Mode: low power, stop mode routine
   |      |      |      |      |-- Standby_RAM_LV_Mode: when LV is enabled in standby mode, RAM 2k and 30K low-power data holding routines
   |      |      |      |      |-- Standby_RAM_Mode:when LV is not enabled in standby mode, RAM 2k and 30K low-power data holding routines
+  |      |      |      |      |-- PVD_Wakeup：STOP mode PVD wakeup MCU Routine
+  |      |      |      |      |-- PVD_VoltageJudger：PVD voltage Judger Routine
+  |      |      |      |-- PMP
+  |      |      |      |      |-- PMP：Physical memory protection Routine
   |      |      |      |-- RCC
   |      |      |      |      |-- Get_CLK:Get system-HCLK-AHB1-AHB2 clock routine   
   |      |      |      |      |-- MCO: MCO pin clock output routine
   |      |      |      |      |-- HSI_PLL_Source:HSI or HSI/2 as PLL input clock routine       
+  |      |      |      |      |-- HSI_Calibration：HSI calibrate routine
+  |      |      |      |      |-- HSE_CLK:HSE frequency check routine
   |      |      |      |-- RT-Thread
   |      |      |      |      |-- RT_Thread_Core:RT-Thread migration routine  
   |      |      |      |-- RTC
   |      |      |      |      |-- RTC_Calendar:Calendar Routines  
+  |      |      |      |      |-- RTC_Calibration：RTC calibrate Routines  
   |      |      |      |-- SPI
   |      |      |      |      |-- 1Lines_half-duplex: single wire half duplex mode, master/slave mode, data transceiver
   |      |      |      |      |-- 2Lines_FullDuplex: two-wire full duplex mode, master/slave mode, data transceiver
@@ -187,6 +196,7 @@ Directory
   |      |      |      |      |-- Synchro_ExtTrigger:slave mode routine, including reset mode, gating mode and trigger mode
   |      |      |      |      |-- Synchro_Timer:timer synchronization mode
   |      |      |      |      |-- TIM_DMA: timer DMA routines
+  |      |      |      |      |-- Encode:Timer encoder mode routines
   |      |      |      |-- TOUCHKEY
   |      |      |      |      |-- TKey:TouchKey Detection Routine 
   |      |      |      |-- USART

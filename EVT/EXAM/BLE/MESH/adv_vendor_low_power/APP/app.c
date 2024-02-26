@@ -610,9 +610,11 @@ void App_Init()
 
     vendor_model_srv_init(vnd_models);
     blemesh_on_sync();
+#if(defined HAL_KEY) && (HAL_KEY == TRUE)
     HAL_KeyInit();
     HalKeyConfig(keyPress);
-    tmos_start_task(App_TaskID, APP_NODE_TEST_EVT, 1600);
+#endif
+//    tmos_start_task(App_TaskID, APP_NODE_TEST_EVT, 1600);
 }
 
 /*********************************************************************

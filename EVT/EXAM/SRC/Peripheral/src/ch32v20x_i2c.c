@@ -2,7 +2,7 @@
  * File Name          : ch32v20x_i2c.c
  * Author             : WCH
  * Version            : V1.0.0
- * Date               : 2021/06/06
+ * Date               : 2023/12/29
  * Description        : This file provides all the I2C firmware functions.
 *********************************************************************************
 * Copyright (c) 2021 Nanjing Qinheng Microelectronics Co., Ltd.
@@ -138,6 +138,10 @@ void I2C_Init(I2C_TypeDef *I2Cx, I2C_InitTypeDef *I2C_InitStruct)
     pclk1 = rcc_clocks.PCLK1_Frequency;
     freqrange = (uint16_t)(pclk1 / 1000000);
     tmpreg |= freqrange;
+    if(freqrange >= 60)
+    {
+        freqrange = 60;
+    }
     I2Cx->CTLR2 = tmpreg;
 
     I2Cx->CTLR1 &= CTLR1_PE_Reset;

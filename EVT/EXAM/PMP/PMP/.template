@@ -1,0 +1,12 @@
+Address=0x08000000
+Target Path=obj\PMP.hex
+Erase All=true
+Program=true
+Verify=true
+Reset=true
+CLKSpeed=1
+
+Vendor=WCH
+MCU=CH32V208WBU6
+Mcu Type=CH32V20x
+Link=WCH-Link

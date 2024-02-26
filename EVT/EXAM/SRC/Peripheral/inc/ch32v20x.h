@@ -2,7 +2,7 @@
  * File Name          : ch32v20x.h
  * Author             : WCH
  * Version            : V1.0.0
- * Date               : 2021/06/06
+ * Date               : 2024/01/31
  * Description        : CH32V20x Device Peripheral Access Layer Header File.
  *********************************************************************************
  * Copyright (c) 2021 Nanjing Qinheng Microelectronics Co., Ltd.
@@ -38,8 +38,8 @@ extern "C" {
 #define HSI_VALUE              ((uint32_t)8000000) /* Value of the Internal oscillator in Hz */
 
 /* CH32V20x Standard Peripheral Library version number */
-#define __CH32V20x_STDPERIPH_VERSION_MAIN   (0x01) /* [15:8] main version */
-#define __CH32V20x_STDPERIPH_VERSION_SUB    (0x09) /* [7:0] sub version */
+#define __CH32V20x_STDPERIPH_VERSION_MAIN   (0x02) /* [15:8] main version */
+#define __CH32V20x_STDPERIPH_VERSION_SUB    (0x00) /* [7:0] sub version */
 #define __CH32V20x_STDPERIPH_VERSION        ( (__CH32V20x_STDPERIPH_VERSION_MAIN << 8)\
                                              |(__CH32V20x_STDPERIPH_VERSION_SUB << 0))
 
@@ -100,8 +100,8 @@ typedef enum IRQn
     EXTI15_10_IRQn = 56,       /* External Line[15:10] Interrupts                      */
     RTCAlarm_IRQn = 57,        /* RTC Alarm through EXTI Line Interrupt                */
     USBWakeUp_IRQn = 58,       /* USB Device WakeUp from suspend through EXTI Line Interrupt 	*/
-    USBHD_IRQn = 59,           /* USBHD global Interrupt                               */
-    USBHDWakeUp_IRQn = 60,     /* USB Host/Device WakeUp Interrupt                     */
+    USBFS_IRQn = 59,           /* USBFS global Interrupt                               */
+    USBFSWakeUp_IRQn = 60,     /* USB Host/Device WakeUp Interrupt                     */
 
 #ifdef CH32V20x_D6
     UART4_IRQn = 61,         /* UART4 global Interrupt                               */
@@ -130,8 +130,18 @@ typedef enum IRQn
 
 } IRQn_Type;
 
-#define HardFault_IRQn    EXC_IRQn
-#define ADC1_2_IRQn       ADC_IRQn
+#define HardFault_IRQn          EXC_IRQn
+#define ADC1_2_IRQn             ADC_IRQn
+
+#define USBHD_IRQn              USBFS_IRQn
+#define USBHDWakeUp_IRQn        USBFSWakeUp_IRQn
+
+#define USBHD_IRQHandler        USBFS_IRQHandler    
+#define USBHDWakeUp_IRQHandler  USBFSWakeUp_IRQHandler  
+
+#define USBOTG_FS               USBFSD
+#define USBOTG_H_FS             USBFSH
+
 
 #include <stdint.h>
 #include "core_riscv.h"
@@ -686,7 +696,7 @@ typedef struct
     __IO uint32_t Reserve1;
     __IO uint32_t OTG_CR;
     __IO uint32_t OTG_SR;
-} USBOTG_FS_TypeDef;
+} USBFSD_TypeDef;
 
 typedef struct
 {
@@ -728,7 +738,7 @@ typedef struct
     __IO uint32_t  Reserve19;
     __IO uint32_t  OTG_CR;
     __IO uint32_t  OTG_SR;
-} USBOTG_FS_HOST_TypeDef;
+} USBFSH_TypeDef;
 
 #if defined(CH32V20x_D8) || defined(CH32V20x_D8W)
 /* ETH10M Registers */
@@ -909,8 +919,8 @@ typedef struct
 #define RCC                                     ((RCC_TypeDef *)RCC_BASE)
 #define FLASH                                   ((FLASH_TypeDef *)FLASH_R_BASE)
 #define CRC                                     ((CRC_TypeDef *)CRC_BASE)
-#define USBOTG_FS                               ((USBOTG_FS_TypeDef *)USBFS_BASE)
-#define USBOTG_H_FS                             ((USBOTG_FS_HOST_TypeDef *)USBFS_BASE)
+#define USBFSD                                  ((USBFSD_TypeDef *)USBFS_BASE)
+#define USBFSH                                  ((USBFSH_TypeDef *)USBFS_BASE)
 #define EXTEN                                   ((EXTEN_TypeDef *)EXTEN_BASE)
 #define OPA                                     ((OPA_TypeDef *)OPA_BASE)
 #define ETH10M                                  ((ETH10M_TypeDef *)ETH10M_BASE)
@@ -4046,7 +4056,8 @@ typedef struct
 #define RCC_SRAMEN                              ((uint16_t)0x0004) /* SRAM interface clock enable */
 #define RCC_FLITFEN                             ((uint16_t)0x0010) /* FLITF clock enable */
 #define RCC_CRCEN                               ((uint16_t)0x0040) /* CRC clock enable */
-#define RCC_USBHD                               ((uint16_t)0x1000)
+#define RCC_USBFS                               ((uint16_t)0x1000)
+#define RCC_USBHD                               RCC_USBFS
 
 /******************  Bit definition for RCC_APB2PCENR register  *****************/
 #define RCC_AFIOEN                              ((uint32_t)0x00000001) /* Alternate Function I/O clock enable */

@@ -1,8 +1,8 @@
 /********************************** (C) COPYRIGHT ******************************
  * File Name         : wchble_rom.h
  * Author            : WCH
- * Version           : V1.30
- * Date              : 2023/07/01
+ * Version           : V1.40
+ * Date              : 2024/01/02
  * Description       : head file
  *                    Address Space
  *                       CODE:   00040000H - 0006FFFFH   192K
@@ -151,7 +151,7 @@ typedef struct
 /*********************************************************************
  * GLOBAL MACROS
  */
-#define VER_FILE  "CH32V20x_BLE_LIB_V1.3"
+#define VER_FILE  "CH32V20x_BLE_LIB_V1.4"
 extern const uint8_t VER_LIB[];  // LIB version
 #define SYSTEM_TIME_MICROSEN            625   // unit of process event timer is 625us
 #define MS1_TO_SYSTEM_TIME(x)  ((x)*1000/SYSTEM_TIME_MICROSEN)   // transform unit in ms to unit in 625us ( attentional bias )
@@ -865,7 +865,9 @@ extern const uint8_t VER_LIB[];  // LIB version
 #define TGAP_ADV_PRIMARY_PHY_OPTIONS            64  //!< Indicate the Host's preference or requirement concerning coding scheme.Default GAP_PHY_OPTIONS_NOPRE.
 #define TGAP_ADV_SECONDARY_PHY_OPTIONS          65  //!< indicate the Host's preference or requirement concerning coding scheme (including for periodic advertising).Default GAP_PHY_OPTIONS_NOPRE.
 
-#define TGAP_PARAMID_MAX                        66  //!< ID MAX-valid Parameter ID
+#define TGAP_ADV_RSP_RSSI_MIN                   66  //!< The minimum RSSI for advertising to send scanning response. Default -127.
+
+#define TGAP_PARAMID_MAX                        67  //!< ID MAX-valid Parameter ID
 
 // GAP_DEVDISC_MODE_DEFINES GAP Device Discovery Modes
 #define DEVDISC_MODE_NONDISCOVERABLE            0x00  //!< No discoverable setting
@@ -4781,6 +4783,17 @@ typedef struct tag_rf_config
  * @return  0 - success.
  */
 #define    RF_SetChannel  ((  void   (*)  ( uint32_t channel ))  BLE_LIB_JT(115) )
+
+/**
+ * @brief   rf mode set radio frequency and whitening channel index
+ *  note: LLEMode bit6 set 1
+ *
+ * @param   frequency -
+ * @param   ch - the whitening channel index
+ *
+ * @return  0 - success.
+ */
+#define    RF_SetFrequency  ((  bStatus_t   (*)  ( uint32_t frequency, uint8_t channel ))  BLE_LIB_JT(148) )
 
 /**
  * @brief   shut down rf frequency hopping

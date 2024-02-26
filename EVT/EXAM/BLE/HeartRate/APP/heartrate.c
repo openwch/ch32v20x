@@ -221,9 +221,6 @@ void HeartRate_Init()
         GAPRole_SetParameter(GAPROLE_SCAN_RSP_DATA, sizeof(scanRspData), scanRspData);
         GAPRole_SetParameter(GAPROLE_ADVERT_DATA, sizeof(advertData), advertData);
     }
-    // Set the GAP Characteristics
-    GGS_SetParameter(GGS_DEVICE_NAME_ATT, sizeof(attDeviceName), attDeviceName);
-
     // Setup the GAP Bond Manager
     {
         uint32_t passkey = 0; // passkey "000000"
@@ -256,6 +253,9 @@ void HeartRate_Init()
     HeartRate_AddService(GATT_ALL_SERVICES);
     DevInfo_AddService();
     Batt_AddService();
+
+    // Set the GAP Characteristics
+    GGS_SetParameter(GGS_DEVICE_NAME_ATT, sizeof(attDeviceName), attDeviceName);
 
     // Register for Heart Rate service callback
     HeartRate_Register(heartRateCB);

@@ -76,11 +76,6 @@ void IIC_Init(u32 bound, u16 address)
     I2C_Init( I2C1, &I2C_InitTSturcture );
 
 	I2C_Cmd( I2C1, ENABLE );
-
-#if (I2C_MODE == HOST_MODE)
-	I2C_AcknowledgeConfig( I2C1, ENABLE );
-
-#endif
 }
 
 /*********************************************************************

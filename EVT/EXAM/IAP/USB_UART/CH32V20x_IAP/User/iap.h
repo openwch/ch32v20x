@@ -14,7 +14,7 @@
 
 #include "ch32v20x.h"
 #include "stdio.h"
-#include "ch32v20x_usbotg_device.h"
+#include "ch32v20x_usbfs_device.h"
 
 #define USBD_DATA_SIZE               64
 

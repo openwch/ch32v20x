@@ -2,7 +2,7 @@
  * File Name          : main.c
  * Author             : WCH
  * Version            : V1.0.0
- * Date               : 2021/06/06
+ * Date               : 2024/01/06
  * Description        : Main program body.
  *********************************************************************************
  * Copyright (c) 2021 Nanjing Qinheng Microelectronics Co., Ltd.
@@ -19,8 +19,9 @@
  *This example demonstrates UART2 and USART3 single-wire half-duplex mode data
  *transmission and reception.
  *
- *    Hardware connection:PA2 -- PB10
- *
+ *Hardware connection:PA2 -- PB10
+ *Note: The pin should be GPIO_Mode_AF_OD in single-wire half-duplex mode.
+ *      The pin needs to connected a pull_up resistor 
  */
 
 #include "debug.h"
@@ -91,7 +92,7 @@ void USARTx_CFG(void)
     /* USART2 TX-->A.2 */
     GPIO_InitStructure.GPIO_Pin = GPIO_Pin_2; /* Only Configure TX Pin */
     GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;
-    GPIO_InitStructure.GPIO_Mode = GPIO_Mode_AF_PP;
+    GPIO_InitStructure.GPIO_Mode = GPIO_Mode_AF_OD;
     GPIO_Init(GPIOA, &GPIO_InitStructure);
 
     /* USART3 TX-->B.10 */
@@ -122,7 +123,7 @@ void USARTx_CFG(void)
  */
 int main(void)
 {
-    NVIC_PriorityGroupConfig(NVIC_PriorityGroup_2);
+    NVIC_PriorityGroupConfig(NVIC_PriorityGroup_1);
     SystemCoreClockUpdate();
     Delay_Init();
     USART_Printf_Init(115200);

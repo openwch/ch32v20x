@@ -12,11 +12,11 @@
 
 /******************************************************************************/
 /* Header file contains */
+#include <ch32v20x_usbfs_device.h>
 #include "CONFIG.h"
 #include "HAL.h"
 #include "gattprofile.h"
 #include "peripheral.h"
-#include "ch32v20x_usbotg_device.h"
 
 /*********************************************************************
  * GLOBAL TYPEDEFS
@@ -63,7 +63,7 @@ int main(void)
     HAL_Init();
     GAPRole_PeripheralInit();
     Peripheral_Init();
-    USBOTG_Init( );
+    USBFS_Init( );
     Main_Circulation();
 }
 

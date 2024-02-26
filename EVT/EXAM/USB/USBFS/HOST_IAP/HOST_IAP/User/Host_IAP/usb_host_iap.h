@@ -93,8 +93,6 @@ extern "C" {
 /* Flash Operation Key Variables, Operation with DEF_FLASH_OPERATION_KEY_CODE_x to ensure the correctness of flash operation*/
 extern volatile uint32_t Flash_Operation_Key0;                                   /* IAP Flash operation Key-code Variables 0 */
 extern volatile uint32_t Flash_Operation_Key1;                                   /* IAP Flash operation Key-code Variables 1 */
-extern __attribute__((aligned(4))) uint8_t  USBHD_TX_Buf[ MAX_PACKET_SIZE ] ;  // IN, must even address
-extern __attribute__((aligned(4))) uint8_t  USBHD_RX_Buf[ MAX_PACKET_SIZE ] ;  // OUT, must even address
 
 /*******************************************************************************/
 /* Data Structures */

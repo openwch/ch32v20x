@@ -57,7 +57,7 @@ void TIM3_Init( uint16_t arr, uint16_t psc )
     /* Configure timer3 interrupt */
     NVIC_InitStructure.NVIC_IRQChannel = TIM3_IRQn;
     NVIC_InitStructure.NVIC_IRQChannelPreemptionPriority = 1;
-    NVIC_InitStructure.NVIC_IRQChannelSubPriority = 2;
+    NVIC_InitStructure.NVIC_IRQChannelSubPriority = 1;
     NVIC_InitStructure.NVIC_IRQChannelCmd = ENABLE;
     NVIC_Init( &NVIC_InitStructure );
 
@@ -1719,7 +1719,7 @@ void USBH_MainDeal( void )
                            USBFSH_SetSelfSpeed( RootHubDev.Device[ hub_port ].bSpeed );
                            if( RootHubDev.bSpeed != USB_LOW_SPEED )
                            {
-                               USBOTG_H_FS->HOST_CTRL &= ~USBFS_UH_LOW_SPEED;
+                               USBFSH->HOST_CTRL &= ~USBFS_UH_LOW_SPEED;
                            }
 
                            /* Enumerate the USB device of the current HUB port */
@@ -1795,7 +1795,7 @@ void USBH_MainDeal( void )
                                    USBFSH_SetSelfSpeed( RootHubDev.Device[ hub_port ].bSpeed );
                                    if( RootHubDev.bSpeed != USB_LOW_SPEED )
                                    {
-                                       USBOTG_H_FS->HOST_CTRL &= ~USBFS_UH_LOW_SPEED;
+                                       USBFSH->HOST_CTRL &= ~USBFS_UH_LOW_SPEED;
                                    }
 
                                    /* Get endpoint data */

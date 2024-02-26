@@ -46,7 +46,7 @@
 int main( void )
 {
     /* Initialize system configuration */
-    NVIC_PriorityGroupConfig( NVIC_PriorityGroup_2 );
+    NVIC_PriorityGroupConfig( NVIC_PriorityGroup_1 );
 	Delay_Init( );
 	USART_Printf_Init( 115200 );
 	printf( "SystemClk:%d\r\n", SystemCoreClock );
@@ -69,12 +69,12 @@ int main( void )
 	TIM3_Init( 1, SystemCoreClock / 10000 - 1 );
 	printf( "TIM3 Init OK!\r\n" );
 
-	/* Initialize USBHD interface to communicate with the host  */
+	/* Initialize USBFS interface to communicate with the host  */
 	USBFS_RCC_Init( );
 	USBFS_Device_Init( ENABLE );
 	USB_Sleep_Wakeup_CFG( );
 
-	printf("USBHD Composite KM Device Test\r\n");
+	printf("USBFS Composite KM Device Test\r\n");
 
 	while( 1 )
     {

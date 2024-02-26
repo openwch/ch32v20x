@@ -114,7 +114,7 @@ void WCHNET_LinkProcess( void )
     phy_anlpar = ReadPHYReg(PHY_ANLPAR);
     phy_bmsr = ReadPHYReg(PHY_BMSR);
 
-    if( (phy_anlpar&PHY_ANLPAR_SELECTOR_FIELD) )
+    if(phy_anlpar&PHY_ANLPAR_SELECTOR_FIELD)
     {
         if( !(phyLinkStatus&PHY_LINK_WAIT_SUC) )
         {
@@ -145,7 +145,7 @@ void WCHNET_LinkProcess( void )
             }
         }
         else{
-            if((phySucCnt++ == 5) && ((phy_bmsr&(1<<5)) == 0))
+            if((phySucCnt++ == 5) && ((phy_bmsr&PHY_AutoNego_Complete) == 0))
             {
                 phySucCnt = 0;
                 phyRetryCnt = 0;
@@ -167,54 +167,62 @@ void WCHNET_LinkProcess( void )
     }
     else
     {
-        if( phyLinkStatus == PHY_LINK_WAIT_SUC )
+        if(phy_bmsr & PHY_AutoNego_Complete)
         {
-            if(phyLinkCnt++ == 10)
-            {
-                phyLinkCnt = 0;
-                phyRetryCnt = 0;
-                phyPNChangeCnt = 0;
-                phyLinkStatus = PHY_LINK_INIT;
-            }
+            phySucCnt = 0;
+            phyLinkCnt = 0;
+            phyLinkStatus = PHY_LINK_WAIT_SUC;
         }
-        else if(phyLinkStatus == PHY_LINK_INIT)
-        {
-            if(phyPNChangeCnt++ == 10)
+        else {
+            if( phyLinkStatus == PHY_LINK_WAIT_SUC )
             {
-                phyPNChangeCnt = 0;
-                phyPN = ReadPHYReg(PHY_MDIX);
-                phyPN &= ~0x0c;
-                phyPN ^= 0x03;
-                WritePHYReg(PHY_MDIX, phyPN);
-            }
-            else{
-                if((phyPN&0x0C) == PHY_PN_SWITCH_P)
+                if(phyLinkCnt++ == 10)
                 {
-                    phyPN |= PHY_PN_SWITCH_N;
-                }
-                else {
-                    phyPN &= ~PHY_PN_SWITCH_N;
-                }
-                WritePHYReg(PHY_MDIX, phyPN);
-            }
-        }
-        else if(phyLinkStatus == PHY_LINK_SUC_N)
-        {
-            if((phyPN&0x0C) == PHY_PN_SWITCH_P)
-            {
-                phyPN |= PHY_PN_SWITCH_N;
-                phy_bmcr = ReadPHYReg(PHY_BMCR);
-                phy_bmcr |= 1<<9;
-                WritePHYReg(PHY_BMCR, phy_bmcr);
-                Delay_Us(10);
-                WritePHYReg(PHY_MDIX, phyPN);
-            }
-            else{
-                if(phyRetryCnt++ == 15)
-                {
+                    phyLinkCnt = 0;
                     phyRetryCnt = 0;
                     phyPNChangeCnt = 0;
                     phyLinkStatus = PHY_LINK_INIT;
+                }
+            }
+            else if(phyLinkStatus == PHY_LINK_INIT)
+            {
+                if(phyPNChangeCnt++ == 10)
+                {
+                    phyPNChangeCnt = 0;
+                    phyPN = ReadPHYReg(PHY_MDIX);
+                    phyPN &= ~0x0c;
+                    phyPN ^= 0x03;
+                    WritePHYReg(PHY_MDIX, phyPN);
+                }
+                else{
+                    if((phyPN&0x0C) == PHY_PN_SWITCH_P)
+                    {
+                        phyPN |= PHY_PN_SWITCH_N;
+                    }
+                    else {
+                        phyPN &= ~PHY_PN_SWITCH_N;
+                    }
+                    WritePHYReg(PHY_MDIX, phyPN);
+                }
+            }
+            else if(phyLinkStatus == PHY_LINK_SUC_N)
+            {
+                if((phyPN&0x0C) == PHY_PN_SWITCH_P)
+                {
+                    phyPN |= PHY_PN_SWITCH_N;
+                    phy_bmcr = ReadPHYReg(PHY_BMCR);
+                    phy_bmcr |= 1<<9;
+                    WritePHYReg(PHY_BMCR, phy_bmcr);
+                    Delay_Us(10);
+                    WritePHYReg(PHY_MDIX, phyPN);
+                }
+                else{
+                    if(phyRetryCnt++ == 15)
+                    {
+                        phyRetryCnt = 0;
+                        phyPNChangeCnt = 0;
+                        phyLinkStatus = PHY_LINK_INIT;
+                    }
                 }
             }
         }
@@ -459,6 +467,7 @@ void ETH_Configuration( uint8_t *macAddr )
     R8_ETH_MACON2 |= PADCFG_AUTO_3;                                     //All short packets are automatically padded to 60 bytes
     R8_ETH_MACON2 |= RB_ETH_MACON2_TXCRCEN;                             //Hardware padded CRC
     R8_ETH_MACON2 &= ~RB_ETH_MACON2_HFRMEN;                             //Jumbo frames are not received
+    R8_ETH_MACON2 |= RB_ETH_MACON2_FULDPX;
     R16_ETH_MAMXFL = ETH_MAX_PACKET_SIZE;
     R8_ETH_ECON2 &= ~(0x07 << 1);
     R8_ETH_ECON2 |= 5 << 1;
@@ -497,6 +506,44 @@ uint32_t MACRAW_Tx(uint8_t *buff, uint16_t len)
 }
 
 /*********************************************************************
+ * @fn      ETH_LinkUpCfg
+ *
+ * @brief   When the PHY is connected, configure the relevant functions.
+ *
+ * @param   regval  BMSR register value
+ *
+ * @return  none.
+ */
+void ETH_LinkUpCfg(uint16_t regval)
+{
+    LinkSta = 1;
+    /* Receive CRC error packets */
+    R8_ETH_ERXFCON |= RB_ETH_ERXFCON_CRCEN;
+    CRCErrPktCnt = 0;
+    PhyPolarityDetect = 1;
+    phyLinkTime = LocalTime;
+    phyStatus = PHY_Linked_Status;
+    ETH_Start( );
+}
+
+/*********************************************************************
+ * @fn      ETH_LinkDownCfg
+ *
+ * @brief   When the PHY is disconnected, configure the relevant functions.
+ *
+ * @param   regval  BMSR register value
+ *
+ * @return  none.
+ */
+void ETH_LinkDownCfg(uint16_t regval)
+{
+    LinkSta = 0;
+    EXTEN->EXTEN_CTR &= ~EXTEN_ETH_10M_EN;
+    phyLinkReset = 1;
+    phyLinkTime = LocalTime;
+}
+
+/*********************************************************************
  * @fn      ETH_PHYLink
  *
  * @brief
@@ -505,44 +552,30 @@ uint32_t MACRAW_Tx(uint8_t *buff, uint16_t len)
  */
 void ETH_PHYLink( void )
 {
-    uint32_t phy_stat, phy_anlpar;
+    u16 phy_bsr, phy_anlpar;
 
+    phy_bsr = ReadPHYReg(PHY_BMSR);
     phy_anlpar = ReadPHYReg(PHY_ANLPAR);
-    phy_stat = ReadPHYReg(PHY_BMSR);                            //Read PHY Status Register
 
-    if((phy_stat&(PHY_Linked_Status))&&(phy_anlpar == 0)){      //restart negotiation
-        EXTEN->EXTEN_CTR &= ~EXTEN_ETH_10M_EN;
-        phyLinkReset = 1;
-        phyLinkTime = LocalTime;
-        return;
-    }
-
-    if( (phy_stat&(PHY_Linked_Status)) && (phy_stat&PHY_AutoNego_Complete) )
+    if(phy_bsr & PHY_Linked_Status)     //Valid link established
     {
-        printf("Link Suc\r\n");
-        if( phy_anlpar&(1<<6) )
+        if(phy_bsr & PHY_AutoNego_Complete)     //Auto-negotiation completed -- LinkUp
         {
-            R8_ETH_MACON2 |= RB_ETH_MACON2_FULDPX;
+            ETH_LinkUpCfg(phy_bsr);
         }
-        else
-        {
-            R8_ETH_MACON2 &= ~RB_ETH_MACON2_FULDPX;
+        else {
+            if(phy_anlpar == 0)     //The auto-negotiation signal of the peer device is not obtained
+            {
+                WritePHYReg(PHY_BMCR, PHY_Reset);
+                PHY_NEGOTIATION_PARAM_INIT();
+            }
+            else {
+                ETH_LinkDownCfg(phy_bsr);
+            }
         }
-        /* Receive CRC error packets */
-        R8_ETH_ERXFCON |= RB_ETH_ERXFCON_CRCEN;
-        CRCErrPktCnt = 0;
-        PhyPolarityDetect = 1;
-        phyLinkTime = LocalTime;
-        phyStatus = PHY_Linked_Status;
-        ETH_Start( );
-        LinkSta = 1;
     }
-    else
-    {
-        LinkSta = 0;
-        EXTEN->EXTEN_CTR &= ~EXTEN_ETH_10M_EN;
-        phyLinkReset = 1;
-        phyLinkTime = LocalTime;
+    else {                              //LinkDown
+        ETH_LinkDownCfg(phy_bsr);
     }
 }
 
@@ -577,7 +610,6 @@ void WCHNET_ETHIsr( void )
                 DMARxDescToGet->Status |= (ETH_DMARxDesc_FS|ETH_DMARxDesc_LS);
                 DMARxDescToGet->Status &= ~ETH_DMARxDesc_FL;
                 DMARxDescToGet->Status |= ((R16_ETH_ERXLN+4)<<ETH_DMARxDesc_FrameLengthShift);
-
                 /* Update the ETHERNET DMA global Rx descriptor with next Rx descriptor */
                 /* Selects the next DMA Rx descriptor list for next buffer to read */
                 DMARxDescToGet = (ETH_DMADESCTypeDef*) (DMARxDescToGet->Buffer2NextDescAddr);

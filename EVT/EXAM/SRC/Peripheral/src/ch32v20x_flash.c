@@ -60,7 +60,7 @@
 #define EraseTimeout               ((uint32_t)0x000B0000)
 #define ProgramTimeout             ((uint32_t)0x00005000)
 
-/* Flash Program Vaild Address */
+/* Flash Program Valid Address */
 #define ValidAddrStart             (FLASH_BASE)
 
 #if defined(CH32V20x_D8) || defined(CH32V20x_D8W)

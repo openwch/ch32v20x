@@ -36,7 +36,7 @@
  */
 int main(void)
 {
-	NVIC_PriorityGroupConfig(NVIC_PriorityGroup_2);
+	NVIC_PriorityGroupConfig(NVIC_PriorityGroup_1);
 	Delay_Init();
 	USART_Printf_Init(115200);
 	printf("SystemClk:%d\r\n",SystemCoreClock);
@@ -52,7 +52,7 @@ int main(void)
     /* Usb Init */
     USBFS_RCC_Init( );
     USBFS_Device_Init( ENABLE );
-    NVIC_EnableIRQ(USBHD_IRQn);
+    NVIC_EnableIRQ(USBFS_IRQn);
 
 	while(1)
 	{

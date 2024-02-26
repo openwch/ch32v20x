@@ -57,8 +57,8 @@ int main(void)
 	USART_Printf_Init( 115200 );
 	printf("SystemClk:%d\r\n",SystemCoreClock);
 
-    /* USBOTG_FS device init */
-	printf("CH372Device Running On USBOTG_FS Controller\r\n");
+    /* USBFSD device init */
+	printf("CH372Device Running On USBFSD Controller\r\n");
 	Delay_Ms( 10 );
 
     /* Variables init */
@@ -67,7 +67,7 @@ int main(void)
     /* Usb Init */
     USBFS_RCC_Init( );
     USBFS_Device_Init( ENABLE );
-    NVIC_EnableIRQ(USBHD_IRQn);
+    NVIC_EnableIRQ(USBFS_IRQn);
 
 	while(1)
 	{
@@ -80,14 +80,14 @@ int main(void)
                 ret = USBFS_Endp_DataUp(DEF_UEP2, &Data_Buffer[(RingBuffer_Comm.DealPtr) * DEF_USBD_FS_PACK_SIZE], RingBuffer_Comm.PackLen[RingBuffer_Comm.DealPtr], DEF_UEP_CPY_LOAD);
                 if( ret == 0 )
                 {
-                    NVIC_DisableIRQ(USBHD_IRQn);
+                    NVIC_DisableIRQ(USBFS_IRQn);
                     RingBuffer_Comm.RemainPack--;
                     RingBuffer_Comm.DealPtr++;
                     if(RingBuffer_Comm.DealPtr == DEF_Ring_Buffer_Max_Blks)
                     {
                         RingBuffer_Comm.DealPtr = 0;
                     }
-                    NVIC_EnableIRQ(USBHD_IRQn);
+                    NVIC_EnableIRQ(USBFS_IRQn);
                 }
             }
 
@@ -96,10 +96,10 @@ int main(void)
             {
                 if(RingBuffer_Comm.StopFlag)
                 {
-                    NVIC_DisableIRQ(USBHD_IRQn);
+                    NVIC_DisableIRQ(USBFS_IRQn);
                     RingBuffer_Comm.StopFlag = 0;
-                    NVIC_EnableIRQ(USBHD_IRQn);
-                    USBOTG_FS->UEP1_RX_CTRL = (USBOTG_FS->UEP1_RX_CTRL & ~USBFS_UEP_R_RES_MASK) | USBFS_UEP_R_RES_ACK;
+                    NVIC_EnableIRQ(USBFS_IRQn);
+                    USBFSD->UEP1_RX_CTRL = (USBFSD->UEP1_RX_CTRL & ~USBFS_UEP_R_RES_MASK) | USBFS_UEP_R_RES_ACK;
                 }
             }
         }

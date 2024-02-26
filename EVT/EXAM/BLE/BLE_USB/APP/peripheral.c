@@ -16,12 +16,12 @@
 /*********************************************************************
  * INCLUDES
  */
+#include <ch32v20x_usbfs_device.h>
 #include "CONFIG.h"
 #include "devinfoservice.h"
 #include "gattprofile.h"
 #include "peripheral.h"
 #include "ble_usb_service.h"
-#include "ch32v20x_usbotg_device.h"
 
 /*********************************************************************
  * MACROS
@@ -214,9 +214,6 @@ void Peripheral_Init()
         GAPRole_SetParameter(GAPROLE_MAX_CONN_INTERVAL, sizeof(uint16_t), &desired_max_interval);
     }
 
-    // Set the GAP Characteristics
-    GGS_SetParameter(GGS_DEVICE_NAME_ATT, sizeof(attDeviceName), attDeviceName);
-
     {
         uint16_t advInt = DEFAULT_ADVERTISING_INTERVAL;
 
@@ -248,6 +245,9 @@ void Peripheral_Init()
     DevInfo_AddService();                        // Device Information Service
     SimpleProfile_AddService(GATT_ALL_SERVICES); // Simple GATT Profile
     ble_usb_add_service(ble_usb_ServiceEvt);
+
+    // Set the GAP Characteristics
+    GGS_SetParameter(GGS_DEVICE_NAME_ATT, sizeof(attDeviceName), attDeviceName);
 
     // Setup the SimpleProfile Characteristic Values
     {
