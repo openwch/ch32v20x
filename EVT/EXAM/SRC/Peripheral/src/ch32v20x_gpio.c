@@ -2,7 +2,7 @@
  * File Name          : ch32v20x_gpio.c
  * Author             : WCH
  * Version            : V1.0.0
- * Date               : 2023/11/23
+ * Date               : 2024/05/06
  * Description        : This file provides all the GPIO firmware functions.
  *********************************************************************************
  * Copyright (c) 2021 Nanjing Qinheng Microelectronics Co., Ltd.
@@ -517,9 +517,7 @@ void GPIO_EventOutputCmd(FunctionalState NewState)
  *            GPIO_Remap_ETH - Ethernet remapping
  *            GPIO_Remap_CAN2 - CAN2 remapping
  *            GPIO_Remap_MII_RMII_SEL - MII or RMII selection
- *            GPIO_Remap_SWJ_NoJTRST - Full SWJ Enabled (JTAG-DP + SW-DP) but without JTRST
- *            GPIO_Remap_SWJ_JTAGDisable - JTAG-DP Disabled and SW-DP Enabled
- *            GPIO_Remap_SWJ_Disable - Full SWJ Disabled (JTAG-DP + SW-DP)
+ *            GPIO_Remap_SWJ_Disable - Full SWJ Disabled 
  *            GPIO_Remap_TIM2ITR1_PTP_SOF - Ethernet PTP output or USB OTG SOF (Start of Frame) connected
  *        to TIM2 Internal Trigger 1 for calibration
  *            GPIO_Remap_TIM2ITR1_PTP_SOF - Ethernet PTP output or USB OTG SOF (Start of Frame)
@@ -721,7 +719,10 @@ void GPIO_IPD_Unused(void)
                                           |GPIO_Pin_15;
             GPIO_InitStructure.GPIO_Mode = GPIO_Mode_IPU;
             GPIO_Init(GPIOA, &GPIO_InitStructure);
-            GPIO_InitStructure.GPIO_Pin = GPIO_Pin_1|GPIO_Pin_2\
+            GPIO_InitStructure.GPIO_Pin = GPIO_Pin_2;
+            GPIO_InitStructure.GPIO_Mode = GPIO_Mode_IPD;
+            GPIO_Init(GPIOB, &GPIO_InitStructure);
+            GPIO_InitStructure.GPIO_Pin = GPIO_Pin_1\
                                           |GPIO_Pin_3|GPIO_Pin_4\
                                           |GPIO_Pin_5|GPIO_Pin_8\
                                           |GPIO_Pin_9|GPIO_Pin_10\
@@ -751,7 +752,10 @@ void GPIO_IPD_Unused(void)
             GPIO_InitStructure.GPIO_Pin = GPIO_Pin_15;
             GPIO_InitStructure.GPIO_Mode = GPIO_Mode_IPU;
             GPIO_Init(GPIOA, &GPIO_InitStructure);
-            GPIO_InitStructure.GPIO_Pin = GPIO_Pin_2|GPIO_Pin_3\
+            GPIO_InitStructure.GPIO_Pin = GPIO_Pin_2;
+            GPIO_InitStructure.GPIO_Mode = GPIO_Mode_IPD;
+            GPIO_Init(GPIOB, &GPIO_InitStructure);
+            GPIO_InitStructure.GPIO_Pin = GPIO_Pin_3\
                                           |GPIO_Pin_4|GPIO_Pin_5\
                                           |GPIO_Pin_6|GPIO_Pin_7\
                                           |GPIO_Pin_8|GPIO_Pin_9\
@@ -780,7 +784,10 @@ void GPIO_IPD_Unused(void)
             GPIO_InitStructure.GPIO_Pin = GPIO_Pin_8;
             GPIO_InitStructure.GPIO_Mode = GPIO_Mode_IPU;
             GPIO_Init(GPIOA, &GPIO_InitStructure);
-            GPIO_InitStructure.GPIO_Pin = GPIO_Pin_2|GPIO_Pin_9\
+            GPIO_InitStructure.GPIO_Pin = GPIO_Pin_2;
+            GPIO_InitStructure.GPIO_Mode = GPIO_Mode_IPD;
+            GPIO_Init(GPIOB, &GPIO_InitStructure);
+            GPIO_InitStructure.GPIO_Pin = GPIO_Pin_9\
                                           |GPIO_Pin_10|GPIO_Pin_11\
                                           |GPIO_Pin_12|GPIO_Pin_13\
                                           |GPIO_Pin_14|GPIO_Pin_15;
@@ -809,7 +816,10 @@ void GPIO_IPD_Unused(void)
             GPIO_InitStructure.GPIO_Pin = GPIO_Pin_15;
             GPIO_InitStructure.GPIO_Mode = GPIO_Mode_IPU;
             GPIO_Init(GPIOA, &GPIO_InitStructure);
-            GPIO_InitStructure.GPIO_Pin = GPIO_Pin_2|GPIO_Pin_3\
+            GPIO_InitStructure.GPIO_Pin = GPIO_Pin_2;
+            GPIO_InitStructure.GPIO_Mode = GPIO_Mode_IPD;
+            GPIO_Init(GPIOB, &GPIO_InitStructure);
+            GPIO_InitStructure.GPIO_Pin = GPIO_Pin_3\
                                           |GPIO_Pin_4|GPIO_Pin_9;
             GPIO_InitStructure.GPIO_Mode = GPIO_Mode_IPU;
             GPIO_Init(GPIOB, &GPIO_InitStructure);
@@ -832,7 +842,10 @@ void GPIO_IPD_Unused(void)
         }
         case 0x20350500:     //CH32V203K6T6
         {
-            GPIO_InitStructure.GPIO_Pin = GPIO_Pin_2|GPIO_Pin_9\
+            GPIO_InitStructure.GPIO_Pin = GPIO_Pin_2;
+            GPIO_InitStructure.GPIO_Mode = GPIO_Mode_IPD;
+            GPIO_Init(GPIOB, &GPIO_InitStructure);
+            GPIO_InitStructure.GPIO_Pin = GPIO_Pin_9\
                                           |GPIO_Pin_10|GPIO_Pin_11\
                                           |GPIO_Pin_12|GPIO_Pin_13\
                                           |GPIO_Pin_14|GPIO_Pin_15;
@@ -857,7 +870,10 @@ void GPIO_IPD_Unused(void)
         }
         case 0x20320500:     //CH32V203K8T6
         {
-            GPIO_InitStructure.GPIO_Pin = GPIO_Pin_2|GPIO_Pin_9\
+            GPIO_InitStructure.GPIO_Pin = GPIO_Pin_2;
+            GPIO_InitStructure.GPIO_Mode = GPIO_Mode_IPD;
+            GPIO_Init(GPIOB, &GPIO_InitStructure);
+            GPIO_InitStructure.GPIO_Pin = GPIO_Pin_9\
                                           |GPIO_Pin_10|GPIO_Pin_11\
                                           |GPIO_Pin_12|GPIO_Pin_13\
                                           |GPIO_Pin_14|GPIO_Pin_15;
@@ -950,8 +966,11 @@ void GPIO_IPD_Unused(void)
                                           |GPIO_Pin_10|GPIO_Pin_15;
             GPIO_InitStructure.GPIO_Mode = GPIO_Mode_IPU;
             GPIO_Init(GPIOA, &GPIO_InitStructure);
+            GPIO_InitStructure.GPIO_Pin = GPIO_Pin_2;
+            GPIO_InitStructure.GPIO_Mode = GPIO_Mode_IPD;
+            GPIO_Init(GPIOB, &GPIO_InitStructure);
             GPIO_InitStructure.GPIO_Pin = GPIO_Pin_0|GPIO_Pin_1\
-                                          |GPIO_Pin_2|GPIO_Pin_3\
+                                          |GPIO_Pin_3\
                                           |GPIO_Pin_4|GPIO_Pin_5\
                                           |GPIO_Pin_9|GPIO_Pin_10\
                                           |GPIO_Pin_11|GPIO_Pin_12\

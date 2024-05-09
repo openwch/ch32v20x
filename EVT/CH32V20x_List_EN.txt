@@ -1,5 +1,5 @@
 
-Nanjing Qinheng Microelectronics Co., Ltd. 2024.02
+Nanjing Qinheng Microelectronics Co., Ltd. 2024.04
 
 https://wch-ic.com
 
@@ -210,6 +210,7 @@ Directory
   |      |      |      |      |-- USART_SynchronousMode: synchronous mode, master/slave mode, transceiver routine
   |      |      |      |      |-- USART_Printf:Serial port printing debugging routines
   |      |      |      |      |-- USART_Idle_Recv：USART use DMA receiving indeterminate length data routines
+  |      |      |      |      |-- USART_SmartCard：USART_SmartCard routines
   |      |      |      |-- USB
   |      |      |      |      |-- USBD
   |      |      |      |      |      |-- CH372:Simulates a custom USB device (CH372 device) with endpoints 1, 3 down and 2, 4 up. Data down from endpoint 1 is uploaded from endpoint 3 and not reversed, and data down from endpoint 2 is uploaded from endpoint 4 and reversed.
