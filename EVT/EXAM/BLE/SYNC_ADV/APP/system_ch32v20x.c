@@ -159,8 +159,8 @@ void SystemCoreClockUpdate (void)
       }
       else
       {
-#if defined (CH32V20x_D8W)
-        if((RCC->CFGR0 & (3<<22)) == (3<<22))
+#if defined (CH32V20x_D8W) || defined (CH32V20x_D8)
+        if(((RCC->CFGR0 & (3<<22)) == (3<<22)) && (RCC_USB5PRE_JUDGE()== SET))
         {
           SystemCoreClock = ((HSE_VALUE>>1)) * pllmull;
         }

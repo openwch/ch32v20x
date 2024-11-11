@@ -2,7 +2,7 @@
  * File Name          : main.c
  * Author             : WCH
  * Version            : V1.0.0
- * Date               : 2021/06/06
+ * Date               : 2024/06/26
  * Description        : Main program body.
  *********************************************************************************
  * Copyright (c) 2021 Nanjing Qinheng Microelectronics Co., Ltd.
@@ -21,12 +21,6 @@
  *
  */
 #include "debug.h"
-
-#define HSI      0   //HSI
-#define HSI_1_2  1   //HSI/2
-
-#define PLL_Source   HSI
-//#define PLL_Source   HSI_1_2
 
 /*********************************************************************
  * @fn      main

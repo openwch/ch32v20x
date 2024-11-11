@@ -14,8 +14,8 @@
  *@Note
  *HSE frequency check routine:
  *Checking the frequency value of HSE by using of HSI.
- * When HSE is 3 ~ 25M,the HSE clock is effective ,When CH32F20x_D8 and CH32F20x_D6 used.
- * When HSE is 32M,the HSE clock is effective ,When CH32F20x_D8C and CH32F20x_D8W used.
+ * When HSE is 3 ~ 25M,the HSE clock is effective ,When CH32V20x_D6 used.
+ * When HSE is 32M,the HSE clock is effective ,When CH32V20x_D8 and CH32V20x_D8W used.
  *HSE value -the frequency of HSE
  *MCO(PA8)	- outputs the HSE clock
  *

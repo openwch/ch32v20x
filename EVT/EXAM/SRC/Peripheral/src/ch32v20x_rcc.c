@@ -585,8 +585,8 @@ void RCC_GetClocksFreq(RCC_ClocksTypeDef* RCC_Clocks)
         }
         else
         {
-#if defined (CH32V20x_D8W)
-          if((RCC->CFGR0 & (3<<22)) == (3<<22))
+#if defined (CH32V20x_D8W) || defined (CH32V20x_D8)
+          if(((RCC->CFGR0 & (3<<22)) == (3<<22)) && (RCC_USB5PRE_JUDGE()== SET))
           {
               RCC_Clocks->SYSCLK_Frequency = ((HSE_VALUE>>1)) * pllmull;
           }
@@ -1028,5 +1028,34 @@ void RCC_ETHDIVConfig(uint32_t RCC_ETHPRE_Div)
     RCC->CFGR0 |= RCC_ETHPRE_Div<<28;
 }
 
+/*********************************************************************
+ * @fn      RCC_USB5PRE_JUDGE()
+ *
+ * @brief   Judge MCU supports PLLCLK/5 for USB.
+ *
+ * @param   FlagStatus - SET or RESET.
+ *                      SET - support
+ *                      RESET - not support
+ * @return  none
+ */
+FlagStatus RCC_USB5PRE_JUDGE()
+{
+
+#if defined (CH32V20x_D8W)
+    return SET;
+#elif defined (CH32V20x_D8)
+    RCC->AHBPCENR |= (1<<17);
+    *(vu32*)0x400250A0 = 0x55aaaa55;
+    if(*(vu32*)0x400250A0 == 0x55aaaa55)
+    {
+    return SET;
+    }
+    else
+    {
+    return RESET;
+    }
+#endif
+    return RESET;
+}
 
 

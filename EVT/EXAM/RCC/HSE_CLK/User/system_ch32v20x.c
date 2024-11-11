@@ -6,9 +6,11 @@
  * Description        : CH32V20x Device Peripheral Access Layer System Source File.
  *                      For HSE = 32Mhz (CH32V208x/CH32V203RBT6)
  *                      For HSE = 8Mhz (other CH32V203x)
+ *********************************************************************************
  * Copyright (c) 2021 Nanjing Qinheng Microelectronics Co., Ltd.
- * SPDX-License-Identifier: Apache-2.0
- *********************************************************************************/
+ * Attention: This software (modified or not) and binary are used for 
+ * microcontroller manufactured by Nanjing Qinheng Microelectronics.
+ *******************************************************************************/
 #include "ch32v20x.h" 
 
 /* 
@@ -75,14 +77,19 @@ void SystemCoreClockUpdate(void) {
 
         if (pllsource == 0x00) {
             SystemCoreClock = (HSI_VALUE >> 1) * pllmull;
-        } else {
-            if ((RCC->CFGR0 & RCC_PLLXTPRE) != (uint32_t) RESET) {
+        } 
+        else 
+        {
+            if ((RCC->CFGR0 & RCC_PLLXTPRE) != (uint32_t) RESET) 
+            {
 #if defined (CH32V20x_D8) || defined (CH32V20x_D8W)
                 SystemCoreClock = ((HSE_VALUE >> 2) >> 1) * pllmull;
 #else
                 SystemCoreClock = (HSE_VALUE >> 1) * pllmull;
 #endif
-            } else {
+            } 
+            else 
+            {
 #if defined (CH32V20x_D8) || defined (CH32V20x_D8W)
                 SystemCoreClock = (HSE_VALUE >> 2) * pllmull;
 #else

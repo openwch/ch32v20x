@@ -44,6 +44,7 @@ void HardFault_Handler(void)
     printf("mcause:%08x\r\n",__get_MCAUSE());
     printf("mtval:%08x\r\n",__get_MTVAL());
     printf("mepc:%08x\r\n",__get_MEPC());
+    NVIC_SystemReset();
     while (1);
 }
 

@@ -2,7 +2,7 @@
  * File Name          : system_ch32v20x.h
  * Author             : WCH
  * Version            : V1.0.0
- * Date               : 2021/06/06
+ * Date               : 2024/06/26
  * Description        : CH32V20x Device Peripheral Access Layer System Header File.
 *********************************************************************************
 * Copyright (c) 2021 Nanjing Qinheng Microelectronics Co., Ltd.
@@ -15,6 +15,12 @@
 #ifdef __cplusplus
  extern "C" {
 #endif 
+
+#define HSI      0   //HSI
+#define HSI_1_2  1   //HSI/2
+
+//#define PLL_Source   HSI
+#define PLL_Source   HSI_1_2
 
 extern uint32_t SystemCoreClock;          /* System Clock Frequency (Core Clock) */
 

@@ -92,7 +92,7 @@ typedef struct
 #define RCC_USBCLKSource_PLLCLK_Div2    ((uint8_t)0x01)
 #define RCC_USBCLKSource_PLLCLK_Div3    ((uint8_t)0x02)
 
-#ifdef CH32V20x_D8W
+#if defined (CH32V20x_D8) || defined (CH32V20x_D8W)
   #define RCC_USBCLKSource_PLLCLK_Div5    ((uint8_t)0x03)
 
 #endif
@@ -250,6 +250,7 @@ void        RCC_ClearFlag(void);
 ITStatus    RCC_GetITStatus(uint8_t RCC_IT);
 void        RCC_ClearITPendingBit(uint8_t RCC_IT);
 void        RCC_ADCCLKADJcmd(FunctionalState NewState);
+FlagStatus  RCC_USB5PRE_JUDGE();
 
 #if defined(CH32V20x_D8) || defined(CH32V20x_D8W)
 void RCC_ETHDIVConfig(uint32_t RCC_ETHPRE_Div);
