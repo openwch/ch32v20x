@@ -78,7 +78,8 @@ u8 RTC_Init(void)
     u8 temp = 0;
     RCC_APB1PeriphClockCmd(RCC_APB1Periph_PWR | RCC_APB1Periph_BKP, ENABLE);
     PWR_BackupAccessCmd(ENABLE);
-
+    RTC_ClearITPendingBit(RTC_IT_ALR);
+    RTC_ClearITPendingBit(RTC_IT_SEC);
     /* Is it the first configuration */
 
     BKP_DeInit();
@@ -247,7 +248,6 @@ u8 RTC_Get(void)
                     temp -= 366;
                 else
                 {
-                    temp1++;
                     break;
                 }
             }

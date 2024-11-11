@@ -2,7 +2,7 @@
  * File Name          : system_ch32v20x.c
  * Author             : WCH
  * Version            : V1.0.0
- * Date               : 2021/06/06
+ * Date               : 2024/06/26
  * Description        : CH32V20x Device Peripheral Access Layer System Source File.
  *                      For HSE = 32Mhz (CH32V208x/CH32V203RBT6)
  *                      For HSE = 8Mhz (other CH32V203x)
@@ -102,8 +102,8 @@ void SystemCoreClockUpdate (void)
       }
       else
       {
-#if defined (CH32V20x_D8W)
-        if((RCC->CFGR0 & (3<<22)) == (3<<22))
+#if defined (CH32V20x_D8W) || defined (CH32V20x_D8)
+        if(((RCC->CFGR0 & (3<<22)) == (3<<22)) && (RCC_USB5PRE_JUDGE()== SET))
         {
           SystemCoreClock = ((HSE_VALUE>>1)) * pllmull;
         }
