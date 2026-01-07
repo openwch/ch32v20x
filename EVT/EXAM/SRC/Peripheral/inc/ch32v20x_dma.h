@@ -1,8 +1,8 @@
 /********************************** (C) COPYRIGHT  *******************************
  * File Name          : ch32v20x_dma.h
  * Author             : WCH
- * Version            : V1.0.0
- * Date               : 2021/06/06
+ * Version            : V1.0.1
+ * Date               : 2025/04/28
  * Description        : This file contains all the functions prototypes for the
  *                      DMA firmware library.
 *********************************************************************************

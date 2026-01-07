@@ -4,7 +4,7 @@
  * Version            : V1.0.0
  * Date               : 2021/06/06
  * Description        : CH32V20x Device Peripheral Access Layer System Source File.
- *                      For HSE = 32Mhz (CH32V208x/CH32V203RBT6)
+ *                      For HSE = 32Mhz (CH32V208x/CH32V203RBT)
  *                      For HSE = 8Mhz (other CH32V203x)
  *********************************************************************************
  * Copyright (c) 2021 Nanjing Qinheng Microelectronics Co., Ltd.

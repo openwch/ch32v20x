@@ -1,8 +1,8 @@
 /********************************** (C) COPYRIGHT  *******************************
  * File Name          : ch32v20x_can.c
  * Author             : WCH
- * Version            : V1.0.0
- * Date               : 2021/06/06
+ * Version            : V1.0.1
+ * Date               : 2025/04/26
  * Description        : This file provides all the CAN firmware functions.
 *********************************************************************************
 * Copyright (c) 2021 Nanjing Qinheng Microelectronics Co., Ltd.
@@ -55,7 +55,7 @@ static ITStatus CheckITStatus(uint32_t CAN_Reg, uint32_t It_Bit);
  * @brief   Deinitializes the CAN peripheral registers to their default reset
  *        values.
  *
- * @param   CANx - where x can be 1 or 2 to select the CAN peripheral.
+ * @param   CANx - where x can be 1 to select the CAN peripheral.
  *
  * @return  none
  */
@@ -65,11 +65,6 @@ void CAN_DeInit(CAN_TypeDef* CANx)
 	{
 		RCC_APB1PeriphResetCmd(RCC_APB1Periph_CAN1, ENABLE);
 		RCC_APB1PeriphResetCmd(RCC_APB1Periph_CAN1, DISABLE);
-	}
-	else
-	{  
-		RCC_APB1PeriphResetCmd(RCC_APB1Periph_CAN2, ENABLE);
-		RCC_APB1PeriphResetCmd(RCC_APB1Periph_CAN2, DISABLE);
 	}
 }
 

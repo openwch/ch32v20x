@@ -280,7 +280,7 @@ void ScanParam_RefreshNotify(uint16_t connHandle)
         if(noti.pValue != NULL)
         {
             // send notification
-            noti.handle = scanParamAttrTbl[SCAN_PARAM_REFRESH_CCCD_IDX].handle;
+            noti.handle = scanParamAttrTbl[SCAN_PARAM_REFRESH_IDX].handle;
             noti.len = SCAN_PARAM_REFRESH_LEN;
             noti.pValue[0] = SCAN_PARAM_REFRESH_REQ;
 

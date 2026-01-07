@@ -1,8 +1,8 @@
 /********************************** (C) COPYRIGHT *******************************
  * File Name          : ch32v20x_usbfs_device.c
  * Author             : WCH
- * Version            : V1.0.0
- * Date               : 2024/01/06
+ * Version            : V1.0.1
+ * Date               : 2025/08/05
  * Description        : This file provides all the USBFS firmware functions.
 *********************************************************************************
 * Copyright (c) 2021 Nanjing Qinheng Microelectronics Co., Ltd.
@@ -43,7 +43,7 @@ volatile UINT16  SetupReqLen;
 /******************************************************************************/
 /* Device Descriptor */
 const UINT8 MyDevDescrHD[] = { 0x12, 0x01, 0x10, 0x01, 0xFF, 0x80, 0x55,
-        DevEP0SIZE, 0x48, 0x43, 0xe0, 0x55,  //USB MODULE
+        DevEP0SIZE, 0x86, 0x1A, 0xe0, 0x55,  //USB MODULE
         (u8) Version_Num, (u8) (Version_Num >> 8),
         0x00, 0x00, 0x00, 0x01 };
 

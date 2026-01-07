@@ -34,7 +34,7 @@
  * CONSTANTS
  */
 // Maximum number of scan responses
-#define DEFAULT_MAX_SCAN_RES                10
+#define DEFAULT_MAX_SCAN_RES                80
 
 // Scan duration in 0.625ms
 #define DEFAULT_SCAN_DURATION               2400
@@ -122,8 +122,8 @@ enum
 {
     BLE_DISC_STATE_IDLE, // Idle
     BLE_DISC_STATE_SVC,  // Service discovery
-    BLE_DISC_STATE_CHAR,  // Characteristic discovery
-    BLE_DISC_STATE_CCCD,  // client characteristic configuration discovery
+    BLE_DISC_STATE_CHAR, // Characteristic discovery
+    BLE_DISC_STATE_CCCD  // client characteristic configuration discovery
 };
 /*********************************************************************
  * TYPEDEFS
@@ -305,7 +305,7 @@ uint16_t Central_ProcessEvent(uint8_t task_id, uint16_t events)
     {
         uint8_t *pMsg;
 
-        if((pMsg = tmos_msg_receive(centralTaskId)) != NULL)
+        if((pMsg = tmos_msg_receive(task_id)) != NULL)
         {
             central_ProcessTMOSMsg((tmos_event_hdr_t *)pMsg);
             // Release the TMOS message
@@ -547,7 +547,7 @@ static void centralProcessGATTMsg(gattMsgEvent_t *pMsg)
             ((pMsg->method == ATT_ERROR_RSP) &&
              (pMsg->msg.errorRsp.reqOpcode == ATT_WRITE_REQ)))
     {
-        if(pMsg->method == ATT_ERROR_RSP == ATT_ERROR_RSP)
+        if(pMsg->method == ATT_ERROR_RSP)
         {
             uint8_t status = pMsg->msg.errorRsp.errCode;
 

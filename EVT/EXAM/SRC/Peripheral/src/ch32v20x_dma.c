@@ -1,8 +1,8 @@
 /********************************** (C) COPYRIGHT  *******************************
  * File Name          : ch32v20x_dma.c
  * Author             : WCH
- * Version            : V1.0.0
- * Date               : 2021/06/06
+ * Version            : V1.0.1
+ * Date               : 2025/04/28
  * Description        : This file provides all the DMA firmware functions.
 *********************************************************************************
 * Copyright (c) 2021 Nanjing Qinheng Microelectronics Co., Ltd.
@@ -34,8 +34,8 @@
  * @brief   Deinitializes the DMAy Channelx registers to their default
  *        reset values.
  *
- * @param   DMAy_Channelx - here y can be 1 or 2 to select the DMA and x can be
- *        1 to 7 for DMA1 and 1 to 11 for DMA2 to select the DMA Channel.
+ * @param   DMAy_Channelx - here y can be 1 to select the DMA and x can be
+ *        1 to 8 select the DMA Channel.
  *
  * @return  none
  */
@@ -86,8 +86,8 @@ void DMA_DeInit(DMA_Channel_TypeDef *DMAy_Channelx)
  * @brief   Initializes the DMAy Channelx according to the specified
  *        parameters in the DMA_InitStruct.
  *
- * @param   DMAy_Channelx - here y can be 1 or 2 to select the DMA and x can be
- *        1 to 7 for DMA1 and 1 to 11 for DMA2 to select the DMA Channel.
+ * @param   DMAy_Channelx - here y can be 1 to select the DMA and x can be
+ *        1 to 8 for DMA to select the DMA Channel.
  *          DMA_InitStruct - pointer to a DMA_InitTypeDef structure that contains
  *        contains the configuration information for the specified DMA Channel.
  *
@@ -115,8 +115,8 @@ void DMA_Init(DMA_Channel_TypeDef *DMAy_Channelx, DMA_InitTypeDef *DMA_InitStruc
  *
  * @brief   Fills each DMA_InitStruct member with its default value.
  *
- * @param   DMAy_Channelx - here y can be 1 or 2 to select the DMA and x can be
- *        1 to 7 for DMA1 and 1 to 11 for DMA2 to select the DMA Channel.
+ * @param   DMAy_Channelx - here y can be 1 to select the DMA and x can be
+ *        1 to 8 for DMA to select the DMA Channel.
  *          DMA_InitStruct - pointer to a DMA_InitTypeDef structure that contains
  *        contains the configuration information for the specified DMA Channel.
  *
@@ -142,8 +142,8 @@ void DMA_StructInit(DMA_InitTypeDef *DMA_InitStruct)
  *
  * @brief   Enables or disables the specified DMAy Channelx.
  *
- * @param   DMAy_Channelx - here y can be 1 or 2 to select the DMA and x can be
- *        1 to 7 for DMA1 and 1 to 11 for DMA2 to select the DMA Channel.
+ * @param   DMAy_Channelx - here y can be 1 to select the DMA and x can be
+ *        1 to 8 for DMA to select the DMA Channel.
  *          NewState - new state of the DMAy Channelx(ENABLE or DISABLE).
  *
  * @return  none
@@ -165,8 +165,8 @@ void DMA_Cmd(DMA_Channel_TypeDef *DMAy_Channelx, FunctionalState NewState)
  *
  * @brief   Enables or disables the specified DMAy Channelx interrupts.
  *
- * @param   DMAy_Channelx - here y can be 1 or 2 to select the DMA and x can be
- *        1 to 7 for DMA1 and 1 to 11 for DMA2 to select the DMA Channel.
+ * @param   DMAy_Channelx - here y can be 1 to select the DMA and x can be
+ *        1 to 8 for DMA to select the DMA Channel.
  *          DMA_IT - specifies the DMA interrupts sources to be enabled
  *        or disabled.
  *           DMA_IT_TC - Transfer complete interrupt mask
@@ -193,8 +193,8 @@ void DMA_ITConfig(DMA_Channel_TypeDef *DMAy_Channelx, uint32_t DMA_IT, Functiona
  *
  * @brief   Sets the number of data units in the current DMAy Channelx transfer.
  *
- * @param   DMAy_Channelx - here y can be 1 or 2 to select the DMA and x can be
- *        1 to 7 for DMA1 and 1 to 11 for DMA2 to select the DMA Channel.
+ * @param   DMAy_Channelx - here y can be 1 to select the DMA and x can be
+ *        1 to 8 for DMA to select the DMA Channel.
  *          DataNumber - The number of data units in the current DMAy Channelx
  *        transfer.
  *
@@ -211,8 +211,8 @@ void DMA_SetCurrDataCounter(DMA_Channel_TypeDef *DMAy_Channelx, uint16_t DataNum
  * @brief   Returns the number of remaining data units in the current
  *        DMAy Channelx transfer.
  *
- * @param   DMAy_Channelx - here y can be 1 or 2 to select the DMA and x can be
- *        1 to 7 for DMA1 and 1 to 11 for DMA2 to select the DMA Channel.
+ * @param   DMAy_Channelx - here y can be 1 to select the DMA and x can be
+ *        1 to 8 for DMA to select the DMA Channel.
  *
  * @return  DataNumber - The number of remaining data units in the current
  *        DMAy Channelx transfer.
@@ -256,10 +256,10 @@ uint16_t DMA_GetCurrDataCounter(DMA_Channel_TypeDef *DMAy_Channelx)
  *            DMA1_FLAG_TC7 - DMA1 Channel7 transfer complete flag.
  *            DMA1_FLAG_HT7 - DMA1 Channel7 half transfer flag.
  *            DMA1_FLAG_TE7 - DMA1 Channel7 transfer error flag.
- *            DMA2_FLAG_GL1 - DMA2 Channel1 global flag.
- *            DMA2_FLAG_TC1 - DMA2 Channel1 transfer complete flag.
- *            DMA2_FLAG_HT1 - DMA2 Channel1 half transfer flag.
- *            DMA2_FLAG_TE1 - DMA2 Channel1 transfer error flag.
+ *            DMA1_FLAG_GL8 - DMA1 Channel8 global flag.
+ *            DMA1_FLAG_TC8 - DMA1 Channel8 transfer complete flag.
+ *            DMA1_FLAG_HT8 - DMA1 Channel8 half transfer flag.
+ *            DMA1_FLAG_TE8 - DMA1 Channel8 transfer error flag.
 
  * @return  The new state of DMAy_FLAG (SET or RESET).
  */
@@ -316,10 +316,10 @@ FlagStatus DMA_GetFlagStatus(uint32_t DMAy_FLAG)
  *            DMA1_FLAG_TC7 - DMA1 Channel7 transfer complete flag.
  *            DMA1_FLAG_HT7 - DMA1 Channel7 half transfer flag.
  *            DMA1_FLAG_TE7 - DMA1 Channel7 transfer error flag.
- *            DMA2_FLAG_GL1 - DMA2 Channel1 global flag.
- *            DMA2_FLAG_TC1 - DMA2 Channel1 transfer complete flag.
- *            DMA2_FLAG_HT1 - DMA2 Channel1 half transfer flag.
- *            DMA2_FLAG_TE1 - DMA2 Channel1 transfer error flag.
+ *            DMA1_FLAG_GL8 - DMA1 Channel8 global flag.
+ *            DMA1_FLAG_TC8 - DMA1 Channel8 transfer complete flag.
+ *            DMA1_FLAG_HT8 - DMA1 Channel8 half transfer flag.
+ *            DMA1_FLAG_TE8 - DMA1 Channel8 transfer error flag.
  * @return  none
  */
 void DMA_ClearFlag(uint32_t DMAy_FLAG)
@@ -362,10 +362,10 @@ void DMA_ClearFlag(uint32_t DMAy_FLAG)
  *            DMA1_IT_TC7 - DMA1 Channel7 transfer complete flag.
  *            DMA1_IT_HT7 - DMA1 Channel7 half transfer flag.
  *            DMA1_IT_TE7 - DMA1 Channel7 transfer error flag.
- *            DMA2_IT_GL1 - DMA2 Channel1 global flag.
- *            DMA2_IT_TC1 - DMA2 Channel1 transfer complete flag.
- *            DMA2_IT_HT1 - DMA2 Channel1 half transfer flag.
- *            DMA2_IT_TE1 - DMA2 Channel1 transfer error flag.
+ *            DMA1_IT_GL8 - DMA1 Channel8 global flag.
+ *            DMA1_IT_TC8 - DMA1 Channel8 transfer complete flag.
+ *            DMA1_IT_HT8 - DMA1 Channel8 half transfer flag.
+ *            DMA1_IT_TE8 - DMA1 Channel8 transfer error flag.
  * @return  The new state of DMAy_IT (SET or RESET).
  */
 ITStatus DMA_GetITStatus(uint32_t DMAy_IT)
@@ -420,10 +420,10 @@ ITStatus DMA_GetITStatus(uint32_t DMAy_IT)
  *            DMA1_IT_TC7 - DMA1 Channel7 transfer complete flag.
  *            DMA1_IT_HT7 - DMA1 Channel7 half transfer flag.
  *            DMA1_IT_TE7 - DMA1 Channel7 transfer error flag.
- *            DMA2_IT_GL1 - DMA2 Channel1 global flag.
- *            DMA2_IT_TC1 - DMA2 Channel1 transfer complete flag.
- *            DMA2_IT_HT1 - DMA2 Channel1 half transfer flag.
- *            DMA2_IT_TE1 - DMA2 Channel1 transfer error flag.
+ *            DMA1_IT_GL8 - DMA1 Channel8 global flag.
+ *            DMA1_IT_TC8 - DMA1 Channel8 transfer complete flag.
+ *            DMA1_IT_HT8 - DMA1 Channel8 half transfer flag.
+ *            DMA1_IT_TE8 - DMA1 Channel8 transfer error flag.
  * @return  none
  */
 void DMA_ClearITPendingBit(uint32_t DMAy_IT)

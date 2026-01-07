@@ -1,8 +1,8 @@
 /********************************** (C) COPYRIGHT  *******************************
  * File Name          : ch32v20x.h
  * Author             : WCH
- * Version            : V1.0.0
- * Date               : 2024/07/04
+ * Version            : V1.0.1
+ * Date               : 2025/11/04
  * Description        : CH32V20x Device Peripheral Access Layer Header File.
  *********************************************************************************
  * Copyright (c) 2021 Nanjing Qinheng Microelectronics Co., Ltd.
@@ -18,7 +18,7 @@ extern "C" {
 
 #if !defined(CH32V20x_D8W) && !defined(CH32V20x_D8) && !defined(CH32V20x_D6)
 #define CH32V20x_D6              /* CH32V203F6-CH32V203F8-CH32V203G6-CH32V203G8-CH32V203K8-CH32V203C6-CH32V203C8-CH32V203G8*/
-//#define CH32V20x_D8              /* CH32V203RBT6 */
+//#define CH32V20x_D8              /* CH32V203RBT */
 //#define CH32V20x_D8W             /* CH32V208 */
 
 #endif
@@ -30,7 +30,11 @@ extern "C" {
     #if defined(CH32V20x_D8) || defined(CH32V20x_D8W)
     #define HSE_VALUE    ((uint32_t)32000000) /* Value of the External oscillator in Hz */
     #else
-    #define HSE_VALUE    ((uint32_t)8000000) /* Value of the External oscillator in Hz */
+        #if defined(HSE_VALUE_12M) 
+            #define HSE_VALUE    ((uint32_t)12000000) /* Value of the External oscillator in Hz */
+        #else
+            #define HSE_VALUE    ((uint32_t)8000000) /* Value of the External oscillator in Hz */
+        #endif   
     #endif
 #endif
 
@@ -41,7 +45,7 @@ extern "C" {
 
 /* CH32V20x Standard Peripheral Library version number */
 #define __CH32V20x_STDPERIPH_VERSION_MAIN   (0x02) /* [15:8] main version */
-#define __CH32V20x_STDPERIPH_VERSION_SUB    (0x02) /* [7:0] sub version */
+#define __CH32V20x_STDPERIPH_VERSION_SUB    (0x03) /* [7:0] sub version */
 #define __CH32V20x_STDPERIPH_VERSION        ( (__CH32V20x_STDPERIPH_VERSION_MAIN << 8)\
                                              |(__CH32V20x_STDPERIPH_VERSION_SUB << 0))
 
@@ -841,9 +845,6 @@ typedef struct
 #define GPIOB_BASE                              (APB2PERIPH_BASE + 0x0C00)
 #define GPIOC_BASE                              (APB2PERIPH_BASE + 0x1000)
 #define GPIOD_BASE                              (APB2PERIPH_BASE + 0x1400)
-#define GPIOE_BASE                              (APB2PERIPH_BASE + 0x1800)
-#define GPIOF_BASE                              (APB2PERIPH_BASE + 0x1C00)
-#define GPIOG_BASE                              (APB2PERIPH_BASE + 0x2000)
 #define ADC1_BASE                               (APB2PERIPH_BASE + 0x2400)
 #define ADC2_BASE                               (APB2PERIPH_BASE + 0x2800)
 #define TIM1_BASE                               (APB2PERIPH_BASE + 0x2C00)
@@ -898,9 +899,6 @@ typedef struct
 #define GPIOB                                   ((GPIO_TypeDef *)GPIOB_BASE)
 #define GPIOC                                   ((GPIO_TypeDef *)GPIOC_BASE)
 #define GPIOD                                   ((GPIO_TypeDef *)GPIOD_BASE)
-#define GPIOE                                   ((GPIO_TypeDef *)GPIOE_BASE)
-#define GPIOF                                   ((GPIO_TypeDef *)GPIOF_BASE)
-#define GPIOG                                   ((GPIO_TypeDef *)GPIOG_BASE)
 #define ADC1                                    ((ADC_TypeDef *)ADC1_BASE)
 #define ADC2                                    ((ADC_TypeDef *)ADC2_BASE)
 #define TKey1                                   ((ADC_TypeDef *)ADC1_BASE)

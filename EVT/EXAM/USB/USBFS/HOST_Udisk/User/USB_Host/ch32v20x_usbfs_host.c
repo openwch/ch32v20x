@@ -65,6 +65,7 @@ void USBFS_Host_Init( FunctionalState sta )
     if( sta == ENABLE )
     {
         USBFSH->BASE_CTRL = USBFS_UC_HOST_MODE;
+        while(!(USBFSH->BASE_CTRL & USBFS_UC_HOST_MODE));
         USBFSH->HOST_CTRL = 0;
         USBFSH->DEV_ADDR = 0;
         USBFSH->HOST_EP_MOD = USBFS_UH_EP_TX_EN | USBFS_UH_EP_RX_EN;

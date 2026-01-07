@@ -100,8 +100,8 @@ extern "C" {
 
 // 允许同时存在的分包消息的最大发送个数
 #define CONFIG_MESH_TX_SEG_COUNT_MIN           (1)
-#define CONFIG_MESH_TX_SEG_COUNT_DEF           (2)
-#define CONFIG_MESH_TX_SEG_COUNT_MAX           (4)
+#define CONFIG_MESH_TX_SEG_COUNT_DEF           (1)
+#define CONFIG_MESH_TX_SEG_COUNT_MAX           (1)
 
 // 允许同时存在的分包消息的最大接收个数
 #define CONFIG_MESH_RX_SEG_COUNT_MIN           (1)

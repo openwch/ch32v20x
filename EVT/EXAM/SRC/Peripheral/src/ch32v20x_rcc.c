@@ -1,8 +1,8 @@
 /********************************** (C) COPYRIGHT *******************************
  * File Name          : ch32v20x_rcc.c
  * Author             : WCH
- * Version            : V1.0.0
- * Date               : 2024/01/30
+ * Version            : V1.0.1
+ * Date               : 2025/04/20
  * Description        : This file provides all the RCC firmware functions.
 *********************************************************************************
 * Copyright (c) 2021 Nanjing Qinheng Microelectronics Co., Ltd.
@@ -676,12 +676,10 @@ void RCC_AHBPeriphClockCmd(uint32_t RCC_AHBPeriph, FunctionalState NewState)
  *            RCC_APB2Periph_GPIOB.
  *            RCC_APB2Periph_GPIOC.
  *            RCC_APB2Periph_GPIOD.
- *            RCC_APB2Periph_GPIOE
  *            RCC_APB2Periph_ADC1.
  *            RCC_APB2Periph_ADC2
  *            RCC_APB2Periph_TIM1.
  *            RCC_APB2Periph_SPI1.
- *            RCC_APB2Periph_TIM8
  *            RCC_APB2Periph_USART1.
  *          NewState - ENABLE or DISABLE
  *
@@ -747,12 +745,10 @@ void RCC_APB1PeriphClockCmd(uint32_t RCC_APB1Periph, FunctionalState NewState)
  *            RCC_APB2Periph_GPIOB.
  *            RCC_APB2Periph_GPIOC.
  *            RCC_APB2Periph_GPIOD.
- *            RCC_APB2Periph_GPIOE
  *            RCC_APB2Periph_ADC1.
  *            RCC_APB2Periph_ADC2
  *            RCC_APB2Periph_TIM1.
  *            RCC_APB2Periph_SPI1.
- *            RCC_APB2Periph_TIM8
  *            RCC_APB2Periph_USART1.
  *          NewState - ENABLE or DISABLE
  *

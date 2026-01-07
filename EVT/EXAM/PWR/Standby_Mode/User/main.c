@@ -1,8 +1,8 @@
 /********************************** (C) COPYRIGHT *******************************
  * File Name          : main.c
  * Author             : WCH
- * Version            : V1.0.0
- * Date               : 2023/12/29
+ * Version            : V1.0.1
+ * Date               : 2025/7/29
  * Description        : Main program body.
  *********************************************************************************
  * Copyright (c) 2021 Nanjing Qinheng Microelectronics Co., Ltd.
@@ -16,9 +16,10 @@
  *WKUP(PA0)
  *This routine demonstrates that WFI enters the standby mode, the rising edge of
  *the WKUP (PA0) pin exits the standby mode,Program reset after wake-up.
- *Note: In order to reduce power consumption as much as possible, it is
- *recommended to set the unused GPIO to pull-down mode.
- *
+ *For the small package model of the chip, there are some pins that have not been led out 
+ *compared to the largest package, or some pins that have been packaged but not used. 
+ *These pins need to be set as pull-down\up inputs to reduce power consumption.
+ *Please refer to the routine configuration for details.
  */
 
 #include "debug.h"
@@ -37,22 +38,21 @@
 int main(void)
 {
     GPIO_InitTypeDef GPIO_InitStructure = {0};
-
+    NVIC_PriorityGroupConfig(NVIC_PriorityGroup_1);
+    SystemCoreClockUpdate();
+    Delay_Init();
+    Delay_Ms(1000);
     /* To reduce power consumption, unused GPIOs need to be set as pull-down inputs */
     RCC_APB2PeriphClockCmd(RCC_APB2Periph_GPIOA|RCC_APB2Periph_GPIOB|
-            RCC_APB2Periph_GPIOC|RCC_APB2Periph_GPIOD|RCC_APB2Periph_GPIOE, ENABLE);
+        RCC_APB2Periph_GPIOC|RCC_APB2Periph_GPIOD|RCC_APB2Periph_AFIO, ENABLE);
+    GPIO_PinRemapConfig(GPIO_Remap_SWJ_Disable,ENABLE); 
     GPIO_InitStructure.GPIO_Pin = GPIO_Pin_All;
     GPIO_InitStructure.GPIO_Mode = GPIO_Mode_IPD;
-
     GPIO_Init(GPIOA, &GPIO_InitStructure);
     GPIO_Init(GPIOB, &GPIO_InitStructure);
     GPIO_Init(GPIOC, &GPIO_InitStructure);
     GPIO_Init(GPIOD, &GPIO_InitStructure);
-    GPIO_Init(GPIOE, &GPIO_InitStructure);
 
-    NVIC_PriorityGroupConfig(NVIC_PriorityGroup_1);
-    SystemCoreClockUpdate();
-    Delay_Init();
     USART_Printf_Init(115200);
     printf("SystemClk:%d\r\n", SystemCoreClock);
     printf( "ChipID:%08x\r\n", DBGMCU_GetCHIPID() );

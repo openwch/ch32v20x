@@ -19,10 +19,10 @@ CH223 chip application routine
 #include "debug.h"
 #include"CH223.h"
 
-u8 ndo = 0;//Number of NDOs in SrcCap
-u8 IT_flag = 0;
-u8 rst_IT = 0, cc_IT = 0, srccap_IT = 0, ps_IT = 0;//Interrupt flag
-s16 Calibrattion_Val = 0;
+vu8 ndo = 0;//Number of NDOs in SrcCap
+vu8 IT_flag = 0;
+vu8 rst_IT = 0, cc_IT = 0, srccap_IT = 0, ps_IT = 0;//Interrupt flag
+vs16 Calibrattion_Val = 0;
 u16 TxBuf[1024];
 
 /*********************************************************************
@@ -150,7 +150,7 @@ void DMA_Tx_Init(DMA_Channel_TypeDef *DMA_CHx, u32 ppadr, u32 memadr, u16 bufsiz
  */
 u16 Get_ConversionVal(s16 val)
 {
-    if((val + Calibrattion_Val) < 0)
+    if((val + Calibrattion_Val) < 0 || val==0)
         return 0;
     if((Calibrattion_Val + val) > 4095||val==4095)
         return 4095;
@@ -242,12 +242,12 @@ int main(void)
     CH223_Init();
     ADC_Function_Init();
     EXTI0_INT_INIT();
-    printf("PD_CH223 Demo£°\r\n");
+    printf("PD_CH223 DemoÔºÅÔºÅ\r\n");
     printf("\r\n");
     IT_flag = CH223_ReadOneByte(0xB4);
     if (IT_flag==0x0c)
     {
-        printf("power-on reset£°£°£°\r\n");
+        printf("power-on resetÔºÅÔºÅÔºÅÔºÅ\r\n");
         printf("\r\n");
         Delay_Ms(10);
         printf("CC Connecting...\r\n");
@@ -258,14 +258,14 @@ int main(void)
         Delay_Ms(1);
         while(ps_IT)      //PS_RDY -->The power supply reaches the required working state
         {
-            CH223_WriteOneByte(0xB6, 0x19);                    //The initial voltage is set to 9V£∫0x2D
+            CH223_WriteOneByte(0xB6, 0x19);                    //The initial voltage is set to 9VÔºö0x2D
             res = CH223_ReadOneByte(0xB6);
-            printf("The initial voltage is set to£∫%dV\r\n",res*200/1000);
+            printf("The initial voltage is set toÔºö%dV\r\n",res*200/1000);
             printf("\r\n");
             Delay_Ms(300);
             if (rst_IT == 1)
             {
-                printf("power-on reset£°£°£°\r\n");
+                printf("power-on resetÔºÅÔºÅÔºÅÔºÅ\r\n");
                 printf("\r\n");
             }
             if (cc_IT == 1)
@@ -281,7 +281,7 @@ int main(void)
             Buffer_Change(Buffer, ndo);
             if (srccap_IT == 1)        //Display SRCCAP message
             {
-                printf("Received SrcCap,NDO data is£∫\n");
+                printf("Received SrcCap,NDO data isÔºö\n");
                 printf("\r\n");
                 for(n = 0; n < ndo; n++)
                 {

@@ -16,7 +16,7 @@
  *ADC1 channel 1 (PA1), ADC2 channel 3 (PA3)), and the rule group channel obtains
  *dual ADC conversion data through DMA interrupt.
  *
- *Note:only applied toCH32V203
+ *Note:only applied to CH32V20x_D6
  */
 
 #include "debug.h"
@@ -24,8 +24,8 @@
 /* Global Variable */
 u32 TxBuf[1];
 u16 Adc_Val[4];
-s16 Calibrattion_Val1 = 0;
-s16 Calibrattion_Val2 = 0;
+vs16 Calibrattion_Val1 = 0;
+vs16 Calibrattion_Val2 = 0;
 
 void DMA1_Channel1_IRQHandler(void) __attribute__((interrupt("WCH-Interrupt-fast")));
 
@@ -74,7 +74,6 @@ void ADC_Function_Init(void)
     ADC_StartCalibration(ADC1);
     while(ADC_GetCalibrationStatus(ADC1));
     Calibrattion_Val1 = Get_CalibrationValue(ADC1);
-
 
     ADC_Init(ADC2, &ADC_InitStructure);
     ADC_RegularChannelConfig(ADC2, ADC_Channel_3, 1, ADC_SampleTime_239Cycles5);

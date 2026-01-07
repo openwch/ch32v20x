@@ -1,5 +1,5 @@
 
-南京沁恒微电子股份有限公司 2024.04
+南京沁恒微电子股份有限公司 2025.10
 最新资料请到我们的网站上查询
 https://wch.cn
 
@@ -20,7 +20,7 @@ https://wch.cn
   |      |      |      |      |-- Ld：ld文件  
   |      |      |      |      |-- Peripheral：基本外设驱动源文件及头文件
   |      |      |      |      |-- Startup：启动文件。针对用户使用芯片型号包含下列相应的启动文件，同时在ch32v20x.h文件中选择匹配芯片型号定义 
-  |      |      |      |      |      |-- startup_ch32v20x_D6.S：适用于CH32V203F6-CH32V203G6-CH32V203K6-CH32V203K8-CH32V203C6-CH32V203C8-CH32V203G8系列
+  |      |      |      |      |      |-- startup_ch32v20x_D6.S：适用于CH32V203F6-CH32V203G6-CH32V203K8-CH32V203C6-CH32V203C8-CH32V203G8系列
   |      |      |      |      |      |-- startup_ch32v20x_D8.S：适用于CH32V203RB系列
   |      |      |      |      |      |-- startup_ch32v20x_D8W.S：适用于CH32V208系列  
   |      |      |      |-- ADC
@@ -43,6 +43,8 @@ https://wch.cn
   |      |      |      |      |      |-- I2C_OP_CH223：通过I2C操作CH223例程 ——仅适用于CH32V20x_D8
   |      |      |      |      |-- WS2812_LED
   |      |      |      |      |      |-- WS2812_LED：通过SPI\PWM操作WS2812例程 
+  |      |      |      |      |-- CoreMark
+  |      |      |      |      |      |-- CoreMark：168M（12M_HSE）系统时钟下CoreMark跑分例程——仅适用于CH32V20x_D6,168M仅适用于商业级应用：0℃ ≤TA ≤ 70℃且散热良好
   |      |      |      |-- BLE ——仅适用于CH32V20x_D8W  
   |      |      |      |      |-- BackupUpgrade_IAP：备份无线升级IAP例程，检测当前代码标志，判断是否搬运备份区代码到用户区并运行用户区代码 
   |      |      |      |      |-- BackupUpgrade_OTA：备份无线升级用户例程，外设从机例程基础上添加OTA功能，可将升级固件保存到备份区后跳转IAP程序进行升级  
@@ -157,8 +159,10 @@ https://wch.cn
   |      |      |      |      |-- Stop_Mode：低功耗，停机模式例程
   |      |      |      |      |-- Standby_RAM_LV_Mode：待机模式开启LV时，RAM 2K、30K低功耗数据保持例程
   |      |      |      |      |-- Standby_RAM_Mode：待机模式不开启LV时，RAM 2K、30K低功耗数据保持例程
+  |      |      |      |      |-- Standby_RAM_Application：待机模式，RAM 2K、30K低功耗数据保持应用例程
   |      |      |      |      |-- PVD_Wakeup：STOP模式PVD中断唤醒例程
   |      |      |      |      |-- PVD_VoltageJudger：PVD电压判定例程
+  |      |      |      |      |-- Stop_Mode_RTC_Wakeup：RTC唤醒停机模式例程
   |      |      |      |-- PMP
   |      |      |      |      |-- PMP：物理内存保护例程
   |      |      |      |-- RCC
@@ -198,6 +202,10 @@ https://wch.cn
   |      |      |      |      |-- Synchro_Timer：定时器同步模式
   |      |      |      |      |-- TIM_DMA：定时器使用DMA例程
   |      |      |      |      |-- Encoder：定时器编码器例程
+  |      |      |      |      |-- TIM_INT：定时器中断例程
+  |      |      |      |      |-- TIM_Continuous：Timer continuous routines
+  |      |      |      |      |-- PWM_Phase-shifted：Timer PWM Phase shifted routines
+  |      |      |      |      |-- PWM_6_Step：Timer 6_Step PWM routines
   |      |      |      |-- TOUCHKEY
   |      |      |      |      |-- TKey：TouchKey检测例程  
   |      |      |      |-- USART

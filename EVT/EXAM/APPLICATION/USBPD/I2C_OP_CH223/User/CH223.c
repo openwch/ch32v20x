@@ -1,9 +1,9 @@
 /********************************** (C) COPYRIGHT *******************************
  * File Name          : CH223.c
  * Author             : WCH
- * Version            : V1.0.0
- * Date               : 2023/08/15
- * Description        : CH223芯片操作相关文件
+ * Version            : V1.0.1
+ * Date               : 2025/10/27
+ * Description        : This file provides all the CH223 functions
 *********************************************************************************
 * Copyright (c) 2021 Nanjing Qinheng Microelectronics Co., Ltd.
 * Attention: This software (modified or not) and binary are used for
@@ -36,7 +36,6 @@ void IIC_Init(u32 bound, u16 address)
     I2C_InitTypeDef I2C_InitTSturcture={0};
 
     RCC_APB2PeriphClockCmd( RCC_APB2Periph_GPIOB | RCC_APB2Periph_AFIO, ENABLE );
-//    GPIO_PinRemapConfig(GPIO_Remap_I2C1, ENABLE);
     RCC_APB1PeriphClockCmd( RCC_APB1Periph_I2C2, ENABLE );
 
     GPIO_InitStructure.GPIO_Pin = GPIO_Pin_10;
@@ -59,6 +58,7 @@ void IIC_Init(u32 bound, u16 address)
 
     I2C_Cmd( I2C2, ENABLE );
 }
+
 /*********************************************************************
  * @fn      CH223_Init
  *
@@ -192,6 +192,7 @@ void CH223_Read(u16 ReadAddr, u32 *pBuffer, u16 NumToRead)
         NumToRead--;
     }
 }
+
 /*********************************************************************
  * @fn      CH223_Write
  *
@@ -213,7 +214,6 @@ void CH223_Write(u16 WriteAddr, u8 *pBuffer, u16 NumToWrite)
         Delay_Ms(2);
     }
 }
-
 
 /*********************************************************************
  * @fn      Buffer_Change
@@ -255,6 +255,7 @@ void Buffer_Change(u32 buffer[], int n)
         }
     }
 }
+
 /*********************************************************************
  * @fn      Current_VI
  *
@@ -275,8 +276,9 @@ void Current_VI(u8 ndo_select)
     tempI = BufferI[ndo_select] % 10;
     current[1] = BufferI[ndo_select] / 10;
 
-    printf("The current regulating voltage is：%d.%dV,%d.%dA\t\r\n", current[0], tempV, current[1], tempI);
+    printf("The current regulating voltage is: %d.%dV,%d.%dA\t\r\n", current[0], tempV, current[1], tempI);
 }
+
 /*********************************************************************
  * @fn      User_Set_VI
  *
@@ -287,7 +289,6 @@ void Current_VI(u8 ndo_select)
  *
  * @return  none
 */
-
 void User_Set_VI(u8 TargetData)
 {
     u8 ndo_select = 0, state_flag = 0;

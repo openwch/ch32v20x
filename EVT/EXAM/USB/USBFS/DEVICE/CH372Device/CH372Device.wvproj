@@ -7,7 +7,7 @@
 			"toolchain": "RISC-V",
 			"series": "CH32V203",
 			"rtos": "NoneOS",
-			"mcu": "CH32V203RBT6",
+			"mcu": "CH32V203RBT",
 			"description": "ROM(byte): 64K, SRAM(byte): 20K, CHIP PINS: 32, GPIO PORTS: 27.\\nWCH CH32V2 series of mainstream MCUs covers the needs of a large variety of applications in the industrial,medical and consumer markets. High performance with first-class peripherals and low-power,low-voltage operation is paired with a high level of integration at accessible prices with a simple architecture and easy-to-use tools.",
 			"link": "WCH-Link",
 			"peripheral_version": "1.0"

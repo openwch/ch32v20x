@@ -1,8 +1,8 @@
 /********************************** (C) COPYRIGHT  *******************************
  * File Name          : ch32v20x_flash.c
  * Author             : WCH
- * Version            : V1.0.0
- * Date               : 2021/06/06
+ * Version            : V1.0.1
+ * Date               : 2025/01/09
  * Description        : This file provides all the FLASH firmware functions.
 *********************************************************************************
 * Copyright (c) 2021 Nanjing Qinheng Microelectronics Co., Ltd.
@@ -56,7 +56,7 @@
 #define EEPROM_ADDRESS             ((uint32_t)0x8070000)
 
 /* Delay definition */
-#define EraseTimeout               ((uint32_t)0x000B0000)
+#define EraseTimeout               ((uint32_t)0x00130000)
 #define ProgramTimeout             ((uint32_t)0x00005000)
 
 /* Flash Program Valid Address */
@@ -72,6 +72,9 @@
 #define Size_256B                  0x100
 #define Size_4KB                   0x1000
 #define Size_32KB                  0x8000
+
+#define FLASH_EraseAll_Delay(t)  ({for(uint32_t i = 0; i<t; i++){asm("nop");}})
+
 
 /*********************************************************************
  * @fn      FLASH_Unlock
@@ -177,7 +180,11 @@ FLASH_Status FLASH_EraseAllPages(void)
 
         FLASH->CTLR &= CR_MER_Reset;
     }
-
+#if defined (CH32V20x_D8) || defined (CH32V20x_D8W)
+        FLASH_EraseAll_Delay(180000);
+#else
+        FLASH_EraseAll_Delay(150000);
+#endif
     return status;
 }
 
@@ -203,6 +210,11 @@ FLASH_Status FLASH_EraseAllBank1Pages(void)
 
         FLASH->CTLR &= CR_MER_Reset;
     }
+#if defined (CH32V20x_D8) || defined (CH32V20x_D8W)
+        FLASH_EraseAll_Delay(180000);
+#else
+        FLASH_EraseAll_Delay(150000);
+#endif
     return status;
 }
 
@@ -643,7 +655,7 @@ FlagStatus FLASH_GetFlagStatus(uint32_t FLASH_FLAG)
 
     if(FLASH_FLAG == FLASH_FLAG_OPTERR)
     {
-        if((FLASH->OBR & FLASH_FLAG_OPTERR) != (uint32_t)RESET)
+        if((FLASH->OBR & (1<<0)) != (uint32_t)RESET)
         {
             bitstatus = SET;
         }

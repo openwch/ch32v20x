@@ -100,6 +100,7 @@ LITE_OS_SEC_TEXT_MINOR VOID OsTskCycleStart(VOID)
 
     return;
 }
+
 /*****************************************************************************
 Function   : OsTskCycleEnd
 Description: quit task and get cycle count
@@ -132,6 +133,7 @@ LITE_OS_SEC_TEXT_MINOR VOID OsTskCycleEnd(VOID)
 
     return;
 }
+
 /*****************************************************************************
 Function   : OsTskCycleEndStart
 Description: start task to get cycles count in current task ending

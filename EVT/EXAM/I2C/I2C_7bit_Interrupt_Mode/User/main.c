@@ -165,9 +165,6 @@ int main(void)
         }
 
 
-
-
-
 #elif (I2C_MODE == SLAVE_MODE)
 	printf("IIC Slave mode\r\n");
 	IIC_Init( 80000, RXAdderss);
