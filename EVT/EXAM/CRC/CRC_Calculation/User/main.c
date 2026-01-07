@@ -1,8 +1,8 @@
 /********************************** (C) COPYRIGHT *******************************
 * File Name          : main.c
 * Author             : WCH
-* Version            : V1.0.0
-* Date               : 2024/02/21
+* Version            : V1.0.1
+* Date               : 2025/10/27
 * Description        : Main program body.
 *********************************************************************************
 * Copyright (c) 2021 Nanjing Qinheng Microelectronics Co., Ltd.
@@ -32,7 +32,7 @@ u32 SRC_BUF[Buf_Size] = {0x01020304, 0x05060708, 0x090A0B0C, 0x0D0E0F10,
                          0x61626364, 0x65666768, 0x696A6B6C, 0x6D6E6F70,
                          0x71727374, 0x75767778, 0x797A7B7C, 0x7D7E7F80};
 
-u32 CRCValue = 0;
+vu32 CRCValue = 0;
 /*********************************************************************
  * @fn      main
  *

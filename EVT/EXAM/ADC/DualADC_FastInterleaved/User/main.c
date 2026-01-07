@@ -16,16 +16,16 @@
  *ADC1 channel 1 (PA1), ADC2 channel 1 (PA1)), the rule group channel obtains
  *dual ADC conversion data through ADC interrupt.
  *
- *Note:only applied toCH32V203
+ *Note:only applied to CH32V20x_D6
  */
 
 #include "debug.h"
 
 /* Global Variable */
 u16 Adc_Val[2];
-u32 temp;
-s16 Calibrattion_Val1 = 0;
-s16 Calibrattion_Val2 = 0;
+vu32 temp;
+vs16 Calibrattion_Val1 = 0;
+vs16 Calibrattion_Val2 = 0;
 
 void ADC1_2_IRQHandler(void) __attribute__((interrupt("WCH-Interrupt-fast")));
 /*********************************************************************

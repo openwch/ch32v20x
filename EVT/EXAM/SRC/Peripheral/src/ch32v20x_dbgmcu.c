@@ -22,7 +22,7 @@
  */
 uint32_t DBGMCU_GetREVID(void)
 {
-	return ((*(uint32_t *)0x1FFFF704) >> 16);
+	return ((*(uint32_t *)0x1FFFF704) & IDCODE_DEVID_MASK);
 }
 
 /*********************************************************************
@@ -34,7 +34,7 @@ uint32_t DBGMCU_GetREVID(void)
  */
 uint32_t DBGMCU_GetDEVID(void)
 {
-	return ((*(uint32_t *)0x1FFFF704) & IDCODE_DEVID_MASK);
+	return ((*(uint32_t *)0x1FFFF704) >> 16);
 }
 
 /*********************************************************************
@@ -105,20 +105,20 @@ void DBGMCU_Config(uint32_t DBGMCU_Periph, FunctionalState NewState)
  *
  * @return Device identifier.
  *          ChipID List-
- *	CH32V203C8U6-0x203005x0
- * 	CH32V203C8T6-0x203105x0
- *  CH32V203K8T6-0x203205x0
- *  CH32V203C6T6-0x203305x0
- *  CH32V203G6U6-0x203605x0
- *  CH32V203G8R6-0x203B05x0
- *  CH32V203F8U6-0x203E05x0
- *  CH32V203F6P6-0x203705x0-0x203905x0
- *  CH32V203F8P6-0x203A05x0
- *  CH32V203RBT6-0x203405xC
- *  CH32V208WBU6-0x208005xC
- *  CH32V208RBT6-0x208105xC
- *  CH32V208CBU6-0x208205xC
- *  CH32V208GBU6-0x208305xC
+ *	CH32V203C8U-0x203005x0
+ * 	CH32V203C8T-0x203105x0
+ *  CH32V203K8T-0x203205x0
+ *  CH32V203C6T-0x203305x0
+ *  CH32V203G6U-0x203605x0
+ *  CH32V203G8R-0x203B05x0
+ *  CH32V203F8U-0x203D05x0
+ *  CH32V203F6P-0x203705x0-0x203905x0
+ *  CH32V203F8P-0x203A05x0
+ *  CH32V203RBT-0x203405xC
+ *  CH32V208WBU-0x208005xC
+ *  CH32V208RBT-0x208105xC
+ *  CH32V208CBU-0x208205xC
+ *  CH32V208GBU-0x208305xC
  */
 uint32_t DBGMCU_GetCHIPID( void )
 {

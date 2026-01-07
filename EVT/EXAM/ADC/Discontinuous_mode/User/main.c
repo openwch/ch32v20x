@@ -1,8 +1,8 @@
 /********************************** (C) COPYRIGHT *******************************
  * File Name          : main.c
  * Author             : WCH
- * Version            : V1.0.0
- * Date               : 2021/06/06
+ * Version            : V1.0.1
+ * Date               : 2025/01/16
  * Description        : Main program body.
  *********************************************************************************
  * Copyright (c) 2021 Nanjing Qinheng Microelectronics Co., Ltd.
@@ -21,7 +21,7 @@
  */
 
 #include "debug.h"
-s16 Calibrattion_Val = 0;
+vs16 Calibrattion_Val = 0;
 
 /*********************************************************************
  * @fn      ADC_Function_Init
@@ -55,12 +55,13 @@ void ADC_Function_Init(void)
     ADC_InitStructure.ADC_Mode = ADC_Mode_Independent;
     ADC_InitStructure.ADC_ScanConvMode = DISABLE;
     ADC_InitStructure.ADC_ContinuousConvMode = DISABLE;
-    ADC_InitStructure.ADC_ExternalTrigConv = ADC_ExternalTrigInjecConv_T1_CC4;
+    ADC_InitStructure.ADC_ExternalTrigConv = ADC_ExternalTrigConv_None;
     ADC_InitStructure.ADC_DataAlign = ADC_DataAlign_Right;
     ADC_InitStructure.ADC_NbrOfChannel = 1;
     ADC_Init(ADC1, &ADC_InitStructure);
 
     ADC_InjectedSequencerLengthConfig(ADC1, 3);
+	ADC_ExternalTrigInjectedConvConfig(ADC1, ADC_ExternalTrigInjecConv_T1_CC4);  
     ADC_InjectedChannelConfig(ADC1, ADC_Channel_1, 1, ADC_SampleTime_239Cycles5);
     ADC_InjectedChannelConfig(ADC1, ADC_Channel_3, 2, ADC_SampleTime_239Cycles5);
     ADC_InjectedChannelConfig(ADC1, ADC_Channel_4, 3, ADC_SampleTime_239Cycles5);
@@ -92,16 +93,10 @@ void ADC_Function_Init(void)
  */
 void TIM1_PWM_In(u16 arr, u16 psc, u16 ccp)
 {
-    GPIO_InitTypeDef        GPIO_InitStructure = {0};
     TIM_OCInitTypeDef       TIM_OCInitStructure = {0};
     TIM_TimeBaseInitTypeDef TIM_TimeBaseInitStructure = {0};
 
-    RCC_APB2PeriphClockCmd(RCC_APB2Periph_GPIOA | RCC_APB2Periph_TIM1, ENABLE);
-
-    GPIO_InitStructure.GPIO_Pin = GPIO_Pin_11;
-    GPIO_InitStructure.GPIO_Mode = GPIO_Mode_AF_PP;
-    GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;
-    GPIO_Init(GPIOA, &GPIO_InitStructure);
+    RCC_APB2PeriphClockCmd(RCC_APB2Periph_TIM1, ENABLE);
 
     TIM_TimeBaseInitStructure.TIM_Period = arr;
     TIM_TimeBaseInitStructure.TIM_Prescaler = psc;
@@ -116,9 +111,6 @@ void TIM1_PWM_In(u16 arr, u16 psc, u16 ccp)
     TIM_OC4Init(TIM1, &TIM_OCInitStructure);
 
     TIM_CtrlPWMOutputs(TIM1, ENABLE);
-    TIM_OC4PreloadConfig(TIM1, TIM_OCPreload_Disable);
-    TIM_ARRPreloadConfig(TIM1, ENABLE);
-    TIM_SelectOutputTrigger(TIM1, TIM_TRGOSource_Update);
     TIM_Cmd(TIM1, ENABLE);
 }
 

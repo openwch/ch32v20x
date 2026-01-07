@@ -1,11 +1,3 @@
-/*
- * @Filename: 
- * @Author: Liangquan Yang
- * @Date: 2024-02-20 15:51:06
- * @Email: yangliangquan788@outlook.com
- * @LastEditTime: 2024-02-20 15:51:11
- * @Description: Please input the describe
- */
 /********************************** (C) COPYRIGHT *******************************
  * File Name          : ch32v20x_conf.h
  * Author             : WCH

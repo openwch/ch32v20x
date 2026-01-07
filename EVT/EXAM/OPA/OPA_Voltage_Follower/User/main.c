@@ -2,7 +2,7 @@
  * File Name          : main.c
  * Author             : WCH
  * Version            : V1.0.0
- * Date               : 2021/06/06
+ * Date               : 2025/04/09
  * Description        : Main program body.
  *********************************************************************************
  * Copyright (c) 2021 Nanjing Qinheng Microelectronics Co., Ltd.
@@ -44,10 +44,10 @@ void OPA1_Init( void )
 
     RCC_APB2PeriphClockCmd( RCC_APB2Periph_GPIOA | RCC_APB2Periph_GPIOB, ENABLE );
     GPIO_InitStructure.GPIO_Pin = GPIO_Pin_6;
-    GPIO_InitStructure.GPIO_Mode = GPIO_Mode_IN_FLOATING;
+    GPIO_InitStructure.GPIO_Mode = GPIO_Mode_AIN;
     GPIO_Init( GPIOA, &GPIO_InitStructure );
         GPIO_InitStructure.GPIO_Pin = GPIO_Pin_0;
-    GPIO_InitStructure.GPIO_Mode = GPIO_Mode_IN_FLOATING;
+    GPIO_InitStructure.GPIO_Mode = GPIO_Mode_AIN;
     GPIO_Init( GPIOB, &GPIO_InitStructure );
 
     OPA_InitStructure.OPA_NUM = OPA1;
@@ -77,7 +77,6 @@ void ADC_Channel3_Init( void )
 
     GPIO_InitStructure.GPIO_Pin = GPIO_Pin_3;
     GPIO_InitStructure.GPIO_Mode = GPIO_Mode_AIN;
-    GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;
     GPIO_Init( GPIOA, &GPIO_InitStructure );
 
     ADC_InitStructure.ADC_Mode = ADC_Mode_Independent;

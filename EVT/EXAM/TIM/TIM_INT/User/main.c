@@ -2,7 +2,7 @@
  * File Name          : main.c
  * Author             : WCH
  * Version            : V1.0.0
- * Date               : 2024/08/23
+ * Date               : 2025/09/23
  * Description        : Main program body.
  *********************************************************************************
  * Copyright (c) 2021 Nanjing Qinheng Microelectronics Co., Ltd.
@@ -68,7 +68,7 @@ void TIM1_INT_Init( u16 arr, u16 psc)
     TIM_TimeBaseInitStructure.TIM_Prescaler = psc;
     TIM_TimeBaseInitStructure.TIM_ClockDivision = TIM_CKD_DIV1;
     TIM_TimeBaseInitStructure.TIM_CounterMode = TIM_CounterMode_Up;
-    TIM_TimeBaseInitStructure.TIM_RepetitionCounter = 50;
+    TIM_TimeBaseInitStructure.TIM_RepetitionCounter = 50-1;
     TIM_TimeBaseInit( TIM1, &TIM_TimeBaseInitStructure);
 
     TIM_ClearITPendingBit( TIM1, TIM_IT_Update );

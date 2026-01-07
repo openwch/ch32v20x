@@ -185,11 +185,18 @@ LITE_OS_SEC_TEXT_INIT int main(void)
 void EXTI0_IRQHandler(void) __attribute__((interrupt()));
 void EXTI0_IRQHandler(void)
 {
-  /* 中断栈使用的是原来调用main设置的值，将中断栈和线程栈分开，这样线程跳中断，中断函数如果嵌套深度较大，不至于
-   * 线程栈被压满溢出，但是采用当前方式，线程进中断时，编译器保存到的16个caller寄存器任然压入线程栈，如果需要希
-   * 望caller寄存器压入中断栈，则中断函数的入口和出口需要使用汇编，中间调用用户中断处理函数即可，详见los_exc.S
-   * 中的ipq_entry例子
-   *  */
+  /* 
+  *The interrupt stack uses the value originally set when calling main,
+  *separating the interrupt stack from the thread stack. In this way, 
+  *if the interrupt function is nested to a large depth, the thread 
+  *stack will not be overloaded and overflow. However, in the current way,
+  *when the thread enters the interrupt, the 16 caller registers saved by 
+  *the compiler are still pushed onto the thread stack.If you want the caller
+  *register to be pushed onto the interrupt stack, the entry and exit of the 
+  *interrupt function need to use assembly language, and the user interrupt 
+  *handling function can be called in the middle. For details, 
+  *see the ipq_entry example in los_exc.S
+  *  */
   GET_INT_SP();
   HalIntEnter();
   if(EXTI_GetITStatus(EXTI_Line0)!=RESET)

@@ -15,15 +15,15 @@
  *Dual ADC injection simultaneous sampling routine:
  *ADC1 channel 1 (PA1), ADC2 channel 2 (PA3).
  *
- *Note:only applied toCH32V203
+ *Note:only applied to CH32V20x_D6
  */
 
 #include "debug.h"
 
 /* Global Variable */
-u16 ADC_val1, ADC_val2;
-s16 Calibrattion_Val1 = 0;
-s16 Calibrattion_Val2 = 0;
+vu16 ADC_val1, ADC_val2;
+vs16 Calibrattion_Val1 = 0;
+vs16 Calibrattion_Val2 = 0;
 
 /*********************************************************************
  * @fn      ADC_Function_Init

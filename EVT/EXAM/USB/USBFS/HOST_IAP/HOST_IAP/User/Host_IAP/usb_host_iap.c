@@ -83,7 +83,7 @@ void FLASH_ReadWordAdd(uint32_t address, u32* buff, uint16_t length)
 
     for(i = 0; i < length; i++)
     {
-        buff[i] = *(__IO uint32_t*)address;//��ָ����ַ��һ���ֵ�����
+        buff[i] = *(__IO uint32_t*)address;
         address += 4;
     }
 }
@@ -153,7 +153,6 @@ uint8_t IAP_Flash_Read(uint32_t address, uint8_t* buff, uint32_t length)
  */
 uint8_t mFLASH_ProgramPage_Fast(uint32_t addr, uint32_t* buffer)
 {
-    /* ����оƬ��flash��������޸Ĵ˴����� */
     FLASH_ProgramPage_Fast( addr, buffer );
     return 0;
 }
@@ -509,9 +508,9 @@ void IAP_Jump_APP(void)
     /* .... */
     /* Jump Code */
 #if DEF_CORE_TYPE == DEF_CORE_CM3
-    jump2app = (iapfun) * (vu32*)(DEF_APP_CODE_START_ADDR + 4);		//�û��������ڶ�����Ϊ����ʼ��ַ(��λ��ַ)
-    MSR_MSP(*(vu32*)DEF_APP_CODE_START_ADDR);					//��ʼ���û���������ջָ��(�û��������ĵ�һ�������ڴ��ջ����ַ)
-    jump2app();									             //��ת��APP.
+    jump2app = (iapfun) * (vu32*)(DEF_APP_CODE_START_ADDR + 4);
+    MSR_MSP(*(vu32*)DEF_APP_CODE_START_ADDR);
+    jump2app();
 #elif DEF_CORE_TYPE == DEF_CORE_RV
     /* Code for Jump, Enable Chip soft reset interrupt, jump to application code in soft reset interrupt */
     Delay_Ms(500);

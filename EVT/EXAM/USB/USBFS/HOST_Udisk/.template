@@ -10,6 +10,6 @@ PeripheralVersion=1.4
 Target Path=obj\Host_UDisk_Exams.hex
 
 Vendor=WCH
-MCU=CH32V203RBT6
+MCU=CH32V203RBT
 Mcu Type=CH32V20x
 Link=WCH-Link

@@ -1,8 +1,8 @@
 /********************************** (C) COPYRIGHT *******************************
 * File Name          : main.c
 * Author             : WCH
-* Version            : V1.0.0
-* Date               : 2024/07/09
+* Version            : V1.0.1
+* Date               : 2025/04/29
 * Description        : Main program body.
 *********************************************************************************
 * Copyright (c) 2021 Nanjing Qinheng Microelectronics Co., Ltd.
@@ -13,8 +13,8 @@
 /*
  *@Note
  * In STANDBY mode, 2K bytes RAM and 30K bytes RAM data holding routines:
- * Address range of  2K bytes RAM data holding: 0x20000000 ¡ª 0x20000000+2K .
- * Address range of 30K bytes RAM data holding: 0x20000000+2K ¡ª 0x20000000+2K+30K .
+ * Address range of  2K bytes RAM data holding: 0x20000000 -- 0x20000000+2K .
+ * Address range of 30K bytes RAM data holding: 0x20000000+2K -- 0x20000000+2K+30K .
  * This example demonstrates the RAM data holding in standby mode (chip VDD power supply or VBAT power
  * supply,and RAM work at different voltages). Write data to 2K RAM and 30K RAM respectively, then
  * execute WFI to enter STANDBY mode, exit STANDBY mode by inputting a high level to the PA0 (wake-up)
@@ -100,23 +100,22 @@ void TestDataRead(void)
  */
 int main(void)
 {
-    GPIO_InitTypeDef GPIO_InitStructure={0};
+    GPIO_InitTypeDef GPIO_InitStructure = {0};
+    NVIC_PriorityGroupConfig(NVIC_PriorityGroup_1);
     SystemCoreClockUpdate();
-
-    /* Configure unused GPIO as IPD to reduce power consumption */
-    RCC_APB2PeriphClockCmd(RCC_APB2Periph_GPIOA | RCC_APB2Periph_GPIOB | RCC_APB2Periph_GPIOC |
-                           RCC_APB2Periph_GPIOD | RCC_APB2Periph_GPIOE, ENABLE);
+    Delay_Init();
+    Delay_Ms(1000);
+    /* To reduce power consumption, unused GPIOs need to be set as pull-down inputs */
+    RCC_APB2PeriphClockCmd(RCC_APB2Periph_GPIOA|RCC_APB2Periph_GPIOB|
+        RCC_APB2Periph_GPIOC|RCC_APB2Periph_GPIOD|RCC_APB2Periph_AFIO, ENABLE);
+    GPIO_PinRemapConfig(GPIO_Remap_SWJ_Disable,ENABLE); 
     GPIO_InitStructure.GPIO_Pin = GPIO_Pin_All;
     GPIO_InitStructure.GPIO_Mode = GPIO_Mode_IPD;
-
     GPIO_Init(GPIOA, &GPIO_InitStructure);
     GPIO_Init(GPIOB, &GPIO_InitStructure);
     GPIO_Init(GPIOC, &GPIO_InitStructure);
     GPIO_Init(GPIOD, &GPIO_InitStructure);
-    GPIO_Init(GPIOE, &GPIO_InitStructure);
 
-    NVIC_PriorityGroupConfig(NVIC_PriorityGroup_1);
-    Delay_Init();
     USART_Printf_Init(115200);
     RCC_APB1PeriphClockCmd(RCC_APB1Periph_PWR, ENABLE);
     /* Delay 1.5s to avoid entering low power mode immediately after reset*/

@@ -31,13 +31,8 @@ extern "C" {
 #define DBGMCU_TIM3_STOP             ((uint32_t)0x00004000)
 #define DBGMCU_TIM4_STOP             ((uint32_t)0x00008000)
 #define DBGMCU_TIM5_STOP             ((uint32_t)0x00010000)
-#define DBGMCU_TIM6_STOP             ((uint32_t)0x00020000)
-#define DBGMCU_TIM7_STOP             ((uint32_t)0x00040000)
-#define DBGMCU_TIM8_STOP             ((uint32_t)0x00080000)
 #define DBGMCU_CAN1_STOP             ((uint32_t)0x00100000)
-#define DBGMCU_CAN2_STOP             ((uint32_t)0x00200000)
-#define DBGMCU_TIM9_STOP             ((uint32_t)0x00400000)
-#define DBGMCU_TIM10_STOP            ((uint32_t)0x00800000)
+
 
 uint32_t DBGMCU_GetREVID(void);
 uint32_t DBGMCU_GetDEVID(void);

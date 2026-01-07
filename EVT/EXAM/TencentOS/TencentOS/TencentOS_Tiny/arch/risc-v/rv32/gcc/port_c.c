@@ -90,7 +90,7 @@ __PORT__ void port_cpu_init()
 void SysTick_Handler(void) __attribute__((interrupt()));
 void SysTick_Handler(void)
 {
-    GET_INT_SP();   /* 切换中断栈 */
+    GET_INT_SP();   
     if (tos_knl_is_running())
     {
       tos_knl_irq_enter();
@@ -98,7 +98,7 @@ void SysTick_Handler(void)
       tos_tick_handler();
       tos_knl_irq_leave();
     }
-    FREE_INT_SP(); /* 释放中断栈 */
+    FREE_INT_SP(); 
 }
 
 
@@ -108,7 +108,7 @@ __PORT__ k_time_t port_systick_max_delay_millisecond(void)
     k_time_t max_millisecond;
     uint32_t max_cycle;
 
-    max_cycle = 0xffffffff; // systick 是64位，这里用低32位
+    max_cycle = 0xffffffff; 
     max_millisecond = (k_time_t)((uint64_t)max_cycle * K_TIME_MILLISEC_PER_SEC / TOS_CFG_CPU_CLOCK); // CLOCK: cycle per second
     return max_millisecond;
 }

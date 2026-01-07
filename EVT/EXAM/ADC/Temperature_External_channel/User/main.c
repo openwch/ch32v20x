@@ -19,7 +19,7 @@
 
 #include "debug.h"
 
-s16 Calibrattion_Val = 0;
+vs16 Calibrattion_Val = 0;
 
 /*********************************************************************
  * @fn      ADC_Function_Init

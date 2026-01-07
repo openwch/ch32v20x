@@ -1,10 +1,10 @@
 ;/********************************** (C) COPYRIGHT *******************************
 ;* File Name          : startup_ch32v20x_D6.s
 ;* Author             : WCH
-;* Version            : V1.0.1
-;* Date               : 2024/01/31
-;* Description        :  CH32V203F6-CH32V203F8-CH32V203G6-CH32V203G8-CH32V203K8-CH32V203C6-CH32V203C8-CH32V203G8
-;*                    vector table for eclipse toolchain.
+;* Version            : V1.0.2
+;* Date               : 2025/10/21
+;* Description        : CH32V203F6-CH32V203F8-CH32V203G6-CH32V203G8-CH32V203K8-CH32V203C6-CH32V203C8-CH32V203G8
+;*                      Startup File.
 ;*********************************************************************************
 ;* Copyright (c) 2021 Nanjing Qinheng Microelectronics Co., Ltd.
 ;* Attention: This software (modified or not) and binary are used for 
@@ -208,9 +208,9 @@ handle_reset:
 .option	norelax 
 	la gp, __global_pointer$
 .option	pop 
-1:
+
 	la sp, _eusrstack 
-2:
+
 /* Load data section from flash to RAM */
 	la a0, _data_lma
 	la a1, _data_vma

@@ -1,8 +1,8 @@
 /********************************** (C) COPYRIGHT *******************************
  * File Name          : main.c
  * Author             : WCH
- * Version            : V1.0.0
- * Date               : 2023/12/29
+ * Version            : V1.0.1
+ * Date               : 2025/10/27
  * Description        : Main program body.
  *********************************************************************************
  * Copyright (c) 2021 Nanjing Qinheng Microelectronics Co., Ltd.
@@ -16,16 +16,16 @@
  *ADC1 channel 1 (PA1), ADC2 channel 1 (PA1)), the rule group channel obtains
  *dual ADC conversion data through ADC interrupt.
  *
- *Note:Only applied to CH32V203
+ *Note:only applied to CH32V20x_D6
  */
 
 #include "debug.h"
 
 /* Global Variable */
 u16 Adc_Val[2];
-u32 temp;
-s16 Calibrattion_Val1 = 0;
-s16 Calibrattion_Val2 = 0;
+vu32 temp;
+vs16 Calibrattion_Val1 = 0;
+vs16 Calibrattion_Val2 = 0;
 
 void ADC1_2_IRQHandler(void) __attribute__((interrupt("WCH-Interrupt-fast")));
 
@@ -153,13 +153,10 @@ int main(void)
     ADC_Function_Init();
     printf("CalibrattionValue1:%d\n", Calibrattion_Val1);
     printf("CalibrattionValue2:%d\n", Calibrattion_Val2);
+    ADC_SoftwareStartConvCmd(ADC1, ENABLE);
 
     while(1)
     {
-        ADC_SoftwareStartConvCmd(ADC1, ENABLE);
-        Delay_Ms(1000);
-        ADC_SoftwareStartConvCmd(ADC1, DISABLE);
-        Delay_Ms(1000);
     }
 }
 

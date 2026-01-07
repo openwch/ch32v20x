@@ -32,10 +32,10 @@ __PORT__ void       port_int_disable(void);                      //at port.s
 
 __PORT__ void       port_int_enable(void);                       //at port.s
 
-/* risc-v 无cpsr，此函数用于读取mstatus,并清除MIE  */
+
 __PORT__ cpu_cpsr_t port_cpsr_save(void);                         //at port.s
 
-/* risc-v 无cpsr,此函数给mstatus赋值   */
+
 __PORT__ void       port_cpsr_restore(cpu_cpsr_t cpsr);           //at port.s
 
 

@@ -1,8 +1,8 @@
 /********************************** (C) COPYRIGHT  *******************************
  * File Name          : ch32v20x_tim.h
  * Author             : WCH
- * Version            : V1.0.0
- * Date               : 2021/06/06
+ * Version            : V1.0.1
+ * Date               : 2025/04/26
  * Description        : This file contains all the functions prototypes for the
  *                      TIM firmware library.
 *********************************************************************************
@@ -42,7 +42,7 @@ typedef struct
                                          - the number of PWM periods in edge-aligned mode
                                          - the number of half PWM period in center-aligned mode
                                       This parameter must be a number between 0x00 and 0xFF.
-                                      @note This parameter is valid only for TIM1 and TIM8. */
+                                      @note This parameter is valid only for TIM1 . */
 } TIM_TimeBaseInitTypeDef;
 
 /* TIM Output Compare Init structure definition */
@@ -56,7 +56,7 @@ typedef struct
 
     uint16_t TIM_OutputNState; /* Specifies the TIM complementary Output Compare state.
                                   This parameter can be a value of @ref TIM_Output_Compare_N_state
-                                  @note This parameter is valid only for TIM1 and TIM8. */
+                                  @note This parameter is valid only for TIM1 . */
 
     uint16_t TIM_Pulse; /* Specifies the pulse value to be loaded into the Capture Compare Register.
                            This parameter can be a number between 0x0000 and 0xFFFF */
@@ -66,16 +66,78 @@ typedef struct
 
     uint16_t TIM_OCNPolarity; /* Specifies the complementary output polarity.
                                  This parameter can be a value of @ref TIM_Output_Compare_N_Polarity
-                                 @note This parameter is valid only for TIM1 and TIM8. */
+                                 @note This parameter is valid only for TIM1. */
 
     uint16_t TIM_OCIdleState; /* Specifies the TIM Output Compare pin state during Idle state.
                                  This parameter can be a value of @ref TIM_Output_Compare_Idle_State
-                                 @note This parameter is valid only for TIM1 and TIM8. */
+                                 @note This parameter is valid only for TIM1. */
 
     uint16_t TIM_OCNIdleState; /* Specifies the TIM Output Compare pin state during Idle state.
                                   This parameter can be a value of @ref TIM_Output_Compare_N_Idle_State
-                                  @note This parameter is valid only for TIM1 and TIM8. */
+                                  @note This parameter is valid only for TIM1. */
 } TIM_OCInitTypeDef;
+
+#if defined (CH32V20x_D8) || defined(CH32V20x_D8W)
+
+typedef struct
+{
+    uint32_t TIM_Period; /* Specifies the period value to be loaded into the active
+                            Auto-Reload Register at the next update event.
+                            This parameter must be a number between 0x0000 and 0xFFFFFFFF.  */
+
+    uint16_t TIM_Prescaler; /* Specifies the prescaler value used to divide the TIM clock.
+                               This parameter can be a number between 0x0000 and 0xFFFF */
+
+    uint16_t TIM_CounterMode; /* Specifies the counter mode.
+                                 This parameter can be a value of @ref TIM_Counter_Mode */
+
+    uint16_t TIM_ClockDivision; /* Specifies the clock division.
+                                  This parameter can be a value of @ref TIM_Clock_Division_CKD */
+
+    uint8_t TIM_RepetitionCounter; /* Specifies the repetition counter value. Each time the RCR downcounter
+                                      reaches zero, an update event is generated and counting restarts
+                                      from the RCR value (N).
+                                      This means in PWM mode that (N+1) corresponds to:
+                                         - the number of PWM periods in edge-aligned mode
+                                         - the number of half PWM period in center-aligned mode
+                                      This parameter must be a number between 0x00 and 0xFF.
+                                      @note This parameter is valid only for TIM1 . */
+} TIM5_TimeBaseInitTypeDef;
+
+/* TIM Output Compare Init structure definition */
+typedef struct
+{
+
+    uint32_t TIM_Pulse; /* Specifies the pulse value to be loaded into the Capture Compare Register.
+                           This parameter can be a number between 0x0000 and 0xFFFFFFFF */
+
+    uint16_t TIM_OCMode; /* Specifies the TIM mode.
+                            This parameter can be a value of @ref TIM_Output_Compare_and_PWM_modes */
+
+    uint16_t TIM_OutputState; /* Specifies the TIM Output Compare state.
+                                 This parameter can be a value of @ref TIM_Output_Compare_state */
+
+    uint16_t TIM_OutputNState; /* Specifies the TIM complementary Output Compare state.
+                                  This parameter can be a value of @ref TIM_Output_Compare_N_state
+                                  @note This parameter is valid only for TIM1 . */
+
+    uint16_t TIM_OCPolarity; /* Specifies the output polarity.
+                                This parameter can be a value of @ref TIM_Output_Compare_Polarity */
+
+    uint16_t TIM_OCNPolarity; /* Specifies the complementary output polarity.
+                                 This parameter can be a value of @ref TIM_Output_Compare_N_Polarity
+                                 @note This parameter is valid only for TIM1. */
+
+    uint16_t TIM_OCIdleState; /* Specifies the TIM Output Compare pin state during Idle state.
+                                 This parameter can be a value of @ref TIM_Output_Compare_Idle_State
+                                 @note This parameter is valid only for TIM1. */
+
+    uint16_t TIM_OCNIdleState; /* Specifies the TIM Output Compare pin state during Idle state.
+                                  This parameter can be a value of @ref TIM_Output_Compare_N_Idle_State
+                                  @note This parameter is valid only for TIM1. */
+} TIM5_OCInitTypeDef;
+
+#endif
 
 /* TIM Input Capture Init structure definition */
 typedef struct
@@ -500,6 +562,29 @@ FlagStatus TIM_GetFlagStatus(TIM_TypeDef *TIMx, uint16_t TIM_FLAG);
 void       TIM_ClearFlag(TIM_TypeDef *TIMx, uint16_t TIM_FLAG);
 ITStatus   TIM_GetITStatus(TIM_TypeDef *TIMx, uint16_t TIM_IT);
 void       TIM_ClearITPendingBit(TIM_TypeDef *TIMx, uint16_t TIM_IT);
+
+#if defined (CH32V20x_D8) || defined(CH32V20x_D8W)
+
+void TIM5_TimeBaseInit(TIM_TypeDef *TIMx, TIM5_TimeBaseInitTypeDef *TIM5_TimeBaseInitStruct);
+void TIM5_OC1Init(TIM_TypeDef *TIMx, TIM5_OCInitTypeDef *TIM5_OCInitStruct);
+void TIM5_OC2Init(TIM_TypeDef *TIMx, TIM5_OCInitTypeDef *TIM5_OCInitStruct);
+void TIM5_OC3Init(TIM_TypeDef *TIMx, TIM5_OCInitTypeDef *TIM5_OCInitStruct);
+void TIM5_OC4Init(TIM_TypeDef *TIMx, TIM5_OCInitTypeDef *TIM5_OCInitStruct);
+void TIM5_TimeBaseStructInit(TIM5_TimeBaseInitTypeDef *TIM5_TimeBaseInitStruct);
+void TIM5_OCStructInit(TIM5_OCInitTypeDef *TIM5_OCInitStruct);
+void TIM5_SetCounter(TIM_TypeDef *TIMx, uint32_t Counter);
+void TIM5_SetAutoreload(TIM_TypeDef *TIMx, uint32_t Autoreload);
+void TIM5_SetCompare1(TIM_TypeDef *TIMx, uint32_t Compare1);
+void TIM5_SetCompare2(TIM_TypeDef *TIMx, uint32_t Compare2);
+void TIM5_SetCompare3(TIM_TypeDef *TIMx, uint32_t Compare3);
+void TIM5_SetCompare4(TIM_TypeDef *TIMx, uint32_t Compare4);
+uint32_t TIM5_GetCapture1(TIM_TypeDef *TIMx);
+uint32_t TIM5_GetCapture2(TIM_TypeDef *TIMx);
+uint32_t TIM5_GetCapture3(TIM_TypeDef *TIMx);
+uint32_t TIM5_GetCapture4(TIM_TypeDef *TIMx);
+uint32_t TIM5_GetCounter(TIM_TypeDef *TIMx);
+
+#endif
 
 #ifdef __cplusplus
 }

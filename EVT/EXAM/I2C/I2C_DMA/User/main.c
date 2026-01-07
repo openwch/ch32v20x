@@ -212,6 +212,9 @@ int main(void)
     DMA_Cmd( DMA1_Channel7, ENABLE );
     
     while( ( !DMA_GetFlagStatus( DMA1_FLAG_TC7 ) ) );
+
+	while(I2C_GetFlagStatus(I2C1,I2C_FLAG_STOPF)==RESET);
+	I2C1->CTLR1 &= I2C1->CTLR1;
 		
     printf( "RxData:\r\n" );
 
