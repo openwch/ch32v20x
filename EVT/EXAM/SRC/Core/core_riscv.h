@@ -127,7 +127,7 @@ typedef struct
  *
  * @return  none
  */
-__attribute__( ( always_inline ) ) RV_STATIC_INLINE void __enable_irq()
+__attribute__( ( always_inline ) ) RV_STATIC_INLINE void __enable_irq(void)
 {
   __asm volatile ("csrs 0x800, %0" : : "r" (0x88) );
 }
@@ -139,7 +139,7 @@ __attribute__( ( always_inline ) ) RV_STATIC_INLINE void __enable_irq()
  *
  * @return  none
  */
-__attribute__( ( always_inline ) ) RV_STATIC_INLINE void __disable_irq()
+__attribute__( ( always_inline ) ) RV_STATIC_INLINE void __disable_irq(void)
 {
   __asm volatile ("csrc 0x800, %0" : : "r" (0x88) );
   __asm volatile ("fence.i");
@@ -152,7 +152,7 @@ __attribute__( ( always_inline ) ) RV_STATIC_INLINE void __disable_irq()
  *
  * @return  none
  */
-__attribute__( ( always_inline ) ) RV_STATIC_INLINE void __NOP()
+__attribute__( ( always_inline ) ) RV_STATIC_INLINE void __NOP(void)
 {
   __asm volatile ("nop");
 }
