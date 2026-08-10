@@ -1,8 +1,8 @@
 /********************************** (C) COPYRIGHT  *******************************
  * File Name          : ch32v20x_dbgmcu.c
  * Author             : WCH
- * Version            : V1.0.0
- * Date               : 2021/06/06
+ * Version            : V1.0.1
+ * Date               : 2026/06/18
  * Description        : This file provides all the DBGMCU firmware functions.
  *********************************************************************************
  * Copyright (c) 2021 Nanjing Qinheng Microelectronics Co., Ltd.
@@ -115,6 +115,7 @@ void DBGMCU_Config(uint32_t DBGMCU_Periph, FunctionalState NewState)
  *  CH32V203F6P-0x203705x0-0x203905x0
  *  CH32V203F8P-0x203A05x0
  *  CH32V203RBT-0x203405xC
+ *  CH32V203K8U-0x203215x0
  *  CH32V208WBU-0x208005xC
  *  CH32V208RBT-0x208105xC
  *  CH32V208CBU-0x208205xC

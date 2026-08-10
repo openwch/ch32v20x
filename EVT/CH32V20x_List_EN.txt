@@ -1,5 +1,5 @@
 
-Nanjing Qinheng Microelectronics Co., Ltd. 2025.10
+Nanjing Qinheng Microelectronics Co., Ltd. 2026.07
 
 https://wch-ic.com
 
@@ -44,6 +44,10 @@ Directory
   |      |      |      |      |      |-- WS2812_LED：SPI\PWM Operates WS2812_LED routine
   |      |      |      |      |-- CoreMark
   |      |      |      |      |      |-- CoreMark：CoreMark routine under 168M（12M_HSE） system conditions——only applied to CH32V20x_D6,168M is only suitable for Commercial Grade applications: 0℃ ≤ TA ≤ 70℃ with good heat dissipation
+  |      |      |      |      |-- Electric_Hair_Dryer
+  |      |      |      |      |      |-- Electric_Hair_Dryer：Electric_Hair_Dryer routine
+  |      |      |      |      |-- WUI
+  |      |      |      |      |      |-- WUI：WCHGUI routine
   |      |      |      |-- BLE ----only for CH32V20x_D8W 
   |      |      |      |      |-- BackupUpgrade_IAP: backup wireless upgrade IAP routine. Detect the current code flag, determine whether to move the code from the backup area to the user area, and run the code in the user area 
   |      |      |      |      |-- BackupUpgrade_OTA: backup wireless upgrade user routine. Add OTA function to peripheral slave routines, save the upgrade firmware to the backup area and jump to the IAP program to upgrade 

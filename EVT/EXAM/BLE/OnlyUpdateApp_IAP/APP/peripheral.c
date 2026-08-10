@@ -578,7 +578,7 @@ void Rec_OTA_IAP_DataDeal(void)
             OpAdd = OpAdd * 16;
 
             OpAdd += 0x08000000;
-
+            block_buf_len = 0;
             EraseBlockNum = (uint32_t)(iap_rec_data.erase.block_num[0]);
             EraseBlockNum |= ((uint32_t)(iap_rec_data.erase.block_num[1]) << 8);
             EraseAdd = OpAdd;
@@ -664,6 +664,8 @@ void Rec_OTA_IAP_DataDeal(void)
             uint8_t send_buf[20];
 
             PRINT("IAP_INFO \r\n");
+            
+            block_buf_len = 0;
 
             /* IMAGE FLAG */
             send_buf[0] = IMAGE_IAP_FLAG;

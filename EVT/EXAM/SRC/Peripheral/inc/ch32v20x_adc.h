@@ -1,8 +1,8 @@
 /********************************** (C) COPYRIGHT  *******************************
  * File Name          : ch32v20x_adc.h
  * Author             : WCH
- * Version            : V1.0.0
- * Date               : 2021/06/06
+ * Version            : V1.0.1
+ * Date               : 2026/01/20
  * Description        : This file contains all the functions prototypes for the
  *                      ADC firmware library.
 *********************************************************************************
@@ -74,13 +74,6 @@ typedef struct
 
 #define ADC_ExternalTrigConv_T1_CC3                    ((uint32_t)0x00040000)
 #define ADC_ExternalTrigConv_None                      ((uint32_t)0x000E0000)
-
-#define ADC_ExternalTrigConv_T3_CC1                    ((uint32_t)0x00000000)
-#define ADC_ExternalTrigConv_T2_CC3                    ((uint32_t)0x00020000)
-#define ADC_ExternalTrigConv_T8_CC1                    ((uint32_t)0x00060000)
-#define ADC_ExternalTrigConv_T8_TRGO                   ((uint32_t)0x00080000)
-#define ADC_ExternalTrigConv_T5_CC1                    ((uint32_t)0x000A0000)
-#define ADC_ExternalTrigConv_T5_CC3                    ((uint32_t)0x000C0000)
 
 /* ADC_data_align */
 #define ADC_DataAlign_Right                            ((uint32_t)0x00000000)

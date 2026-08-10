@@ -48,7 +48,7 @@
 }while(0)
 
 /* definition for Ethernet frame */
-#define ETH_MAX_PACKET_SIZE    1536    /* ETH_HEADER + VLAN_TAG + MAX_ETH_PAYLOAD + ETH_CRC */
+#define ETH_MAX_PACKET_SIZE    1524    /* ETH_HEADER + VLAN_TAG + MAX_ETH_PAYLOAD + ETH_CRC */
 #define ETH_HEADER               14    /* 6 byte Dest addr, 6 byte Src addr, 2 byte length/type */
 #define ETH_CRC                   4    /* Ethernet CRC */
 #define ETH_EXTRA                 2    /* Extra bytes in some cases */
