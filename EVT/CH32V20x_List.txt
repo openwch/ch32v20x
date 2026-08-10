@@ -1,5 +1,5 @@
 
-南京沁恒微电子股份有限公司 2025.10
+南京沁恒微电子股份有限公司 2026.07
 最新资料请到我们的网站上查询
 https://wch.cn
 
@@ -45,6 +45,10 @@ https://wch.cn
   |      |      |      |      |      |-- WS2812_LED：通过SPI\PWM操作WS2812例程 
   |      |      |      |      |-- CoreMark
   |      |      |      |      |      |-- CoreMark：168M（12M_HSE）系统时钟下CoreMark跑分例程——仅适用于CH32V20x_D6,168M仅适用于商业级应用：0℃ ≤TA ≤ 70℃且散热良好
+  |      |      |      |      |-- Electric_Hair_Dryer
+  |      |      |      |      |      |-- Electric_Hair_Dryer：吹风机例程
+  |      |      |      |      |-- WUI
+  |      |      |      |      |      |-- WUI：WCHGUI例程
   |      |      |      |-- BLE ——仅适用于CH32V20x_D8W  
   |      |      |      |      |-- BackupUpgrade_IAP：备份无线升级IAP例程，检测当前代码标志，判断是否搬运备份区代码到用户区并运行用户区代码 
   |      |      |      |      |-- BackupUpgrade_OTA：备份无线升级用户例程，外设从机例程基础上添加OTA功能，可将升级固件保存到备份区后跳转IAP程序进行升级  

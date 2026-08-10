@@ -1125,6 +1125,9 @@ void App_trans_model_reveived(uint8_t *pValue, uint16_t len, uint16_t addr )
             }
             int status;
             uint8_t i;
+            
+            block_buf_len = 0;
+            
             // Çå³ýcodeflash
             FLASH_Unlock();
             for(i=0; i<(IMAGE_B_SIZE+4095)/4096; i++)
