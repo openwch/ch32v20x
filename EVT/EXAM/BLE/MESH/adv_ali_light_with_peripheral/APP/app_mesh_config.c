@@ -155,7 +155,7 @@ int erase_flash(int offset, unsigned int len)
  *
  * @brief   no used
  *
- * @param   enable  - no uesd
+ * @param   enable  - no used
  *
  * @return  always success
  */

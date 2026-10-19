@@ -131,7 +131,7 @@ static gattAttribute_t battAttrTbl[] = {
         0,
         (uint8_t *)&battLevelClientCharCfg},
 
-    // HID Report Reference characteristic descriptor, batter level input
+    // HID Report Reference characteristic descriptor, battery level input
     {
         {ATT_BT_UUID_SIZE, reportRefUUID},
         GATT_PERMIT_READ,

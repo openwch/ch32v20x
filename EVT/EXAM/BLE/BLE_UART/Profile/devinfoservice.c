@@ -126,7 +126,7 @@ static const uint8_t devInfo11073Cert[] = {
                             // authoritative body data follows below:
     'e', 'x', 'p', 'e', 'r', 'i', 'm', 'e', 'n', 't', 'a', 'l'};
 
-// System ID characteristic
+// PnP ID characteristic
 static uint8_t devInfoPnpIdProps = GATT_PROP_READ;
 static uint8_t devInfoPnpId[DEVINFO_PNP_ID_LEN] = {
     1,                                    // Vendor ID source (1=Bluetooth SIG)

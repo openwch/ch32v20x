@@ -1,8 +1,8 @@
 /********************************** (C) COPYRIGHT *******************************
  * File Name          : main.c
  * Author             : WCH
- * Version            : V1.0.0
- * Date               : 2023/12/29
+ * Version            : V1.0.1
+ * Date               : 2026/10/16
  * Description        : Main program body.
  *********************************************************************************
  * Copyright (c) 2021 Nanjing Qinheng Microelectronics Co., Ltd.
@@ -25,10 +25,10 @@
 #include "debug.h"
 
 /* Global Variable */
-u32 TxBuf[1];
-u16 Adc_Val[2];
+vu32 TxBuf[1];
+vu16 Adc_Val[2];
 vu16 ADC_Val1, ADC_Val2;
-vu8  Injected_IT_Flag, DMA_IT_Flag;
+vu8 Injected_IT_Flag, DMA_IT_Flag;
 vs16 Calibrattion_Val1 = 0;
 vs16 Calibrattion_Val2 = 0;
 
@@ -99,10 +99,10 @@ void ADC_Function_Init(void)
     ADC_InjectedSequencerLengthConfig(ADC2, 1);
     ADC_InjectedChannelConfig(ADC2, ADC_Channel_5, 1, ADC_SampleTime_239Cycles5);
 
-    ADC_ExternalTrigInjectedConvConfig(ADC2, ADC_ExternalTrigInjecConv_None);
-    ADC_SoftwareStartConvCmd(ADC2, ENABLE);
-    ADC_ITConfig(ADC2, ADC_IT_JEOC, ENABLE);
-    ADC_Cmd(ADC2, ENABLE);
+    ADC_ExternalTrigInjectedConvConfig( ADC2, ADC_ExternalTrigInjecConv_None );
+    ADC_ExternalTrigConvCmd( ADC2, ENABLE );
+    ADC_ITConfig( ADC2, ADC_IT_JEOC, ENABLE );
+    ADC_Cmd( ADC2, ENABLE );
 
     ADC_BufferCmd(ADC2, DISABLE); //disable buffer
     ADC_ResetCalibration(ADC2);
@@ -166,11 +166,15 @@ void DMA_Tx_Init(DMA_Channel_TypeDef *DMA_CHx, u32 ppadr, u32 memadr, u16 bufsiz
  */
 u16 Get_ConversionVal1(s16 val)
 {
-    if((val + Calibrattion_Val1) < 0|| val==0)
+    if( ( val + Calibrattion_Val1 ) < 0 || val==0 )
+    {
         return 0;
-    if((Calibrattion_Val1 + val) > 4095||val==4095)
+    }
+    if( ( Calibrattion_Val1 + val ) > 4095 || val==4095  )
+    {
         return 4095;
-    return (val + Calibrattion_Val1);
+    }
+    return ( val + Calibrattion_Val1 );
 }
 
 /*********************************************************************
@@ -182,13 +186,17 @@ u16 Get_ConversionVal1(s16 val)
  *
  * @return  val+Calibrattion_Val - Conversion Value.
  */
-u16 Get_ConversionVal2(s16 val)
+u16 Get_ConversionVal2( s16 val )
 {
-    if((val + Calibrattion_Val2) < 0)
+    if( ( val + Calibrattion_Val2 ) < 0 || val==0 )
+    {
         return 0;
-    if((Calibrattion_Val2 + val) > 4095||val==4095)
+    }
+    if( ( Calibrattion_Val2 + val ) > 4095 || val==4095 )
+    {
         return 4095;
-    return (val + Calibrattion_Val2);
+    }
+    return ( val + Calibrattion_Val2 );
 }
 
 /*********************************************************************
@@ -230,7 +238,7 @@ int main(void)
         if(DMA_IT_Flag == 1)
         {
             DMA_IT_Flag = 0;
-            printf("ADC1 ch2=%d\r\n", Get_ConversionVal1(Adc_Val[0]));
+            printf("ADC1 ch1=%d\r\n", Get_ConversionVal1(Adc_Val[0]));
             printf("ADC2 ch4=%d\r\n", Get_ConversionVal2(Adc_Val[1]));
         }
         Delay_Ms(1000);

@@ -1,5 +1,5 @@
 /********************************** (C) COPYRIGHT *******************************
- * File Name          : Peripheral.C
+ * File Name          : peripheral.c
  * Author             : WCH
  * Version            : V1.0
  * Date               : 2018/12/10
@@ -110,7 +110,7 @@ static uint8_t scanRspData[31] = {
 };
 
 // GAP - Advertisement data (max size = 31 bytes, though this is
-// best kept short to conserve power while advertisting)
+// best kept short to conserve power while advertising)
 static uint8_t advertData[] = {
     // Flags; this sets the device to use limited discoverable
     // mode (advertises for 30 seconds at a time) instead of general
@@ -148,7 +148,7 @@ typedef int (*pImageTaskFn)(void);
 pImageTaskFn user_image_tasks;
 
 /* Flash erase */
-uint32_t EraseAdd = 0;      //Removal address
+uint32_t EraseAdd = 0;      // Erase address
 uint32_t EraseBlockNum = 0; //Number of blocks that need to be erased
 uint32_t EraseBlockCnt = 0; //Scratching block count
 
@@ -185,16 +185,16 @@ static gapBondCBs_t Peripheral_BondMgrCBs = {
 
 // Simple GATT Profile Callbacks
 static simpleProfileCBs_t Peripheral_SimpleProfileCBs = {
-    simpleProfileChangeCB // Charactersitic value change callback
+    simpleProfileChangeCB // Characteristic value change callback
 };
 
 // Simple GATT Profile Callbacks
 static OTAProfileCBs_t Peripheral_OTA_IAPProfileCBs = {
-    OTA_IAPReadDataComplete, // Charactersitic value change callback
+    OTA_IAPReadDataComplete, // Characteristic value change callback
     OTA_IAPWriteData
 };
 
-// Callback when the connection parameteres are updated.
+// Callback when the connection parameters are updated.
 void PeripheralParamUpdate(uint16_t connInterval, uint16_t connSlaveLatency, uint16_t connTimeout);
 
 gapRolesParamUpdateCB_t PeripheralParamUpdate_t = NULL;
@@ -210,14 +210,14 @@ gapRolesParamUpdateCB_t PeripheralParamUpdate_t = NULL;
  *          This is called during initialization and should contain
  *          any application specific initialization (ie. hardware
  *          initialization/setup, table initialization, power up
- *          notificaiton ... ).
+ *          notification ... ).
  *
  * @param   task_id - the ID assigned by TMOS.  This ID should be
  *                    used to send messages and set timers.
  *
  * @return  none
  */
-void Peripheral_Init()
+void Peripheral_Init(void)
 {
     Peripheral_TaskID = TMOS_ProcessEventRegister(Peripheral_ProcessEvent);
 
@@ -701,7 +701,7 @@ void Rec_OTA_IAP_DataDeal(void)
         {
             uint32_t i;
             uint8_t  status = 0;
-            uint8_t  verifyData[iap_rec_data.verify.len];
+            uint8_t  verifyData[IAP_LEN];
 
             if( block_buf_len )
             {
@@ -731,7 +731,7 @@ void Rec_OTA_IAP_DataDeal(void)
             OTA_IAP_SendCMDDealSta(VerifyStatus);
             break;
         }
-        /* End of rogramming */
+        /* End of programming */
         case CMD_IAP_END:
         {
             PRINT("IAP_END \r\n");

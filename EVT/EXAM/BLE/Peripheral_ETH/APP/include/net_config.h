@@ -41,11 +41,11 @@ extern "C" {
 #define ETH_RXBUFNB                   4    /* Number of MAC received descriptors  */
 
 #ifndef ETH_MAX_PACKET_SIZE
-#define ETH_RX_BUF_SZE                1520  /* MAC receive buffer length, an integer multiple of 4 */
-#define ETH_TX_BUF_SZE                1520  /* MAC send buffer length, an integer multiple of 4 */
+#define ETH_RX_BUF_SIZE               1520  /* MAC receive buffer length, an integer multiple of 4 */
+#define ETH_TX_BUF_SIZE               1520  /* MAC send buffer length, an integer multiple of 4 */
 #else
-#define ETH_RX_BUF_SZE                ETH_MAX_PACKET_SIZE
-#define ETH_TX_BUF_SZE                ETH_MAX_PACKET_SIZE
+#define ETH_RX_BUF_SIZE               ETH_MAX_PACKET_SIZE
+#define ETH_TX_BUF_SIZE               ETH_MAX_PACKET_SIZE
 #endif
 
 /*********************************************************************
@@ -77,7 +77,7 @@ extern "C" {
 
 #define WCHNET_NUM_TCP_SEG            (WCHNET_NUM_TCP*2)   /* The number of TCP segments used to send */
 
-#define WCHNET_MEM_HEAP_SIZE          (((WCHNET_TCP_MSS+0x10+54)*WCHNET_NUM_TCP_SEG)+ETH_TX_BUF_SZE+64) /* memory heap size */
+#define WCHNET_MEM_HEAP_SIZE          (((WCHNET_TCP_MSS+0x10+54)*WCHNET_NUM_TCP_SEG)+ETH_TX_BUF_SIZE+64) /* memory heap size */
 
 #define WCHNET_NUM_ARP_TABLE          50   /* Number of ARP lists */
 
@@ -93,7 +93,7 @@ extern "C" {
 
 /* Check the configuration of the SOCKET quantity */
 #if( WCHNET_NUM_TCP_LISTEN && !WCHNET_NUM_TCP )
-  #error "WCHNET_NUM_TCP Error)"
+  #error "WCHNET_NUM_TCP Error"
 #endif
 /* Check byte alignment must be a multiple of 4 */
 #if((WCHNET_MEM_ALIGNMENT % 4) || (WCHNET_MEM_ALIGNMENT == 0))
@@ -120,8 +120,8 @@ extern "C" {
   #error "WCHNET_NUM_IP_REASSDATA Error,Please Config WCHNET_NUM_IP_REASSDATA < 10 && WCHNET_NUM_IP_REASSDATA >= 1 "
 #endif
 /* Check the number of reassembled IP PBUFs  */
-#if(WCHNET_IP_REASS_PBUFS > WCHNET_NUM_POOL_BUF)
-  #error "WCHNET_IP_REASS_PBUFS Error,Please Config WCHNET_IP_REASS_PBUFS < WCHNET_NUM_POOL_BUF"
+#if(CFG0_IP_REASS_PBUFS > WCHNET_NUM_POOL_BUF)
+  #error "CFG0_IP_REASS_PBUFS Error,Please Config CFG0_IP_REASS_PBUFS < WCHNET_NUM_POOL_BUF"
 #endif
 
 #if(WCHNETTIMERPERIOD > 50)

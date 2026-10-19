@@ -1,5 +1,5 @@
 /********************************** (C) COPYRIGHT *******************************
- * File Name          : CONFIG.h
+ * File Name          : config.h
  * Author             : WCH
  * Version            : V1.2
  * Date               : 2022/01/18
@@ -21,16 +21,16 @@
 #define CHIP_ID								ID_CH32V208
 
 #ifdef WCHBLE_ROM
-#include "WCHBLE_ROM.H"
+#include "wchble_rom.h"
 #else
-#include "wchble.H"
+#include "wchble.h"
 #endif
 
 #include "ch32v20x.h"
 
 /*********************************************************************
  【MAC】
- BLE_MAC                                    - 是否自定义蓝牙Mac地址 ( 默认:FALSE - 使用芯片Mac地址 )，需要在main.c修改Mac地址定义
+ BLE_MAC                                    - 是否自定义蓝牙Mac地址 ( 默认:FALSE - 使用芯片Mac地址 )，需要在app_main.c修改Mac地址定义
 
  【SLEEP】
  HAL_SLEEP                                  - 是否开启睡眠功能 ( 默认:FALSE )
@@ -38,7 +38,7 @@
                                                                                                                                         暂停模式    - 45
                                                                                                                                        空闲模式    - 5
  
- 【TEMPERATION】
+ 【TEMPERATURE】
  TEM_SAMPLE                                 - 是否打开根据温度变化校准的功能，单次校准耗时小于10ms( 默认:TRUE )
  
  【CALIBRATION】
@@ -47,7 +47,7 @@
  
  【SNV】
  BLE_SNV                                    - 是否开启SNV功能，用于储存绑定信息( 默认:TRUE )
- BLE_SNV_ADDR                               - SNV信息保存地址，使用data flash最后( 默认:0x77E00 )
+ BLE_SNV_ADDR                               - SNV信息保存地址，使用data flash最后( 默认:0x08077C00 )
  BLE_SNV_NUM                                - SNV信息存储扇区数量等于可存储的绑定数量( 默认:3 )
                                             - 如果配置了SNVNum参数，则需要对应修改Lib_Write_Flash函数内擦除的flash大小，大小为SNVBlock*SNVNum
 
@@ -55,7 +55,7 @@
  CLK_OSC32K                                 - RTC时钟选择，如包含主机角色必须使用外部32K( 0 外部(32768Hz)，默认:1：内部(32000Hz)，2：内部(32768Hz) )
 
  【MEMORY】
- BLE_MEMHEAP_SIZE                           - 蓝牙协议栈使用的RAM大小，不小于6K ( 默认:(1024*6) )
+ BLE_MEMHEAP_SIZE                           - 蓝牙协议栈使用的RAM大小，不小于6K ( 默认:(1024*7) )
 
  【DATA】
  BLE_BUFF_MAX_LEN                           - 单个连接最大包长度( 默认:27 (ATT_MTU=23)，取值范围[27~251] )

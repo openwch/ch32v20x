@@ -31,7 +31,7 @@ const uint8_t  USBD_DeviceDescriptor[] =
     0x01,                                                                        // bNumConfigurations 1
 };
 
-/* USB Configration Descriptors */
+/* USB Configuration Descriptors */
 const uint8_t  USBD_ConfigDescriptor[] =
 {
     /* Configuration Descriptor */

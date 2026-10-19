@@ -1,5 +1,5 @@
 /********************************** (C) COPYRIGHT *******************************
- * File Name          : app_generic_onoff_model.c
+ * File Name          : app_generic_onoff2_model.c
  * Author             : WCH
  * Version            : V1.0
  * Date               : 2021/03/24
@@ -76,7 +76,7 @@ void toggle_led2_state(uint32_t led_pin)
     GPIO_InitStructure.GPIO_Pin = led_pin;
     GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;
     GPIO_InitStructure.GPIO_Mode = GPIO_Mode_Out_PP;
-    GPIO_Init(GPIOA, &GPIO_InitStructure);
+    GPIO_Init(MSG2_GPIO, &GPIO_InitStructure);
 
     GPIO_WriteBit(MSG2_GPIO, led_pin, Bit_SET-GPIO_ReadOutputDataBit(MSG2_GPIO, led_pin));
 }

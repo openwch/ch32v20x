@@ -21,7 +21,7 @@ extern "C" {
 
 uint8_t read_angle_auto_LR(void);
 
-void set_angle_auto_LR(uint8_t led_mode);
+void set_angle_auto_LR(uint8_t angle_auto_LR);
 
 void gen_angle_auto_LR_get(struct bt_mesh_model   *model,
                            struct bt_mesh_msg_ctx *ctx,

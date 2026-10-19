@@ -32,10 +32,10 @@
 // Scan duration in (625us)
 #define DEFAULT_SCAN_DURATION            4800
 
-// Creat sync timeout in (625us)
-#define DEFAULT_CREAT_SYNC_TIMEOUT       4800
+// Create sync timeout in (625us)
+#define DEFAULT_CREATE_SYNC_TIMEOUT      4800
 
-// Discovey mode (limited, general, all)
+// Discovery mode (limited, general, all)
 #define DEFAULT_DISCOVERY_MODE           DEVDISC_MODE_ALL
 
 // TRUE to use active scan
@@ -111,7 +111,7 @@ static const gapRoleObserverCB_t ObserverRoleCB = {
  *
  * @return  none
  */
-void Observer_Init()
+void Observer_Init(void)
 {
     ObserverTaskId = TMOS_ProcessEventRegister(Observer_ProcessEvent);
 
@@ -169,7 +169,7 @@ uint16_t Observer_ProcessEvent(uint8_t task_id, uint16_t events)
     if(events & START_SYNC_TIMEOUT_EVT)
     {
         GAPRole_CancelSync();
-        PRINT("Creat SYNC timeout, restart discovery..\n");
+        PRINT("Create SYNC timeout, restart discovery..\n");
         GAPRole_ObserverStartDiscovery(DEFAULT_DISCOVERY_MODE,
                                        DEFAULT_DISCOVERY_ACTIVE_SCAN,
                                        DEFAULT_DISCOVERY_WHITE_LIST);
@@ -254,7 +254,7 @@ static void ObserverEventCB(gapRoleEvent_t *pEvent)
 
                 PRINT("GAPRole_CreateSync %d return %d...\n ", pEvent->deviceExtAdvInfo.periodicAdvInterval, state);
                 if (state == SUCCESS) {
-                    tmos_start_task(ObserverTaskId, START_SYNC_TIMEOUT_EVT, DEFAULT_CREAT_SYNC_TIMEOUT);
+                    tmos_start_task(ObserverTaskId, START_SYNC_TIMEOUT_EVT, DEFAULT_CREATE_SYNC_TIMEOUT);
                 }
             }
             PRINT("GAP_EXT_ADV_DEVICE_INFO_EVENT...\n");

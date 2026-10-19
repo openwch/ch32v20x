@@ -140,7 +140,7 @@ extern void RunningService_Init(uint8_t task_id);
 extern uint16_t RunningService_ProcessEvent(uint8_t task_id, uint16_t events);
 
 /*
- * @fn      Runninging_AddService
+ * @fn      Running_AddService
  *
  * @brief   Initializes the RSC service by registering
  *          GATT attributes with the GATT server.
@@ -169,7 +169,7 @@ extern void Running_Register(runningServiceCB_t pfnServiceCB);
  * @brief   Set a RSC parameter.
  *
  * @param   param - Profile parameter ID
- * @param   len - length of data to right
+ * @param   len - length of data to write
  * @param   value - pointer to data to write.  This is dependent on
  *          the parameter ID and WILL be cast to the appropriate
  *          data type (example: data type of uint16_t will be cast to

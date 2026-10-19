@@ -33,7 +33,7 @@ extern "C" {
 // config模型客户端功能
 #define CONFIG_BLE_MESH_CFG_CLI                1
 // health模型客户端功能
-#define CONFIG_BLE_MESH_HLTH_CLI               0
+#define CONFIG_BLE_MESH_HEALTH_CLI              0
 
 /************************************参数配置******************************************/
 
@@ -88,7 +88,7 @@ extern "C" {
 // 是否允许一个网络中存在同地址的节点（使能后分包功能不可用）
 #define CONFIG_MESH_ALLOW_SAME_ADDR            (FALSE)
 
-// 不分包消息支持的长度（超过此长度则需要分包，默认值为7，注意同网络里所有设备配置需统一）
+// 不分包消息支持的长度（超过此长度则需要分包，默认值为221，注意同网络里所有设备配置需统一）
 #define CONFIG_MESH_UNSEG_LENGTH_MIN           (7)
 #define CONFIG_MESH_UNSEG_LENGTH_DEF           (221)
 #define CONFIG_MESH_UNSEG_LENGTH_MAX           (221)

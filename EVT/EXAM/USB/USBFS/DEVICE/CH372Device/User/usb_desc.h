@@ -32,7 +32,7 @@
 #define DEF_USBD_FS_PACK_SIZE        64     /* usb fs device max bluk/int pack size */
 #define DEF_USBD_FS_ISO_PACK_SIZE    1023   /* usb fs device max iso pack size */
 /* LS */
-#define DEf_USBD_LS_UEP0_SIZE        8      /* usb ls device end-point 0 size */
+#define DEF_USBD_LS_UEP0_SIZE        8      /* usb ls device end-point 0 size */
 #define DEF_USBD_LS_PACK_SIZE        64     /* usb ls device max int pack size */
 
 /* Pack size */

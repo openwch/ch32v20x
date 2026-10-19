@@ -94,7 +94,7 @@ static void gen_lightness_status(struct bt_mesh_model *model, struct bt_mesh_msg
 }
 
 /*********************************************************************
- * @fn      gen_onoff_get
+ * @fn      gen_lightness_get
  *
  * @brief   天猫精灵下发的获取亮度命令
  *

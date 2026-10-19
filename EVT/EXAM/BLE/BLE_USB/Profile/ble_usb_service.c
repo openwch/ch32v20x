@@ -232,7 +232,7 @@ static bStatus_t ble_usb_ReadAttrCB(uint16_t connHandle, gattAttribute_t *pAttr,
 }
 
 /*********************************************************************
- * @fn      simpleProfile_WriteAttrCB
+ * @fn      ble_usb_WriteAttrCB
  *
  * @brief   Validate attribute data prior to a write operation
  *
@@ -281,7 +281,7 @@ static bStatus_t ble_usb_WriteAttrCB(uint16_t connHandle, gattAttribute_t *pAttr
             if(ble_usb_AppCBs)
             {
                 ble_usb_evt_t evt;
-                evt.type = BLE_USB_EVT_BLE_DATA_RECIEVED;
+                evt.type = BLE_USB_EVT_BLE_DATA_RECEIVED;
                 evt.data.length = (uint16_t)len;
                 evt.data.p_data = pValue;
                 ble_usb_AppCBs(connHandle, &evt);
@@ -295,7 +295,7 @@ static bStatus_t ble_usb_WriteAttrCB(uint16_t connHandle, gattAttribute_t *pAttr
     //        {
     //            if(ble_usb_AppCBs) {
     //                ble_usb_evt_t evt;
-    //                evt.type = BLE_usb_EVT_BLE_DATA_RECIEVED;
+    //                evt.type = BLE_USB_EVT_BLE_DATA_RECEIVED;
     //                evt.data.length = (uint16_t)len;
     //                evt.data.p_data = pValue;
     //                ble_usb_AppCBs(connHandle,&evt);

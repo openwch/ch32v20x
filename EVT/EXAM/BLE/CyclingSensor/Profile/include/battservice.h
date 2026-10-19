@@ -93,7 +93,7 @@ extern void Batt_Register(battServiceCB_t pfnServiceCB);
  * @brief   Set a Battery Service parameter.
  *
  * @param   param - Profile parameter ID
- * @param   len - length of data to right
+ * @param   len - length of data to write
  * @param   value - pointer to data to write.  This is dependent on
  *          the parameter ID and WILL be cast to the appropriate
  *          data type (example: data type of uint16_t will be cast to
@@ -138,8 +138,8 @@ extern bStatus_t Batt_MeasLevel(void);
  * @brief   Set up which ADC source is to be used. Defaults to VDD/3.
  *
  * @param   adc_ch - ADC Channel, e.g. HAL_ADC_CHN_AIN6
- * @param   minVal - max battery level
- * @param   maxVal - min battery level
+ * @param   minVal - min battery level
+ * @param   maxVal - max battery level
  * @param   sCB - HW setup callback
  * @param   tCB - HW tear down callback
  * @param   cCB - percentage calculation callback

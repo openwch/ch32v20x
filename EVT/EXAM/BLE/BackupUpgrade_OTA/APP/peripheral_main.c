@@ -1,5 +1,5 @@
 /********************************** (C) COPYRIGHT *******************************
- * File Name          : main.c
+ * File Name          : peripheral_main.c
  * Author             : WCH
  * Version            : V1.1
  * Date               : 2019/11/05
@@ -42,17 +42,17 @@ __attribute__((aligned(4))) uint32_t Image_Flag __attribute__((section(".ImageFl
 /*********************************************************************
  * @fn      ReadImageFlag
  *
- * @brief   Read the iMage logo of the current program. If the DataFlash is empty, 
+ * @brief   Read the Image flag of the current program. If the DataFlash is empty, 
  *          it will be ImageA by default
  *
  * @return  none
  */
 void ReadImageFlag(void)
 {
-    OTADataFlashInfo_t p_image_flash;
+    OTADataFlashInfo_t image_flash;
 
-    FLASH_read(OTA_DATAFLASH_ADD, (uint8_t*)&p_image_flash, 4);
-    CurrImageFlag = p_image_flash.ImageFlag;
+    FLASH_read(OTA_DATAFLASH_ADD, (uint8_t*)&image_flash, 4);
+    CurrImageFlag = image_flash.ImageFlag;
 
     /* The program is executed for the first time, or it has not been updated, 
      * and the DataFlash will be erased after the subsequent update. */

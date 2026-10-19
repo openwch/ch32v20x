@@ -1,5 +1,5 @@
 /********************************** (C) COPYRIGHT *******************************
- * File Name          : rf_phy.h
+ * File Name          : RF_PHY.h
  * Author             : WCH
  * Version            : V1.0
  * Date               : 2018/11/12

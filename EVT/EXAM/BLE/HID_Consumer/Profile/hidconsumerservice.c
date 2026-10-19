@@ -3,7 +3,7 @@
  * Author             : WCH
  * Version            : V1.0
  * Date               : 2018/12/13
- * Description        : User Control Service
+ * Description        : HID Consumer Control Service
  *********************************************************************************
  * Copyright (c) 2021 Nanjing Qinheng Microelectronics Co., Ltd.
  * Attention: This software (modified or not) and binary are used for 
@@ -314,7 +314,7 @@ enum
     HID_REPORT_CONSUMER_IN_DECL_IDX, // HID Report characteristic, Consumer input declaration
     HID_REPORT_CONSUMER_IN_IDX,      // HID Report characteristic, Consumer input
     HID_REPORT_CONSUMER_IN_CCCD_IDX, // HID Report characteristic client characteristic configuration
-    HID_REPORT_REF_Consumer_IN_IDX,  // HID Report Reference characteristic descriptor, Consumer input
+    HID_REPORT_REF_CONSUMER_IN_IDX,  // HID Report Reference characteristic descriptor, Consumer input
     HID_FEATURE_DECL_IDX,            // Feature Report declaration
     HID_FEATURE_IDX,                 // Feature Report
     HID_REPORT_REF_FEATURE_IDX       // HID Report Reference characteristic descriptor, feature
@@ -390,7 +390,7 @@ bStatus_t Hid_AddService(void)
 /*********************************************************************
  * @fn      Hid_SetParameter
  *
- * @brief   Set a HID Kbd parameter.
+ * @brief   Set a HID Consumer parameter.
  *
  * @param   id - HID report ID.
  * @param   type - HID report type.
@@ -438,7 +438,7 @@ uint8_t Hid_SetParameter(uint8_t id, uint8_t type, uint16_t uuid, uint8_t len, v
 /*********************************************************************
  * @fn      Hid_GetParameter
  *
- * @brief   Get a HID Kbd parameter.
+ * @brief   Get a HID Consumer parameter.
  *
  * @param   id - HID report ID.
  * @param   type - HID report type.

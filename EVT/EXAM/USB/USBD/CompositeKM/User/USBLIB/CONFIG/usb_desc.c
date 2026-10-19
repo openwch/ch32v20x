@@ -30,7 +30,7 @@ const uint8_t  USBD_DeviceDescriptor[] = {
     0x01,                           // bNumConfigurations
 };
 
-/* USB Configration Descriptors */
+/* USB Configuration Descriptors */
 const uint8_t  USBD_ConfigDescriptor[] = { 
     /* Configuration Descriptor */
     0x09,                           // bLength
@@ -88,7 +88,7 @@ const uint8_t  USBD_ConfigDescriptor[] = {
     0x00,                           // bCountryCode
     0x01,                           // bNumDescriptors
     0x22,                           // bDescriptorType
-    USBD_SIZE_REPORT_DESC_MS & 0xFF, USBD_SIZE_REPORT_DESC_MS >> 8, // wItemLength
+    USBD_SIZE_REPORT_DESC_MS & 0xFF, USBD_SIZE_REPORT_DESC_MS >> 8, // wDescriptorLength
 
     /* Endpoint Descriptor (Mouse) */
     0x07,                           // bLength

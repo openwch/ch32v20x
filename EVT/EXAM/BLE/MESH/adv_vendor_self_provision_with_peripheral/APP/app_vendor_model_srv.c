@@ -90,7 +90,7 @@ static void vendor_model_srv_reset(void)
  * @brief   调用应用层传入的回调
  *
  * @param   val     - 回调参数，包括消息类型、数据内容、长度、来源地址
- * @param   statu   - 状态
+ * @param   status  - 状态
  *
  * @return  none
  */

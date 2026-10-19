@@ -1,8 +1,8 @@
 /********************************** (C) COPYRIGHT *******************************
  * File Name          : main.c
  * Author             : WCH
- * Version            : V1.0.0
- * Date               : 2021/06/06
+ * Version            : V1.0.1
+ * Date               : 2026/10/16
  * Description        : Main program body.
  *********************************************************************************
  * Copyright (c) 2021 Nanjing Qinheng Microelectronics Co., Ltd.
@@ -178,6 +178,13 @@ u8 CAN_Send_Msg(u8 *msg, u8 len)
     }
 
     mbox = CAN_Transmit(CAN1, &CanTxStructure);
+    if(mbox == CAN_TxStatus_NoMailBox)
+    {
+        /* No free transmit mailbox: report failure instead of using an
+         * invalid mailbox number for CAN_TransmitStatus() (out-of-bounds
+         * access to sTxMailBox[4]). */
+        return 1;
+    }
     i = 0;
 
     while((CAN_TransmitStatus(CAN1, mbox) != CAN_TxStatus_Ok) && (i < 0xFFF))

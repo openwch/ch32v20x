@@ -1,8 +1,8 @@
 /********************************** (C) COPYRIGHT *******************************
  * File Name          : main.c
  * Author             : WCH
- * Version            : V1.0.0
- * Date               : 2023/12/29
+ * Version            : V1.0.1
+ * Date               : 2026/10/16
  * Description        : Main program body.
  *********************************************************************************
  * Copyright (c) 2021 Nanjing Qinheng Microelectronics Co., Ltd.
@@ -22,11 +22,11 @@
 #include "debug.h"
 
 /* Global Variable */
-u32 TxBuf[1];
-u16 Adc_Val[4];
+vu32 TxBuf[1];
+vu16 Adc_Val[4];
 vs16 Calibrattion_Val1 = 0;
 vs16 Calibrattion_Val2 = 0;
-
+vu8  IntResponse=0 ;
 void DMA1_Channel1_IRQHandler(void) __attribute__((interrupt("WCH-Interrupt-fast")));
 
 /*********************************************************************
@@ -129,7 +129,7 @@ void DMA_Tx_Init(DMA_Channel_TypeDef *DMA_CHx, u32 ppadr, u32 memadr, u16 bufsiz
     NVIC_InitStructure.NVIC_IRQChannelCmd = ENABLE;
     NVIC_Init(&NVIC_InitStructure);
 
-    DMA_ITConfig(DMA1_Channel1, DMA_IT_TC | DMA_IT_HT | DMA_IT_TE, ENABLE);
+    DMA_ITConfig( DMA1_Channel1, DMA_IT_TC , ENABLE );
 }
 
 /*********************************************************************
@@ -143,11 +143,15 @@ void DMA_Tx_Init(DMA_Channel_TypeDef *DMA_CHx, u32 ppadr, u32 memadr, u16 bufsiz
  */
 u16 Get_ConversionVal1(s16 val)
 {
-    if((val + Calibrattion_Val1) < 0)
+    if( ( val + Calibrattion_Val1 ) < 0 || val==0 )
+    {
         return 0;
-    if((Calibrattion_Val1 + val) > 4095)
+    }
+    if( ( Calibrattion_Val1 + val ) > 4095 || val==4095 )
+    {
         return 4095;
-    return (val + Calibrattion_Val1);
+    }
+    return ( val + Calibrattion_Val1 );
 }
 
 /*********************************************************************
@@ -161,11 +165,15 @@ u16 Get_ConversionVal1(s16 val)
  */
 u16 Get_ConversionVal2(s16 val)
 {
-    if((val + Calibrattion_Val2) < 0||val==0)
+    if( ( val + Calibrattion_Val2 ) < 0 )
+    {
         return 0;
-    if((Calibrattion_Val2 + val) > 4095||val==4095)
+    }
+    if( ( Calibrattion_Val2 + val ) > 4095 )
+    {
         return 4095;
-    return (val + Calibrattion_Val2);
+    }
+    return ( val + Calibrattion_Val2 );
 }
 
 /*********************************************************************
@@ -193,7 +201,12 @@ int main(void)
     {
         ADC_SoftwareStartConvCmd(ADC1, ENABLE);
 
-        Delay_Ms(500);
+        Delay_Ms( 500 );
+			  if(IntResponse == 1)
+			{
+			  printf( "ADC1 ch1=%d\r\n", Get_ConversionVal1( Adc_Val[0] ) );
+        printf( "ADC2 ch3=%d\r\n", Get_ConversionVal2( Adc_Val[1] ) );
+			}
     }
 }
 
@@ -208,11 +221,11 @@ void DMA1_Channel1_IRQHandler()
 {
     if(DMA_GetITStatus(DMA1_IT_TC1) == SET)
     {
-        DMA_ClearITPendingBit(DMA1_IT_GL1);
+        DMA_ClearITPendingBit( DMA1_IT_TC1 );
 
+			  IntResponse=1;						
         Adc_Val[0] = TxBuf[0] & 0xffff;
-        Adc_Val[1] = (TxBuf[0] >> 16) & 0xffff;
-        printf("ADC1 ch2=%d\r\n", Get_ConversionVal1(Adc_Val[0]));
-        printf("ADC2 ch3=%d\r\n", Get_ConversionVal2(Adc_Val[1]));
+        Adc_Val[1] = ( TxBuf[0] >> 16 ) & 0xffff;
+
     }
 }

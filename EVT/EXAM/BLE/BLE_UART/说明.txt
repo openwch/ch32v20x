@@ -1,4 +1,4 @@
-﻿
+
  简单的串口透传:
 
 特性:
@@ -8,7 +8,7 @@
 4, 支持MTU在20-247 中任意设置,自适适应当前的mtu
 5, 默认在CH32V208上调试,串口使用的UART3,TXD3@PB10,RXD3@PB11,其他的串口需要修改代码
 6, ble 名称为"wch_ble_uart"
-7, 默认开启串口notify 成功回写,不需要需要可以去掉代码,在ble service 的回掉函数,BLE_UART_EVT_BLE_DATA_RECIEVED 事件中 屏蔽即可
+7, 默认开启串口notify 成功回写,不需要需要可以去掉代码,在ble service 的回掉函数,BLE_UART_EVT_BLE_DATA_RECEIVED 事件中 屏蔽即可
 8, 默认开启串口调试,使用串口1,PA9_TXD 115200. 
 
 

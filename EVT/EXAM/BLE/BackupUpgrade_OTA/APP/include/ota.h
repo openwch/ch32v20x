@@ -3,7 +3,7 @@
  * Author             : WCH
  * Version            : V1.10
  * Date               : 2018/12/14
- * Description        : oad相关配置定义
+ * Description        : ota相关配置定义
  *********************************************************************************
  * Copyright (c) 2021 Nanjing Qinheng Microelectronics Co., Ltd.
  * Attention: This software (modified or not) and binary are used for 
@@ -18,17 +18,17 @@
  * ------------------------------------------------------------------------------------------------
  */
 
-/* 整个用户code区分成3块，16K，216K，216K，分别叫做imageIAP 、imageA（用户代码区），imageB（备份代码区）和imageIAP */
+/* 整个用户code区分成3块，16K，216K，216K，分别叫做imageIAP、imageA（用户代码区）和imageB（备份代码区） */
 
 /* FLASH定义 */
 #define FLASH_PAGE_SIZE        256
 #define FLASH_BLOCK_SIZE       4096
-#define IMAGE_SIZE             216 * 1024
+#define IMAGE_SIZE             (216 * 1024)
 
 /* imageIAP定义 */
 #define IMAGE_IAP_FLAG         0x03
 #define IMAGE_IAP_START_ADD    0x08000000
-#define IMAGE_IAP_SIZE         16 * 1024
+#define IMAGE_IAP_SIZE         (16 * 1024)
 
 /* imageA定义 */
 #define IMAGE_A_FLAG           0x01
@@ -98,7 +98,7 @@ typedef union
         unsigned char cmd;              /* 命令码 0x84 */
         unsigned char len;              /* 后续数据长度 */
         unsigned char buf[IAP_LEN - 2]; /* 后续数据 */
-    } info;                             /* 编程命令 */
+    } info;                             /* 获取设备信息命令 */
     struct
     {
         unsigned char buf[IAP_LEN]; /* 接收数据包*/

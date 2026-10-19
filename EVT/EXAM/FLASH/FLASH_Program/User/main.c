@@ -2,7 +2,7 @@
  * File Name          : main.c
  * Author             : WCH
  * Version            : V1.0.1
- * Date               : 2026/05/22
+ * Date               : 2026/10/15
  * Description        : Main program body.
  *********************************************************************************
  * Copyright (c) 2021 Nanjing Qinheng Microelectronics Co., Ltd.
@@ -58,7 +58,7 @@ volatile TestStatus MemoryProgramStatus = PASSED;
 volatile TestStatus MemoryEraseStatus = PASSED;
 
 #define Fadr    (0x08020000)
-#define Fsize   ((((256*4))>>2))
+#define Fsize   (256)
 u32 buf[Fsize];
 
 /*********************************************************************
@@ -199,14 +199,18 @@ int main(void)
 	SystemCoreClockUpdate();
 	Delay_Init();
 	USART_Printf_Init(115200);
-	printf("SystemClk:%d\r\n",SystemCoreClock);
+	printf("SystemClk:%u\r\n",SystemCoreClock);
 	printf( "ChipID:%08x\r\n", DBGMCU_GetCHIPID() );
 	printf("Flash Program Test\r\n");
 
+    __disable_irq();
 	Flash_Test();
 	Flash_Test_Fast();
+    __enable_irq();
 
-	while(1);
+	while(1)
+    {
+    }
 }
 
 

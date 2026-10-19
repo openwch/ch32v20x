@@ -28,6 +28,7 @@
  */
 uint8_t HID_GetHidDesr( uint8_t ep0_size, uint8_t intf_num, uint8_t *pbuf, uint16_t *plen )
 {
+    *plen = ( uint16_t )( ( *plen > DEF_COM_BUF_LEN ) ? DEF_COM_BUF_LEN : *plen );
     memcpy( pUSBFS_SetupRequest, SetupGetHidDes, sizeof( USB_SETUP_REQ ) );
     pUSBFS_SetupRequest->wIndex = (uint16_t)intf_num;
     pUSBFS_SetupRequest->wLength = *plen;
@@ -49,11 +50,12 @@ uint8_t HID_SetReport( uint8_t ep0_size, uint8_t intf_num, uint8_t *pbuf, uint16
 {
     memcpy( pUSBFS_SetupRequest, SetupSetReport, sizeof( USB_SETUP_REQ ) );
     pUSBFS_SetupRequest->wIndex = (uint16_t)intf_num;
+    pUSBFS_SetupRequest->wLength = *plen;
     return USBFSH_CtrlTransfer( ep0_size, pbuf, plen );
 }
 
 /*********************************************************************
- * @fn      HID_SetIdleSpeed
+ * @fn      HID_SetIdle
  *
  * @brief   Set idle.
  *

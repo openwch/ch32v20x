@@ -1,5 +1,5 @@
 /********************************** (C) COPYRIGHT *******************************
- * File Name          : app_vendor_model.c
+ * File Name          : app_vendor2_model.c
  * Author             : WCH
  * Version            : V1.0
  * Date               : 2021/03/24
@@ -425,7 +425,7 @@ void send_led2_indicate(struct indicate_param *param)
     /* Add tid field */
     net_buf_simple_add_u8(&(ind->buf->b), param->tid);
 
-    /* Add generic onoff attrbute op */
+    /* Add generic onoff attribute op */
     net_buf_simple_add_le16(&(ind->buf->b), ALI_GEN_ATTR_TYPE_POWER_STATE);
 
     /* Add current generic onoff status */
@@ -461,7 +461,7 @@ void send_angle_auto_LR_indicate(struct indicate_param *param)
     /* Add tid field */
     net_buf_simple_add_u8(&(ind->buf->b), param->tid);
 
-    /* Add angle_auto_LR attrbute opcode */
+    /* Add angle_auto_LR attribute opcode */
     net_buf_simple_add_le16(&(ind->buf->b), ALI_GEN_ATTR_TYPE_ANGLEAUTO_LR_ONOFF);
 
     /* Add angle_auto_LR status  */
@@ -471,7 +471,7 @@ void send_angle_auto_LR_indicate(struct indicate_param *param)
 }
 
 /*********************************************************************
- * @fn      als_vendor_init
+ * @fn      als_vendor2_init
  *
  * @brief   阿里 厂家模型 初始化
  *

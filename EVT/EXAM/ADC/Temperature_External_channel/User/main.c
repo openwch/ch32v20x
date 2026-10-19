@@ -1,8 +1,8 @@
 /********************************** (C) COPYRIGHT *******************************
 * File Name          : main.c
 * Author             : WCH
-* Version            : V1.0.0
-* Date               : 2021/06/06
+* Version            : V1.0.1
+* Date               : 2026/10/16
 * Description        : Main program body.
 *********************************************************************************
 * Copyright (c) 2021 Nanjing Qinheng Microelectronics Co., Ltd.
@@ -114,7 +114,7 @@ u16 Get_ADC_Val(u8 ch)
  */
 u16 Get_ConversionVal(s16 val)
 {
-    if((val + Calibrattion_Val) < 0)
+    if((val + Calibrattion_Val) < 0 || val==0)
         return 0;
     if((Calibrattion_Val + val) > 4095||val==4095)
         return 4095;
@@ -141,17 +141,17 @@ int main(void)
 
     while(1)
     {
-        adc_val = Get_ConversionVal(Get_ADC_Val(ADC_Channel_TempSensor));
-        val_mv = (adc_val*3300/4096);
-        printf("mv-T-%d,%0d\n",val_mv ,TempSensor_Volt_To_Temper(val_mv));
-        ADC_TempSensorVrefintCmd(DISABLE);
+		adc_val = Get_ConversionVal(Get_ADC_Val(ADC_Channel_TempSensor));
+		val_mv = (adc_val*3300/4096);
+		printf("mv-T-%d,%d\n",val_mv ,TempSensor_Volt_To_Temper(val_mv));
+		ADC_TempSensorVrefintCmd(DISABLE);
+		
+	  adc_val = Get_ConversionVal(Get_ADC_Val(ADC_Channel_3));
+		Delay_Ms(2);
+		printf("ADC_val  %04d\r\n",adc_val);
 
-        adc_val = Get_ConversionVal(Get_ADC_Val(ADC_Channel_3));
-        Delay_Us(80);
-        printf("ADC_val  %04d\r\n",adc_val);
-        Delay_Ms(2);
-        ADC_TempSensorVrefintCmd(ENABLE);
-        Delay_Ms(500);
+		ADC_TempSensorVrefintCmd(ENABLE);
+		Delay_Ms(500);
     }
 }
 

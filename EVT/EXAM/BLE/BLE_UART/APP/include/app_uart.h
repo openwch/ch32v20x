@@ -33,10 +33,10 @@ extern uint8_t to_test_buffer[BLE_BUFF_MAX_LEN - 4 - 3];
 extern app_drv_fifo_t app_uart_tx_fifo;
 extern app_drv_fifo_t app_uart_rx_fifo;
 
-//interupt uart rx flag ,clear at main loop
+//interrupt uart rx flag ,clear at main loop
 extern bool uart_rx_flag;
 
-//for interrupt rx blcak hole ,when uart rx fifo full
+//for interrupt rx black hole ,when uart rx fifo full
 extern uint8_t for_uart_rx_black_hole;
 
 //fifo length less that MTU-3, retry times

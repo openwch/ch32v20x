@@ -94,7 +94,7 @@ static void gen_color_status(struct bt_mesh_model *model, struct bt_mesh_msg_ctx
 }
 
 /*********************************************************************
- * @fn      gen_onoff_get
+ * @fn      gen_color_get
  *
  * @brief   天猫精灵下发的获取色温命令
  *

@@ -160,7 +160,7 @@ gattServiceCBs_t scanParamCBs = {
 /*********************************************************************
  * @fn      ScanParam_AddService
  *
- * @brief   Initializes the Battery Service by registering
+ * @brief   Initializes the Scan Parameters Service by registering
  *          GATT attributes with the GATT server.
  *
  * @return  Success or Failure
@@ -182,7 +182,7 @@ bStatus_t ScanParam_AddService(void)
 /*********************************************************************
  * @fn      ScanParam_Register
  *
- * @brief   Register a callback function with the Battery Service.
+ * @brief   Register a callback function with the Scan Parameters Service.
  *
  * @param   pfnServiceCB - Callback function.
  *
@@ -196,7 +196,7 @@ extern void ScanParam_Register(scanParamServiceCB_t pfnServiceCB)
 /*********************************************************************
  * @fn      ScanParam_SetParameter
  *
- * @brief   Set a Battery Service parameter.
+ * @brief   Set a Scan Parameters Service parameter.
  *
  * @param   param - Profile parameter ID
  * @param   len - length of data to right
@@ -224,7 +224,7 @@ bStatus_t ScanParam_SetParameter(uint8_t param, uint8_t len, void *value)
 /*********************************************************************
  * @fn      ScanParam_GetParameter
  *
- * @brief   Get a Battery Service parameter.
+ * @brief   Get a Scan Parameters Service parameter.
  *
  * @param   param - Profile parameter ID
  * @param   value - pointer to data to get.  This is dependent on

@@ -100,9 +100,9 @@ static uint8_t scanRspData[] = {
     // connection interval range
     0x05, // length of this data
     GAP_ADTYPE_SLAVE_CONN_INTERVAL_RANGE,
-    LO_UINT16(DEFAULT_DESIRED_MIN_CONN_INTERVAL), // 100ms
+    LO_UINT16(DEFAULT_DESIRED_MIN_CONN_INTERVAL), // 10ms
     HI_UINT16(DEFAULT_DESIRED_MIN_CONN_INTERVAL),
-    LO_UINT16(DEFAULT_DESIRED_MAX_CONN_INTERVAL), // 1s
+    LO_UINT16(DEFAULT_DESIRED_MAX_CONN_INTERVAL), // 10ms
     HI_UINT16(DEFAULT_DESIRED_MAX_CONN_INTERVAL),
 
     // service UUIDs
@@ -165,7 +165,7 @@ static uint16_t hidEmuConnHandle = GAP_CONNHANDLE_INIT;
  */
 
 static void    hidEmu_ProcessTMOSMsg(tmos_event_hdr_t *pMsg);
-static void    hidEmuSendConsumerReport(uint8_t volume_up, uint8_t volume_dowm);
+static void    hidEmuSendConsumerReport(uint8_t volume_up, uint8_t volume_down);
 static uint8_t hidEmuRptCB(uint8_t id, uint8_t type, uint16_t uuid,
                            uint8_t oper, uint16_t *pLen, uint8_t *pData);
 static void    hidEmuEvtCB(uint8_t evt);
@@ -189,18 +189,18 @@ static hidDevCB_t hidEmuHidCBs = {
 /*********************************************************************
  * @fn      HidEmu_Init
  *
- * @brief   Initialization function for the HidEmuKbd App Task.
+ * @brief   Initialization function for the HidEmu App Task.
  *          This is called during initialization and should contain
  *          any application specific initialization (ie. hardware
  *          initialization/setup, table initialization, power up
- *          notificaiton ... ).
+ *          notification ... ).
  *
  * @param   task_id - the ID assigned by TMOS.  This ID should be
  *                    used to send messages and set timers.
  *
  * @return  none
  */
-void HidEmu_Init()
+void HidEmu_Init(void)
 {
     hidEmuTaskId = TMOS_ProcessEventRegister(HidEmu_ProcessEvent);
 
@@ -238,7 +238,7 @@ void HidEmu_Init()
         Batt_SetParameter(BATT_PARAM_CRITICAL_LEVEL, sizeof(uint8_t), &critical);
     }
 
-    // Set up HID keyboard service
+    // Set up HID consumer service
     Hid_AddService();
 
     // Register for HID Dev callback
@@ -251,7 +251,7 @@ void HidEmu_Init()
 /*********************************************************************
  * @fn      HidEmu_ProcessEvent
  *
- * @brief   HidEmuKbd Application Task event processor.  This function
+ * @brief   HidEmu Application Task event processor.  This function
  *          is called to process all events for the task.  Events
  *          include timers, messages and any other user defined events.
  *
@@ -347,16 +347,16 @@ static void hidEmu_ProcessTMOSMsg(tmos_event_hdr_t *pMsg)
  * @brief   Build and send a HID consumer report.
  *
  * @param   volume_up - consumer volume up
- *					volume_dowm - consumer volume dowm
+ *					volume_down - consumer volume down
  *
  * @return  none
  */
-static void hidEmuSendConsumerReport(uint8_t volume_up, uint8_t volume_dowm)
+static void hidEmuSendConsumerReport(uint8_t volume_up, uint8_t volume_down)
 {
     uint8_t buf[HID_CONSUMER_IN_RPT_LEN];
 
     buf[0] = volume_up;   // volume up
-    buf[1] = volume_dowm; // volume dowm
+    buf[1] = volume_down; // volume down
 
     HidDev_Report(HID_RPT_ID_CONSUMER_IN, HID_REPORT_TYPE_INPUT,
                   HID_CONSUMER_IN_RPT_LEN, buf);

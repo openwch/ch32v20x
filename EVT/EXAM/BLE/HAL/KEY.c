@@ -28,7 +28,7 @@ static halKeyCBack_t pHalKeyProcessFunction; /* callback function */
 /**************************************************************************************************
  * @fn      HAL_KeyInit
  *
- * @brief   Initilize Key Service
+ * @brief   Initialize Key Service
  *
  * @param   none
  *
@@ -52,7 +52,7 @@ void HAL_KeyInit(void)
 /**************************************************************************************************
  * @fn      HalKeyConfig
  *
- * @brief   Configure the Key serivce
+ * @brief   Configure the Key service
  *
  * @param   cback - pointer to the CallBack function
  *
@@ -60,7 +60,7 @@ void HAL_KeyInit(void)
  **************************************************************************************************/
 void HalKeyConfig(halKeyCBack_t cback)
 {
-    /* Register the callback fucntion */
+    /* Register the callback function */
     pHalKeyProcessFunction = cback;
     tmos_start_task(halTaskID, HAL_KEY_EVENT, HAL_KEY_POLLING_VALUE); /* Kick off polling */
 }
@@ -83,15 +83,15 @@ uint8_t HalKeyRead(void)
         keys |= HAL_KEY_SW_1;
     }
     if(HAL_PUSH_BUTTON2())
-    { //Read button 1
+    { //Read button 2
         keys |= HAL_KEY_SW_2;
     }
     if(HAL_PUSH_BUTTON3())
-    { //Read button 1
+    { //Read button 3
         keys |= HAL_KEY_SW_3;
     }
     if(HAL_PUSH_BUTTON4())
-    { //Read button 1
+    { //Read button 4
         keys |= HAL_KEY_SW_4;
     }
     return keys;
@@ -129,7 +129,7 @@ void HAL_KeyPoll(void)
     { /* Exit - since no keys have changed */
         return;
     }
-    halKeySavedKeys = keys; /* Store the current keys for comparation next time */
+    halKeySavedKeys = keys; /* Store the current keys for comparison next time */
     /* Invoke Callback if new keys were depressed */
     if(keys && (pHalKeyProcessFunction))
     {

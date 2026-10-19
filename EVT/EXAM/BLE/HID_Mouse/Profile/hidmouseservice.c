@@ -383,12 +383,12 @@ bStatus_t Hid_AddService(void)
 /*********************************************************************
  * @fn      Hid_SetParameter
  *
- * @brief   Set a HID Kbd parameter.
+ * @brief   Set a HID mouse parameter.
  *
  * @param   id - HID report ID.
  * @param   type - HID report type.
  * @param   uuid - attribute uuid.
- * @param   len - length of data to right.
+ * @param   len - length of data to write.
  * @param   pValue - pointer to data to write.  This is dependent on
  *          the input parameters and WILL be cast to the appropriate
  *          data type (example: data type of uint16_t will be cast to
@@ -431,7 +431,7 @@ uint8_t Hid_SetParameter(uint8_t id, uint8_t type, uint16_t uuid, uint8_t len, v
 /*********************************************************************
  * @fn      Hid_GetParameter
  *
- * @brief   Get a HID Kbd parameter.
+ * @brief   Get a HID mouse parameter.
  *
  * @param   id - HID report ID.
  * @param   type - HID report type.

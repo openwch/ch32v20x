@@ -26,7 +26,9 @@ void TIM2_IRQHandler(void) __attribute__((interrupt("WCH-Interrupt-fast")));
  */
 void NMI_Handler(void)
 {
-    /**/
+  while (1)
+  {
+  }
 }
 
 /*********************************************************************
@@ -38,12 +40,8 @@ void NMI_Handler(void)
  */
 void HardFault_Handler(void)
 {
-    printf("HardFault_Handler\r\n");
-    printf("mcause:%08x\r\n",__get_MCAUSE());
-    printf("mtval:%08x\r\n",__get_MTVAL());
-    printf("mepc:%08x\r\n",__get_MEPC());
     NVIC_SystemReset();
-    while (1);
+    while(1);
 }
 
 /*********************************************************************

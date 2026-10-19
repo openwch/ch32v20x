@@ -59,4 +59,4 @@ extern uint16_t HidEmu_ProcessEvent(uint8_t task_id, uint16_t events);
 }
 #endif
 
-#endif /*HIDEMUKBD_H */
+#endif /* HIDTOUCH_H */

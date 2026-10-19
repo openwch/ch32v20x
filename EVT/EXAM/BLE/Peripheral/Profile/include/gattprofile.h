@@ -30,12 +30,12 @@ extern "C" {
 #define SIMPLEPROFILE_CHAR2         1           // RW uint8_t - Profile Characteristic 2 value
 #define SIMPLEPROFILE_CHAR3         2           // RW uint8_t - Profile Characteristic 3 value
 #define SIMPLEPROFILE_CHAR4         3           // RW uint8_t - Profile Characteristic 4 value
-#define SIMPLEPROFILE_CHAR5         4           // RW uint8_t - Profile Characteristic 4 value
+#define SIMPLEPROFILE_CHAR5         4           // RW uint8_t - Profile Characteristic 5 value
 
 // Simple Profile Service UUID
 #define SIMPLEPROFILE_SERV_UUID     0xFFE0
 
-// Key Pressed UUID
+// Simple Profile Characteristic UUIDs
 #define SIMPLEPROFILE_CHAR1_UUID    0xFFE1
 #define SIMPLEPROFILE_CHAR2_UUID    0xFFE2
 #define SIMPLEPROFILE_CHAR3_UUID    0xFFE3
@@ -98,7 +98,7 @@ extern bStatus_t SimpleProfile_RegisterAppCBs(simpleProfileCBs_t *appCallbacks);
  * SimpleProfile_SetParameter - Set a Simple GATT Profile parameter.
  *
  *    param - Profile parameter ID
- *    len - length of data to right
+ *    len - length of data to write
  *    value - pointer to data to write.  This is dependent on
  *          the parameter ID and WILL be cast to the appropriate
  *          data type (example: data type of uint16_t will be cast to

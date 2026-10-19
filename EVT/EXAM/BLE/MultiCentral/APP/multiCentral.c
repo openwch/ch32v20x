@@ -9,7 +9,7 @@
  *                      It needs to be used in conjunction with the slave routine, and the slave device 
  *                      address is modified to the routine target address. 
  *                      The default three slave device addresses are 
- *                      (84:C2:E4:03:02:02), (84:C2: E4:03:02:03), (84:C2:E4:03:02:04)
+ *                      (84:C2:E4:03:02:02), (84:C2:E4:03:02:03), (84:C2:E4:03:02:04)
  *********************************************************************************
  * Copyright (c) 2021 Nanjing Qinheng Microelectronics Co., Ltd.
  * Attention: This software (modified or not) and binary are used for 
@@ -48,7 +48,7 @@
 // Connection supervision timeout in 10ms
 #define DEFAULT_CONNECTION_TIMEOUT          100
 
-// Discovey mode (limited, general, all)
+// Discovery mode (limited, general, all)
 #define DEFAULT_DISCOVERY_MODE              DEVDISC_MODE_ALL
 
 // TRUE to use active scan
@@ -183,10 +183,10 @@ static void     centralPairStateCB(uint16_t connHandle, uint8_t state, uint8_t s
 static uint16_t connect0_ProcessEvent(uint8_t task_id, uint16_t events);
 static void     central_ProcessTMOSMsg(tmos_event_hdr_t *pMsg);
 static void     centralGATTDiscoveryEvent(uint8_t connItem, gattMsgEvent_t *pMsg);
-static void     centralConnIistStartDiscovery_0(void);
+static void     centralConnListStartDiscovery_0(void);
 static void     centralAddDeviceInfo(uint8_t *pAddr, uint8_t addrType);
-static void     centralInitConnItem(uint8_t task_id, centralConnItem_t *centralConnList);
-static uint8_t  centralAddrCmp(peerAddrDefItem_t *PeerAddrDef, uint8_t *addr);
+static void     centralInitConnItem(uint8_t task_id, centralConnItem_t *connList);
+static uint8_t  centralAddrCmp(peerAddrDefItem_t *pPeerAddrDef, uint8_t *addr);
 
 /*********************************************************************
  * PROFILE CALLBACKS
@@ -223,7 +223,7 @@ static gapBondCBs_t centralBondCB = {
  *
  * @return  none
  */
-void Central_Init()
+void Central_Init(void)
 {
     centralTaskId = TMOS_ProcessEventRegister(Central_ProcessEvent);
 
@@ -264,25 +264,25 @@ void Central_Init()
  * @brief   Init Connection Item
  *
  * @param   task_id -
- *          centralConnList -
+ *          connList -
  *
- * @return  NULL
+ * @return  none
  */
-static void centralInitConnItem(uint8_t task_id, centralConnItem_t *centralConnList)
+static void centralInitConnItem(uint8_t task_id, centralConnItem_t *connList)
 {
     uint8_t connItem;
     for(connItem = 0; connItem < CENTRAL_MAX_CONNECTION; connItem++)
     {
         // 每个连接的任务通过taskID区分
-        centralConnList[connItem].taskID = TMOS_ProcessEventRegister(Central_ProcessEvent);
-        centralConnList[connItem].connHandle = GAP_CONNHANDLE_INIT;
-        centralConnList[connItem].state = BLE_STATE_IDLE;
-        centralConnList[connItem].discState = BLE_DISC_STATE_IDLE;
-        centralConnList[connItem].procedureInProgress = FALSE;
-        centralConnList[connItem].charHdl = 0;
-        centralConnList[connItem].svcStartHdl = 0;
-        centralConnList[connItem].svcEndHdl = 0;
-        centralConnList[connItem].cccHdl = 0;
+        connList[connItem].taskID = TMOS_ProcessEventRegister(Central_ProcessEvent);
+        connList[connItem].connHandle = GAP_CONNHANDLE_INIT;
+        connList[connItem].state = BLE_STATE_IDLE;
+        connList[connItem].discState = BLE_DISC_STATE_IDLE;
+        connList[connItem].procedureInProgress = FALSE;
+        connList[connItem].charHdl = 0;
+        connList[connItem].svcStartHdl = 0;
+        connList[connItem].svcEndHdl = 0;
+        connList[connItem].cccHdl = 0;
     }
 }
 
@@ -348,18 +348,20 @@ uint16_t Central_ProcessEvent(uint8_t task_id, uint16_t events)
 /*********************************************************************
  * @fn      connect0_ProcessEvent
  *
- * @brief   Process an incoming task message.
+ * @brief   Process connection 0 events.
  *
- * @param   pMsg - message to process
+ * @param   task_id - The TMOS assigned task ID.
+ * @param   events - events to process.  This is a bit map and can
+ *                   contain more than one event.
  *
- * @return  none
+ * @return  events not processed
  */
 static uint16_t connect0_ProcessEvent(uint8_t task_id, uint16_t events)
 {
     if(events & START_SVC_DISCOVERY_EVT)
     {
         // start service discovery
-        centralConnIistStartDiscovery_0();
+        centralConnListStartDiscovery_0();
         return (events ^ START_SVC_DISCOVERY_EVT);
     }
 
@@ -555,7 +557,7 @@ static void centralProcessGATTMsg(gattMsgEvent_t *pMsg)
         }
         else
         {
-            // After a succesful write, display the value that was written and increment value
+            // After a successful write, display the value that was written and increment value
             PRINT("Write sent: %x\n", centralCharVal);
         }
 
@@ -806,7 +808,7 @@ static void centralEventCB(gapRoleEvent_t *pEvent)
 }
 
 /*********************************************************************
- * @fn      pairStateCB
+ * @fn      centralPairStateCB
  *
  * @brief   Pairing state callback.
  *
@@ -874,13 +876,13 @@ static void centralPasscodeCB(uint8_t *deviceAddr, uint16_t connectionHandle,
 }
 
 /*********************************************************************
- * @fn      centralConnIistStartDiscovery_0
+ * @fn      centralConnListStartDiscovery_0
  *
  * @brief   Start connection 0 service discovery.
  *
  * @return  none
  */
-static void centralConnIistStartDiscovery_0(void)
+static void centralConnListStartDiscovery_0(void)
 {
     uint8_t uuid[ATT_BT_UUID_SIZE] = {LO_UINT16(SIMPLEPROFILE_SERV_UUID),
                                       HI_UINT16(SIMPLEPROFILE_SERV_UUID)};
@@ -1049,12 +1051,12 @@ static void centralAddDeviceInfo(uint8_t *pAddr, uint8_t addrType)
  *
  * @return  none
  */
-static uint8_t centralAddrCmp(peerAddrDefItem_t *PeerAddrDef, uint8_t *addr)
+static uint8_t centralAddrCmp(peerAddrDefItem_t *pPeerAddrDef, uint8_t *addr)
 {
     uint8_t i;
     for(i = 0; i < CENTRAL_MAX_CONNECTION; i++)
     {
-        if(tmos_memcmp(PeerAddrDef[i].peerAddr, addr, B_ADDR_LEN))
+        if(tmos_memcmp(pPeerAddrDef[i].peerAddr, addr, B_ADDR_LEN))
             break;
     }
     if(i == CENTRAL_MAX_CONNECTION)

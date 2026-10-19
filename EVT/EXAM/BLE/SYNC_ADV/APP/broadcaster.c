@@ -78,7 +78,7 @@ static uint8_t scanRspData[] = {
 };
 
 // GAP - Advertisement data (max size = 31 bytes, though this is
-// best kept short to conserve power while advertisting)
+// best kept short to conserve power while advertising)
 static uint8_t advertData[] = {
     // Flags; this sets the device to use limited discoverable
     // mode (advertises for 30 seconds at a time) instead of general
@@ -96,7 +96,7 @@ static uint8_t advertData[] = {
 };
 
 // GAP - Advertisement data (max size = 252 bytes, though this is
-// best kept short to conserve power while advertisting)
+// best kept short to conserve power while advertising)
 static uint8_t periodicAdvertData[] = {
     // Broadcast of the data
     44,                               // length of this data including the data type byte
@@ -135,14 +135,14 @@ static gapRolesBroadcasterCBs_t Broadcaster_BroadcasterCBs = {
  *          Task. This is called during initialization and should contain
  *          any application specific initialization (ie. hardware
  *          initialization/setup, table initialization, power up
- *          notificaiton ... ).
+ *          notification ... ).
  *
  * @param   task_id - the ID assigned by TMOS.  This ID should be
  *                    used to send messages and set timers.
  *
  * @return  none
  */
-void Broadcaster_Init()
+void Broadcaster_Init(void)
 {
     Broadcaster_TaskID = TMOS_ProcessEventRegister(Broadcaster_ProcessEvent);
 
@@ -237,11 +237,11 @@ uint16_t Broadcaster_ProcessEvent(uint8_t task_id, uint16_t events)
 }
 
 /*********************************************************************
- * @fn      Broadcaster_ProcessTMOSMsg
+ * @fn      Broadcaster_ProcessGAPMsg
  *
  * @brief   Process an incoming task message.
  *
- * @param   pMsg - message to process
+ * @param   pEvent - message to process
  *
  * @return  none
  */

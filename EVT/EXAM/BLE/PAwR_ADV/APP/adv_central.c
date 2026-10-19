@@ -47,7 +47,7 @@
 // Connection supervision timeout in 10ms
 #define DEFAULT_CONNECTION_TIMEOUT       100
 
-// Discovey mode (limited, general, all)
+// Discovery mode (limited, general, all)
 #define DEFAULT_DISCOVERY_MODE           DEVDISC_MODE_ALL
 
 // TRUE to use active scan
@@ -246,7 +246,7 @@ static gapBondCBs_t centralBondCB = {
  *
  * @return  none
  */
-void Central_Init()
+void Central_Init(void)
 {
     centralTaskId = TMOS_ProcessEventRegister(Central_ProcessEvent);
 
@@ -759,7 +759,7 @@ static void centralEventCB(gapRoleEvent_t *pEvent)
 }
 
 /*********************************************************************
- * @fn      pairStateCB
+ * @fn      centralPairStateCB
  *
  * @brief   Pairing state callback.
  *

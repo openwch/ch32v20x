@@ -236,7 +236,7 @@ int bt_ancs_subscribe_data_source(struct bt_ancs_client *ancs_c,
     if (err) {
         atomic_clear_bit(&ancs_c->state, ANCS_DS_NOTIF_ENABLED);
         GATT_bm_free((gattMsg_t *)&ancs_c->ds_notif_params, ATT_WRITE_REQ);
-        PRINT("Subscribe Notification Source failed (err %d)\n", err);
+        PRINT("Subscribe Data Source failed (err %d)\n", err);
     } else {
         PRINT("Data Source subscribed\n");
     }

@@ -19,7 +19,7 @@ extern "C" {
 #endif
 
 
-extern volatile uint32_t RTCTigFlag;
+extern volatile uint32_t RTCTrigFlag;
 
 /**
  * @brief   Initialize time Service.
@@ -31,7 +31,7 @@ void HAL_TimeInit(void);
  *
  * @param   time    - Trigger time.
  */
-extern void RTC_SetTignTime(uint32_t time);
+extern void RTC_SetTrigTime(uint32_t time);
 
 #ifdef __cplusplus
 }

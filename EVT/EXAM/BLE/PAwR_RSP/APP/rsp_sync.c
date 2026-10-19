@@ -1,5 +1,5 @@
 /********************************** (C) COPYRIGHT *******************************
- * File Name          : rsp_sync.C
+ * File Name          : rsp_sync.c
  * Author             : WCH
  * Version            : V1.0
  * Date               : 2018/12/10
@@ -22,7 +22,7 @@
  */
 
 #define PAWR_SUBEVENT_NUM  4
-#define PAWR_RESPOSE_COUNT 16
+#define PAWR_RESPONSE_COUNT 16
 #define PAWR_DATALEN_MAX   10
 
 /*********************************************************************
@@ -52,7 +52,7 @@ static const gapCentralRoleCB_t simpleBLERoleCB = {
 };
 
 /*********************************************************************
- * @fn      Central_Init
+ * @fn      Sync_Init
  *
  * @brief   Initialization function for the Simple BLE Central App Task.
  *          This is called during initialization and should contain

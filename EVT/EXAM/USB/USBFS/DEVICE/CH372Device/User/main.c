@@ -16,7 +16,7 @@
   with endpoints 1/3/5 downloading data and uploading it via endpoints 2/4/6 respectively
   where endpoint 1/2 is implemented via a ring buffer and the data is not inverted, 
   and endpoints 3/4 and 5/6 are directly copied and inverted for upload.
-  The device can be operated using Bushund or other upper computer software.
+  The device can be operated using BusHound or other upper computer software.
   Note: This routine needs to be demonstrated in conjunction with the host software.
 */
 

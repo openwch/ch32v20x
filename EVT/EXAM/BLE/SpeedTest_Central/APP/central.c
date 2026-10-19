@@ -63,7 +63,7 @@
 // Connection supervision timeout in 10ms
 #define DEFAULT_CONNECTION_TIMEOUT          100
 
-// Discovey mode (limited, general, all)
+// Discovery mode (limited, general, all)
 #define DEFAULT_DISCOVERY_MODE              DEVDISC_MODE_ALL
 
 // TRUE to use active scan
@@ -257,12 +257,9 @@ static gapBondCBs_t centralBondCB = {
  *          initialization/setup, table initialization, power up
  *          notification).
  *
- * @param   task_id - the ID assigned by TMOS.  This ID should be
- *                    used to send messages and set timers.
- *
  * @return  none
  */
-void Central_Init()
+void Central_Init(void)
 {
     centralTaskId = TMOS_ProcessEventRegister(Central_ProcessEvent);
 
@@ -345,7 +342,7 @@ uint16_t Central_ProcessEvent(uint8_t task_id, uint16_t events)
 
     if(events & START_PARAM_UPDATE_EVT)
     {
-        // start connect parameter update
+        // start connection parameter update
         GAPRole_UpdateLink(centralConnHandle,
                            DEFAULT_UPDATE_MIN_CONN_INTERVAL,
                            DEFAULT_UPDATE_MAX_CONN_INTERVAL,
@@ -678,7 +675,7 @@ static void centralEventCB(gapRoleEvent_t *pEvent)
 
                 tmos_start_task(centralTaskId, START_SPEED_TEST_EVT, 1600);
 
-                // See if initiate connect parameter update
+                // See if initiate connection parameter update
                 if(centralParamUpdate)
                 {
                     tmos_start_task(centralTaskId, START_PARAM_UPDATE_EVT, DEFAULT_PARAM_UPDATE_DELAY);
@@ -737,7 +734,7 @@ static void centralEventCB(gapRoleEvent_t *pEvent)
 }
 
 /*********************************************************************
- * @fn      pairStateCB
+ * @fn      centralPairStateCB
  *
  * @brief   Pairing state callback.
  *

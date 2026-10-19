@@ -1,8 +1,8 @@
 /********************************** (C) COPYRIGHT *******************************
  * File Name          : main.c
  * Author             : WCH
- * Version            : V1.0.0
- * Date               : 2023/12/29
+ * Version            : V1.0.1
+ * Date               : 2026/10/16
  * Description        : Main program body.
  *********************************************************************************
  * Copyright (c) 2021 Nanjing Qinheng Microelectronics Co., Ltd.
@@ -22,11 +22,11 @@
 #include "debug.h"
 
 /* Global Variable */
-u16 Adc_Val[2];
+vu16 Adc_Val[2];
 vu32 temp;
 vs16 Calibrattion_Val1 = 0;
 vs16 Calibrattion_Val2 = 0;
-
+vu8  IntResponse=0 ;
 void ADC1_2_IRQHandler(void) __attribute__((interrupt("WCH-Interrupt-fast")));
 /*********************************************************************
  * @fn      ADC_Function_Init
@@ -72,7 +72,7 @@ void ADC_Function_Init(void)
     ADC_RegularChannelConfig(ADC1, ADC_Channel_1, 1, ADC_SampleTime_1Cycles5);
 
     ADC_ITConfig(ADC1, ADC_IT_EOC, ENABLE);
-    ADC_DMACmd(ADC1, ENABLE);
+
     ADC_Cmd(ADC1, ENABLE);
 
     ADC_BufferCmd(ADC1, DISABLE); //disable buffer
@@ -108,13 +108,17 @@ void ADC_Function_Init(void)
  *
  * @return  val+Calibrattion_Val - Conversion Value.
  */
-u16 Get_ConversionVal1(s16 val)
+u16 Get_ConversionVal1( s16 val )
 {
-    if((val + Calibrattion_Val1) < 0|| val==0)
+    if( ( val + Calibrattion_Val1 ) < 0 || val==0 )
+    {
         return 0;
-    if((Calibrattion_Val1 + val) > 4095||val==4095)
+    }
+    if( ( Calibrattion_Val1 + val ) > 4095 || val==4095 )
+    {
         return 4095;
-    return (val + Calibrattion_Val1);
+    }
+    return ( val + Calibrattion_Val1 );
 }
 
 /*********************************************************************
@@ -126,13 +130,17 @@ u16 Get_ConversionVal1(s16 val)
  *
  * @return  val+Calibrattion_Val - Conversion Value.
  */
-u16 Get_ConversionVal2(s16 val)
+u16 Get_ConversionVal2( s16 val )
 {
-    if((val + Calibrattion_Val2) < 0)
+    if( ( val + Calibrattion_Val2 ) < 0 || val==0  )
+    {
         return 0;
-    if((Calibrattion_Val2 + val) > 4095||val==4095)
+    }
+    if( ( Calibrattion_Val2 + val ) > 4095 || val==4095 )
+    {
         return 4095;
-    return (val + Calibrattion_Val2);
+    }
+    return ( val + Calibrattion_Val2 );
 }
 
 /*********************************************************************
@@ -157,7 +165,14 @@ int main(void)
     {
         ADC_SoftwareStartConvCmd(ADC1, ENABLE);
 
-        Delay_Ms(500);
+        Delay_Ms( 500 );
+				if(IntResponse == 1)
+        {
+				   IntResponse=0;
+           printf( "\r\nADC2 ch1=%d\r\n", Get_ConversionVal2( Adc_Val[1] ) );
+           printf( "\r\nADC1 ch1=%d\r\n", Get_ConversionVal1( Adc_Val[0] ) );
+        }
+
     }
 }
 
@@ -174,13 +189,12 @@ void ADC1_2_IRQHandler()
     {
         temp = ADC1->RDATAR;
         Adc_Val[0] = temp & 0xffff;
-        Adc_Val[1] = (temp >> 16) & 0xffff;
-
-        printf("\r\nADC2 ch2=%d\r\n", Get_ConversionVal2(Adc_Val[1]));
-        printf("\r\nADC1 ch2=%d\r\n", Get_ConversionVal1(Adc_Val[0]));
-
-        ADC_ClearITPendingBit(ADC1, ADC_IT_EOC);
-        ADC_ClearITPendingBit(ADC2, ADC_IT_EOC);
-    }
+        Adc_Val[1] = ( temp >> 16 ) & 0xffff;
+			
+			  IntResponse=1;
+			
+				ADC_ClearITPendingBit( ADC1, ADC_IT_EOC );
+				ADC_ClearITPendingBit( ADC2, ADC_IT_EOC );
+		}
 
 }

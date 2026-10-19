@@ -57,7 +57,7 @@ extern "C" {
 #define LED2_GPIO
 #define LED3_GPIO
 
-#define LED1_BV                 BV(15)
+#define LED1_BV                 (BV(15))
 #define LED2_BV
 #define LED3_BV
 
@@ -96,7 +96,7 @@ void HalLedUpdate(void);
  * @param   led     - bit mask value of leds to be turned ON/OFF/TOGGLE
  * @param   mode    - BLINK, FLASH, TOGGLE, ON, OFF
  */
-extern uint8_t HalLedSet(uint8_t led, uint8_t mode);
+extern uint8_t HalLedSet(uint8_t leds, uint8_t mode);
 
 /**
  * @brief   Blink the leds
@@ -106,7 +106,7 @@ extern uint8_t HalLedSet(uint8_t led, uint8_t mode);
  * @param   percent     - the percentage in each period where the led will be on
  * @param   period      - length of each cycle in milliseconds
  */
-extern void HalLedBlink(uint8_t leds, uint8_t cnt, uint8_t duty, uint16_t time);
+extern void HalLedBlink(uint8_t leds, uint8_t numBlinks, uint8_t percent, uint16_t period);
 
 /**
  * @brief   Put LEDs in sleep state - store current values
@@ -114,7 +114,7 @@ extern void HalLedBlink(uint8_t leds, uint8_t cnt, uint8_t duty, uint16_t time);
 extern void HalLedEnterSleep(void);
 
 /**
- * @brief   Retore LEDs from sleep state
+ * @brief   Restore LEDs from sleep state
  */
 extern void HalLedExitSleep(void);
 

@@ -1,5 +1,5 @@
 /********************************** (C) COPYRIGHT *******************************
- * File Name          : main.c
+ * File Name          : peripheral_main.c
  * Author             : WCH
  * Version            : V1.1
  * Date               : 2019/11/05
@@ -36,8 +36,8 @@ const uint8_t MacAddr[6] = {0x84, 0xC2, 0xE4, 0x03, 0x02, 0x02};
 /*********************************************************************
  * @fn      ReadImageFlag
  *
- * @brief   Read the iMage logo of the current program. 
- *          If the DataFlash is empty, it will be Imagea by default.
+ * @brief   Read the image flag of the current program. 
+ *          If the DataFlash is empty, it will be ImageA by default.
  *
  * @return  none
  */
@@ -101,7 +101,7 @@ int main(void)
     ReadImageFlag();
     if(RCC_GetFlagStatus(RCC_FLAG_SFTRST) == SET)
     {
-        // Soft reset does not jump app app
+        // Soft reset does not jump to app
     }
     else
     {

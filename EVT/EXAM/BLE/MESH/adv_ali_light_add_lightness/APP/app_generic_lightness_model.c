@@ -1,5 +1,5 @@
 /********************************** (C) COPYRIGHT *******************************
- * File Name          : app_generic_onoff_model.c
+ * File Name          : app_generic_lightness_model.c
  * Author             : WCH
  * Version            : V1.0
  * Date               : 2021/03/24
@@ -94,7 +94,7 @@ static void gen_lightness_status(struct bt_mesh_model *model, struct bt_mesh_msg
 }
 
 /*********************************************************************
- * @fn      gen_onoff_get
+ * @fn      gen_lightness_get
  *
  * @brief   天猫精灵下发的获取亮度命令
  *

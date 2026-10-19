@@ -71,7 +71,7 @@
 // Request bonding.
 #define REQ_BONDING                          TRUE
 
-// Time alloted for service discovery before requesting more energy efficient connection parameters
+// Time allotted for service discovery before requesting more energy efficient connection parameters
 #define SVC_DISC_DELAY                       5000
 
 // After 15 seconds of no user input with notifications off, terminate connection
@@ -224,14 +224,14 @@ static gapBondCBs_t runningBondCB = {
  *          This is called during initialization and should contain
  *          any application specific initialization (ie. hardware
  *          initialization/setup, table initialization, power up
- *          notificaiton ... ).
+ *          notification ... ).
  *
  * @param   task_id - the ID assigned by TMOS.  This ID should be
  *                    used to send messages and set timers.
  *
  * @return  none
  */
-void RunningSensor_Init()
+void RunningSensor_Init(void)
 {
     sensor_TaskID = TMOS_ProcessEventRegister(RunningSensor_ProcessEvent);
 
@@ -626,7 +626,7 @@ static void SensorGapStateCB(gapRole_States_t newState, gapRoleEvent_t *pEvent)
  * @brief   Callback function for RSC service.
  *
  * @param   event - service event
- * @param   pNewCummVal - pointer to new total distanace data
+ * @param   pNewCummVal - pointer to new total distance data
  *                        if specified by event.  NULL otherwise.
  *
  * @return  SUCCESS if operation successful. FAILURE, otherwise.

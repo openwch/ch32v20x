@@ -1,5 +1,5 @@
 /********************************** (C) COPYRIGHT *******************************
- * File Name          : main.c
+ * File Name          : multiCentral_main.c
  * Author             : WCH
  * Version            : V1.0
  * Date               : 2020/08/06

@@ -1,5 +1,5 @@
 /********************************** (C) COPYRIGHT *******************************
- * File Name          : main.c
+ * File Name          : app_main.c
  * Author             : WCH
  * Version            : V1.2
  * Date               : 2022/06/22

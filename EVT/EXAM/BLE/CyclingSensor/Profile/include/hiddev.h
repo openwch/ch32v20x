@@ -68,7 +68,7 @@ extern "C" {
 #define HID_EXT_REPORT_REF_LEN            2     // External Report Reference Descriptor
 
 // HID Keyboard/Keypad Usage IDs (subset of the codes available in the USB HID Usage Tables spec)
-#define HID_KEYBOARD_RESERVED             0     // 0x00 - No event inidicated
+#define HID_KEYBOARD_RESERVED             0     // 0x00 - No event indicated
 #define HID_KEYBOARD_A                    4     // 0x04 - Keyboard a and A
 #define HID_KEYBOARD_B                    5     // 0x05 - Keyboard b and B
 #define HID_KEYBOARD_C                    6     // 0x06 - Keyboard c and C
@@ -84,7 +84,7 @@ extern "C" {
 #define HID_KEYBOARD_M                    16    // 0x10 - Keyboard m and M
 #define HID_KEYBOARD_N                    17    // 0x11 - Keyboard n and N
 #define HID_KEYBOARD_O                    18    // 0x12 - Keyboard o and O
-#define HID_KEYBOARD_P                    19    // 0x13 - Keyboard p and p
+#define HID_KEYBOARD_P                    19    // 0x13 - Keyboard p and P
 #define HID_KEYBOARD_Q                    20    // 0x14 - Keyboard q and Q
 #define HID_KEYBOARD_R                    21    // 0x15 - Keyboard r and R
 #define HID_KEYBOARD_S                    22    // 0x16 - Keyboard s and S
@@ -98,7 +98,7 @@ extern "C" {
 #define HID_KEYBOARD_1                    30    // 0x1E - Keyboard 1 and !
 #define HID_KEYBOARD_2                    31    // 0x1F - Keyboard 2 and @
 #define HID_KEYBOARD_3                    32    // 0x20 - Keyboard 3 and #
-#define HID_KEYBOARD_4                    33    // 0x21 - Keyboard 4 and %
+#define HID_KEYBOARD_4                    33    // 0x21 - Keyboard 4 and $
 #define HID_KEYBOARD_5                    34    // 0x22 - Keyboard 5 and %
 #define HID_KEYBOARD_6                    35    // 0x23 - Keyboard 6 and ^
 #define HID_KEYBOARD_7                    36    // 0x24 - Keyboard 7 and &
@@ -156,7 +156,7 @@ extern "C" {
 #define HID_KEYBPAD_1                     89    // 0x59 - Keypad 1 and End
 #define HID_KEYBPAD_2                     90    // 0x5A - Keypad 2 and Down Arrow
 #define HID_KEYBPAD_3                     91    // 0x5B - Keypad 3 and PageDn
-#define HID_KEYBPAD_4                     92    // 0x5C - Keypad 4 and Lfet Arrow
+#define HID_KEYBPAD_4                     92    // 0x5C - Keypad 4 and Left Arrow
 #define HID_KEYBPAD_5                     93    // 0x5D - Keypad 5
 #define HID_KEYBPAD_6                     94    // 0x5E - Keypad 6 and Right Arrow
 #define HID_KEYBPAD_7                     95    // 0x5F - Keypad 7 and Home
@@ -167,13 +167,13 @@ extern "C" {
 #define HID_KEYBOARD_MUTE                 127   // 0x7F - Keyboard Mute
 #define HID_KEYBOARD_VOLUME_UP            128   // 0x80 - Keyboard Volume up
 #define HID_KEYBOARD_VOLUME_DOWN          129   // 0x81 - Keyboard Volume down
-#define HID_KEYBOARD_LEFT_CTRL            224   // 0xE0 - Keyboard LeftContorl
+#define HID_KEYBOARD_LEFT_CTRL            224   // 0xE0 - Keyboard LeftControl
 #define HID_KEYBOARD_LEFT_SHIFT           225   // 0xE1 - Keyboard LeftShift
 #define HID_KEYBOARD_LEFT_ALT             226   // 0xE2 - Keyboard LeftAlt
 #define HID_KEYBOARD_LEFT_GUI             227   // 0xE3 - Keyboard LeftGUI
-#define HID_KEYBOARD_RIGHT_CTRL           228   // 0xE4 - Keyboard LeftContorl
-#define HID_KEYBOARD_RIGHT_SHIFT          229   // 0xE5 - Keyboard LeftShift
-#define HID_KEYBOARD_RIGHT_ALT            230   // 0xE6 - Keyboard LeftAlt
+#define HID_KEYBOARD_RIGHT_CTRL           228   // 0xE4 - Keyboard RightControl
+#define HID_KEYBOARD_RIGHT_SHIFT          229   // 0xE5 - Keyboard RightShift
+#define HID_KEYBOARD_RIGHT_ALT            230   // 0xE6 - Keyboard RightAlt
 #define HID_KEYBOARD_RIGHT_GUI            231   // 0xE7 - Keyboard RightGUI
 
 #define HID_MOUSE_BUTTON_LEFT             253
@@ -283,7 +283,7 @@ typedef struct
  *          This is called during initialization and should contain
  *          any application specific initialization (ie. hardware
  *          initialization/setup, table initialization, power up
- *          notificaiton ... ).
+ *          notification ... ).
  *
  * @param   task_id - the ID assigned by TMOS.  This ID should be
  *                    used to send messages and set timers.
@@ -360,7 +360,7 @@ extern void HidDev_Close(void);
  * @brief   Set a HID Dev parameter.
  *
  * @param   param - Profile parameter ID
- * @param   len - length of data to right
+ * @param   len - length of data to write
  * @param   pValue - pointer to data to write.  This is dependent on
  *          the parameter ID and WILL be cast to the appropriate
  *          data type (example: data type of uint16_t will be cast to

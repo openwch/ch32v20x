@@ -34,12 +34,12 @@ uint8_t device_led_color[6] = {0};
  *******************************************************************************/
 void read_led_color(uint8_t *pcolor)
 {
-    APP_DBG("device_led_color_adj: %d ", device_led_color[0]);
+    APP_DBG("device_led_color: %d ", device_led_color[0]);
     tmos_memcpy(pcolor, device_led_color, 6);
 }
 
 /*******************************************************************************
- * Function Name  : set_led_colors
+ * Function Name  : set_led_color
  * Description    : …Ë÷√µ±«∞led_color
  * Input          : None
  * Return         : None

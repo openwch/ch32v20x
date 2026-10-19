@@ -1,5 +1,5 @@
 /********************************** (C) COPYRIGHT *******************************
- * File Name          : central.h
+ * File Name          : adv.h
  * Author             : WCH
  * Version            : V1.0
  * Date               : 2018/11/12
@@ -10,8 +10,8 @@
  * microcontroller manufactured by Nanjing Qinheng Microelectronics.
  *******************************************************************************/
 
-#ifndef CENTRAL_H
-#define CENTRAL_H
+#ifndef __ADV_H
+#define __ADV_H
 
 #ifdef __cplusplus
 extern "C" {
@@ -25,7 +25,7 @@ extern "C" {
  * CONSTANTS
  */
 
-// Simple BLE Ceentral Task Events
+// Simple BLE Central Task Events
 #define START_DEVICE_EVT           (1 << 0)
 #define START_DISCOVERY_EVT        (1 << 1)
 #define START_SCAN_EVT             (1 << 2)

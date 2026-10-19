@@ -29,12 +29,12 @@
 /* imageIAP定义 */
 #define IMAGE_IAP_FLAG       0x02
 #define IMAGE_IAP_START_ADD  0x08000000
-#define IMAGE_IAP_SIZE       16 * 1024
+#define IMAGE_IAP_SIZE       (16 * 1024)
 
 /* imageA定义 */
 #define IMAGE_A_FLAG         0x01
 #define IMAGE_A_START_ADD    (IMAGE_IAP_START_ADD+IMAGE_IAP_SIZE)
-#define IMAGE_A_SIZE         240 * 1024
+#define IMAGE_A_SIZE         (240 * 1024)
 
 #define IMAGE_OTA_FLAG       0x03
 

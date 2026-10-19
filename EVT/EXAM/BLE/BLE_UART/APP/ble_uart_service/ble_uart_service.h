@@ -1,5 +1,5 @@
 /********************************** (C) COPYRIGHT *******************************
- * File Name          : simpleGATTprofile.h
+ * File Name          : ble_uart_service.h
  * Author             : WCH
  * Version            : V1.1
  * Date               : 2022/01/19
@@ -26,7 +26,7 @@ typedef enum
 {
     BLE_UART_EVT_TX_NOTI_DISABLED = 1,
     BLE_UART_EVT_TX_NOTI_ENABLED,
-    BLE_UART_EVT_BLE_DATA_RECIEVED,
+    BLE_UART_EVT_BLE_DATA_RECEIVED,
 } ble_uart_evt_type_t;
 
 typedef struct

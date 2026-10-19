@@ -131,7 +131,7 @@ static gattAttribute_t battAttrTbl[] = {
         0,
         (uint8_t *)&battLevelClientCharCfg},
 
-    // HID Report Reference characteristic descriptor, batter level input
+    // HID Report Reference characteristic descriptor, battery level input
     {
         {ATT_BT_UUID_SIZE, reportRefUUID},
         GATT_PERMIT_READ,
@@ -327,8 +327,8 @@ bStatus_t Batt_MeasLevel(void)
  * @brief   Set up which ADC source is to be used. Defaults to VDD/3.
  *
  * @param   adc_ch - ADC Channel, e.g. HAL_ADC_CHN_AIN6
- * @param   minVal - max battery level
- * @param   maxVal - min battery level
+ * @param   minVal - min battery level
+ * @param   maxVal - max battery level
  * @param   sCB - HW setup callback
  * @param   tCB - HW tear down callback
  * @param   cCB - percentage calculation callback
@@ -542,7 +542,7 @@ static uint8_t battMeasure(void)
 }
 
 /*********************************************************************
- * @fn      battNotifyLevelState
+ * @fn      battNotifyLevel
  *
  * @brief   Send a notification of the battery level state
  *          characteristic if a connection is established.

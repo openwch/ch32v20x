@@ -3,7 +3,7 @@
  * Author             : WCH
  * Version            : V1.0.0
  * Date               : 2021/08/08
- * Description        : Descriptors for Virtual Com Port Demo.
+ * Description        : Descriptors for the USB device.
 *********************************************************************************
 * Copyright (c) 2021 Nanjing Qinheng Microelectronics Co., Ltd.
 * Attention: This software (modified or not) and binary are used for 
@@ -23,7 +23,7 @@ const uint8_t  USBD_DeviceDescriptor[] =
     0x00,                                                                        // bDeviceProtocol
     0x40,                                                                        // bMaxPacketSize0 64
     0x86, 0x1A,                                                                  // idVendor 0x1A86
-    0x10, 0xFE,                                                                  // idProduct 0xE3E2
+    0x10, 0xFE,                                                                  // idProduct 0xFE10
     DEF_PROG_VERSION, 0x00,                                                      // bcdDevice 0.00
     0x01,                                                                        // iManufacturer (String Index)
     0x02,                                                                        // iProduct (String Index)
@@ -31,7 +31,7 @@ const uint8_t  USBD_DeviceDescriptor[] =
     0x01,                                                                        // bNumConfigurations 1
 };
 
-/* USB Configration Descriptors */
+/* USB Configuration Descriptors */
 const uint8_t  USBD_ConfigDescriptor[] =
 {
     /* Configuration Descriptor */

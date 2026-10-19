@@ -147,7 +147,7 @@ static void vendor_model_srv_reset(void)
  * @brief   调用应用层传入的回调
  *
  * @param   val     - 回调参数，包括消息类型、数据内容、长度、来源地址
- * @param   statu   - 状态
+ * @param   status  - 状态
  *
  * @return  none
  */
@@ -201,7 +201,7 @@ static int vendor_model_srv_prepare(uint32_t op_req, uint32_t op)
 {
     if(!vendor_model_srv)
     {
-        APP_DBG("No available Configuration Client context!");
+        APP_DBG("No available Vendor Model Server context!");
         return -EINVAL;
     }
 
@@ -268,7 +268,7 @@ static void vendor_message_srv_confirm(struct bt_mesh_model   *model,
     err = bt_mesh_model_send(model, ctx, &msg, NULL, NULL);
     if(err)
     {
-        APP_DBG("#mesh-onoff STATUS: send status failed: %d", err);
+        APP_DBG("send status failed: %d", err);
     }
 }
 

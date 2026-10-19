@@ -117,12 +117,12 @@ extern "C" {
 /* FLASH定义 */
 #define FLASH_PAGE_SIZE                    256
 #define FLASH_BLOCK_SIZE                   4096
-#define IMAGE_SIZE                         152 * 1024
+#define IMAGE_SIZE                         (152 * 1024)
 
 /* imageIAP定义 */
 #define IMAGE_IAP_FLAG                     0x03
 #define IMAGE_IAP_START_ADD                0x08000000
-#define IMAGE_IAP_SIZE                     8 * 1024
+#define IMAGE_IAP_SIZE                     (8 * 1024)
 
 /* imageA定义 */
 #define IMAGE_A_FLAG                       0x01
@@ -305,7 +305,7 @@ typedef union
 
 void App_Init(void);
 
-void App_peripheral_reveived(uint8_t *pValue, uint16_t len);
+void App_peripheral_received(uint8_t *pValue, uint16_t len);
 
 /******************************************************************************/
 

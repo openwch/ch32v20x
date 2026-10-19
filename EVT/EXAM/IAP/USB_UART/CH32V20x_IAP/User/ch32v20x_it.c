@@ -1,8 +1,8 @@
 /********************************** (C) COPYRIGHT *******************************
  * File Name          : ch32v20x_it.c
  * Author             : WCH
- * Version            : V1.0.0
- * Date               : 2023/12/29
+ * Version            : V1.0.1
+ * Date               : 2026/10/15
  * Description        : Main Interrupt Service Routines.
 *********************************************************************************
 * Copyright (c) 2021 Nanjing Qinheng Microelectronics Co., Ltd.
@@ -50,8 +50,11 @@ void HardFault_Handler(void)
  * @return  none
  */
 void SW_Handler(void) {
+    __disable_irq();
     __asm("li  a6, 0x5000");
     __asm("jr  a6");
 
-    while(1);
+    while(1)
+    {
+    }
 }

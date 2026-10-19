@@ -1,8 +1,8 @@
 /********************************** (C) COPYRIGHT *******************************
  * File Name          : main.c
  * Author             : WCH
- * Version            : V1.0.0
- * Date               : 2021/06/06
+ * Version            : V1.0.1
+ * Date               : 2026/10/16
  * Description        : Main program body.
  *********************************************************************************
  * Copyright (c) 2021 Nanjing Qinheng Microelectronics Co., Ltd.
@@ -59,11 +59,10 @@ void ADC_Function_Init(void)
     ADC_InitStructure.ADC_Pga = ADC_Pga_1;
 
     ADC_Init(ADC1, &ADC_InitStructure);
-
+    ADC_ExternalTrigInjectedConvConfig(ADC1, ADC_ExternalTrigInjecConv_None);
     ADC_InjectedSequencerLengthConfig(ADC1, 1);
     ADC_InjectedChannelConfig(ADC1, ADC_Channel_1, 1, ADC_SampleTime_239Cycles5);
 
-    ADC_DMACmd(ADC1, ENABLE);
     ADC_Cmd(ADC1, ENABLE);
 
     ADC_BufferCmd(ADC1, DISABLE); //disable buffer
@@ -75,6 +74,7 @@ void ADC_Function_Init(void)
 
 
     ADC_Init(ADC2, &ADC_InitStructure);
+		ADC_ExternalTrigInjectedConvConfig(ADC2, ADC_ExternalTrigInjecConv_None);
     ADC_InjectedSequencerLengthConfig(ADC2, 1);
     ADC_InjectedChannelConfig(ADC2, ADC_Channel_3, 1, ADC_SampleTime_239Cycles5);
 
@@ -117,13 +117,17 @@ u16 Get_ConversionVal1(s16 val)
  *
  * @return  val+Calibrattion_Val - Conversion Value.
  */
-u16 Get_ConversionVal2(s16 val)
+u16 Get_ConversionVal2( s16 val )
 {
-    if((val + Calibrattion_Val2) < 0)
+    if( ( val + Calibrattion_Val2 ) < 0 || val==0 )
+    {
         return 0;
-    if((Calibrattion_Val2 + val) > 4095)
+    }
+    if( ( Calibrattion_Val2 + val ) > 4095 || val==4095 )
+    {
         return 4095;
-    return (val + Calibrattion_Val2);
+    }
+    return ( val + Calibrattion_Val2 );
 }
 
 /*********************************************************************
@@ -150,13 +154,12 @@ int main(void)
         Delay_Ms(100);
 
         ADC_SoftwareStartInjectedConvCmd(ADC1, DISABLE);
-        Delay_Ms(100);
 
         while(!ADC_GetFlagStatus(ADC1, ADC_FLAG_JEOC));
         ADC_val1 = ADC_GetInjectedConversionValue(ADC1, ADC_InjectedChannel_1);
         ADC_val2 = ADC_GetInjectedConversionValue(ADC2, ADC_InjectedChannel_1);
 
-        printf("JADC1 ch2=%04d\r\n", Get_ConversionVal1(ADC_val1));
+        printf("JADC1 ch1=%04d\r\n", Get_ConversionVal1(ADC_val1));
         printf("JADC2 ch3=%04d\r\n", Get_ConversionVal2(ADC_val2));
     }
 }

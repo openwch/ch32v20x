@@ -1,5 +1,5 @@
 /********************************** (C) COPYRIGHT *******************************
- * File Name          : peripheral.C
+ * File Name          : app_uart.c
  * Author             : WCH
  * Version            : v1.0
  * Date               : 2020/11/26
@@ -42,10 +42,10 @@ uint8_t to_test_buffer[BLE_BUFF_MAX_LEN - 4 - 3];
 app_drv_fifo_t app_uart_tx_fifo;
 app_drv_fifo_t app_uart_rx_fifo;
 
-//interupt uart rx flag ,clear at main loop
+//interrupt uart rx flag ,clear at main loop
 bool uart_rx_flag = false;
 
-//for interrupt rx blcak hole ,when uart rx fifo full
+//for interrupt rx black hole ,when uart rx fifo full
 uint8_t for_uart_rx_black_hole = 0;
 
 //fifo length less that MTU-3, retry times
@@ -117,7 +117,7 @@ void app_uart_process(void)
  *
  * @return  NULL
  */
-void app_uart_init()
+void app_uart_init(void)
 {
     //tx fifo and tx fifo
     //The buffer length should be a power of 2
@@ -216,7 +216,7 @@ void on_bleuartServiceEvt(uint16_t connection_handle, ble_uart_evt_t *p_evt)
         case BLE_UART_EVT_TX_NOTI_ENABLED:
             PRINT("%02x:bleuart_EVT_TX_NOTI_ENABLED\r\n", connection_handle);
             break;
-        case BLE_UART_EVT_BLE_DATA_RECIEVED:
+        case BLE_UART_EVT_BLE_DATA_RECEIVED:
             PRINT("BLE RX DATA len:%d\r\n", p_evt->data.length);
 
             //for notify back test

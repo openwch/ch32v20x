@@ -1,8 +1,8 @@
 /********************************** (C) COPYRIGHT *******************************
  * File Name          : main.c
  * Author             : WCH
- * Version            : V1.0.0
- * Date               : 2025/04/09
+ * Version            : V1.0.1
+ * Date               : 2026/10/17
  * Description        : Main program body.
  *********************************************************************************
  * Copyright (c) 2021 Nanjing Qinheng Microelectronics Co., Ltd.
@@ -29,7 +29,7 @@
 
 
 /* Global Variable */
-
+vs16 Calibrattion_Val = 0;
 /*********************************************************************
  * @fn      OPA1_Init
  *
@@ -88,7 +88,12 @@ void ADC_Channel3_Init( void )
     ADC_Init( ADC1, &ADC_InitStructure );
 
     ADC_Cmd( ADC1, ENABLE );
-    ADC1->CTLR1 |= ( 1 << 26 );  //buffer en
+   	ADC_BufferCmd(ADC1, DISABLE);   //disable buffer
+  	ADC_ResetCalibration(ADC1);
+	  while(ADC_GetResetCalibrationStatus(ADC1));
+	  ADC_StartCalibration(ADC1);
+	  while(ADC_GetCalibrationStatus(ADC1));
+	  Calibrattion_Val = Get_CalibrationValue(ADC1);
 }
 
 /*********************************************************************
@@ -130,6 +135,22 @@ u16 Get_ADC_Val( u8 ch )
     val = ADC_GetConversionValue( ADC1 );
 
     return val;
+}
+
+/*********************************************************************
+ * @fn      Get_ConversionVal
+ *
+ * @brief   Get Conversion Value.
+ *
+ * @param   val - Sampling value
+ *
+ * @return  val+Calibrattion_Val - Conversion Value.
+ */
+u16 Get_ConversionVal(s16 val)
+{
+	if((val+Calibrattion_Val)<0 || val==0) return 0;
+	if((Calibrattion_Val+val)>4095 || val==4095) return 4095;
+	return (val+Calibrattion_Val);
 }
 
 /*********************************************************************
@@ -199,6 +220,7 @@ int main( void )
     {
         for( i = 0; i < 6; i++ ){
             ADC_val = Get_ADC_Average( ADC_Channel_3, 10 );
+					  ADC_val = Get_ConversionVal( ADC_val );
             printf( "OPA_OUT:%04d\r\n", ADC_val );
             Delay_Ms( 500 );
         }

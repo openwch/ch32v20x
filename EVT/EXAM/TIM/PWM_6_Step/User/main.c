@@ -15,7 +15,7 @@
  * 6_six_PWM output routine:
  * TIM1_CH1(PA8) TIM1_CH1N(PB13)
  * TIM1_CH2(PA9) TIM1_CH2N(PB14)
- * TIM1_CH2(PA10) TIM1_CH3N(PB15)
+ * TIM1_CH3(PA10) TIM1_CH3N(PB15)
  * PA9 is USRAT1_TX, if you need printf function, you should reselect USART in debug.h.
  * Only channel 1,2,3 have this function.
 */

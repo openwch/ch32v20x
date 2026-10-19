@@ -15,6 +15,8 @@
 #include <string.h>
 #include <stdio.h>
 #include <stdlib.h>
+#include "debug.h"
+#include "wchnet.h"
 #include "eth_driver.h"
 #include "mailcmd.h"
 
@@ -47,12 +49,12 @@
 #elif (mail_work_mode == 4)
     #define send_mail                   1         // send email
     #define send_over_receive           1         // send completed and reading mail
-    #define receive_mail                0         // receive email,according to the program flow, here should be set to 0
+    #define receive_mail                0         // receive email,According to the program flow, here should be set to 0
     #define receive_over_quit           1         // Exit after reading mail
 #elif (mail_work_mode == 5)
     #define receive_mail                1         // receive email
     #define receive_over_reply          1         // Reply to mails after reading them
-    #define send_mail                   0         // send email,according to the program flow, here should be set to 0
+    #define send_mail                   0         // send email,According to the program flow, here should be set to 0
     #define send_over_quit              1         // send completed and sign out
 #endif
 
@@ -68,9 +70,13 @@ extern  u16 ReceLen;
 #define DIALOG                    0               //1 print debug information 0 close debug information
 #define POP3_LOG_EN               1               //Output the obtained file on the serial port
 
+#define SOCKET_INVALID   0xFF
+
+extern u8 SmtpSocket;                             //socket id of the SMTP connection
+extern u8 Pop3Socket;                             //socket id of the POP3 connection
+
 typedef struct
 {
-    u8 Socket;
     u8 g_MIME;                                    //Attachment flag
     char  m_strFile[48];                          //attachment name
     char  m_strSendFrom[48];                      //sender address
@@ -84,7 +90,6 @@ typedef struct
 
 typedef struct
 {
-    u8 Socket;
     u8 EncodeType;                                //The encoding used by the mail
     u8 AnalyMailDat;                              //Analyze the end-of-mail flag
     u8 identitycheck;                             //Verify Attachment Content Flags
@@ -196,7 +201,7 @@ extern char     MacAddrC[18];
 #define SMTP_SEND_START         0x1E    //Start sending mail
 #define SMTP_ERR_CHECK          0x1F    //SMTP handshake error, log out and close socket
 /* *********************************************************************************************************************
-* �����źź˶Դ������
+* POP3 receiving mail related codes
 ************************************************************************************************************************/
 //POP ERR CHECK CODE
 #define POP_ERR_CNNT            0x20     //pop connection error

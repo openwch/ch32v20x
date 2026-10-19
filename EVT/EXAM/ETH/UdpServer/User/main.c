@@ -28,6 +28,7 @@ u16 srcport = 1000;                             //source port
 
 u8 SocketId;
 u8 SocketRecvBuf[UDP_RECE_BUF_LEN];             //socket receive buffer
+u32 UdpSendErrCnt = 0;                          //loopback sending failure counter
 /*********************************************************************
  * @fn      mStopIfError
  *
@@ -72,9 +73,9 @@ void TIM2_Init(void)
 /*********************************************************************
  * @fn      WCHNET_UdpServerRecv
  *
- * @brief   UDP Receive data function
+ * @brief   UDP receive callback, sends the received datagram back to the sender
  *
- *@param    socinf - socket information.
+ * @param   socinf - socket information.
  *          ipaddr - The IP address from which the data was sent
  *          port - source port
  *          buf - pointer to the data buffer
@@ -84,6 +85,11 @@ void TIM2_Init(void)
 void WCHNET_UdpServerRecv(struct _SOCK_INF *socinf, u32 ipaddr, u16 port, u8 *buf, u32 len)
 {
     u8 ip_addr[4], i;
+    u8 ret;
+
+    if ((socinf == NULL) || (buf == NULL) || (len > UDP_RECE_BUF_LEN)) {
+        return;
+    }
 
     printf("Remote IP:");
     for (i = 0; i < 4; i++) {
@@ -95,7 +101,11 @@ void WCHNET_UdpServerRecv(struct _SOCK_INF *socinf, u32 ipaddr, u16 port, u8 *bu
     printf("srcport = %d len = %d socketid = %d\r\n", port, len,
             socinf->SockIndex);
 
-    WCHNET_SocketUdpSendTo(socinf->SockIndex, buf, &len, ip_addr, port);
+    ret = WCHNET_SocketUdpSendTo(socinf->SockIndex, buf, &len, ip_addr, port);
+    if (ret != WCHNET_ERR_SUCCESS) {
+        UdpSendErrCnt++;
+        printf("UDP send error: %02X, failed count: %d\r\n", (u16) ret, UdpSendErrCnt);
+    }
 }
 
 /*********************************************************************
@@ -113,12 +123,15 @@ void WCHNET_CreateUdpSocket(void)
     memset((void *) &TmpSocketInf, 0, sizeof(SOCK_INF));
     TmpSocketInf.SourPort = srcport;
     TmpSocketInf.ProtoType = PROTO_TYPE_UDP;
-    TmpSocketInf.RecvStartPoint = (u32) SocketRecvBuf;
     TmpSocketInf.RecvBufLen = UDP_RECE_BUF_LEN;
+    TmpSocketInf.RecvStartPoint = (u32) SocketRecvBuf;
     TmpSocketInf.AppCallBack = WCHNET_UdpServerRecv;
     i = WCHNET_SocketCreat(&SocketId, &TmpSocketInf);
-    printf("WCHNET_SocketCreat %d\r\n", SocketId);
     mStopIfError(i);
+    if (i != WCHNET_ERR_SUCCESS) {
+        return;
+    }
+    printf("SocketId %d\r\n", SocketId);
 }
 
 /*********************************************************************
@@ -198,27 +211,34 @@ int main(void)
 {
     u8 i;
 
+    SystemCoreClockUpdate();
     Delay_Init();
     USART_Printf_Init(115200);                                    //USART initialize
     printf("UDPServer Test\r\n");
     if((SystemCoreClock == 60000000) || (SystemCoreClock == 120000000))
-        printf("SystemClk:%d\r\n", SystemCoreClock);
+        printf("SystemClk:%lu\r\n", (unsigned long)SystemCoreClock);
     else
         printf("Error: Please choose 60MHz and 120MHz clock when using Ethernet!\r\n");
-    printf("net version:%x\n", WCHNET_GetVer());
+    printf("ChipID:%08lx\r\n", (unsigned long)DBGMCU_GetCHIPID());
+    printf("net version:%x\r\n", (unsigned)WCHNET_GetVer());
     if ( WCHNET_LIB_VER != WCHNET_GetVer()) {
-        printf("version error.\n");
+        printf("version error.\r\n");
     }
     WCHNET_GetMacAddr(MACAddr);                                   //get the chip MAC address
     printf("mac addr:");
-    for(i = 0; i < 6; i++) 
-        printf("%x ",MACAddr[i]);
-    printf("\n");
+    for(i = 0; i < 6; i++)
+        printf("%x ", (unsigned)MACAddr[i]);
+    printf("\r\n");
     TIM2_Init();
     i = ETH_LibInit(IPAddr, GWIPAddr, IPMask, MACAddr);           //Ethernet library initialize
     mStopIfError(i);
-    if (i == WCHNET_ERR_SUCCESS)
+    if (i == WCHNET_ERR_SUCCESS) {
         printf("WCHNET_LibInit Success\r\n");
+    }
+    else {
+        printf("WCHNET_LibInit failed, halted\r\n");
+        while(1);
+    }
     WCHNET_CreateUdpSocket();                                     //Create  UDP Socket
 
     while(1)

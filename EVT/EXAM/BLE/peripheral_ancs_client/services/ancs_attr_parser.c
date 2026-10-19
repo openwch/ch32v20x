@@ -109,7 +109,7 @@ static enum bt_ancs_parse_state app_id_parse(struct bt_ancs_client *ancs_c,
  *        Used in the @ref parse_get_notif_attrs_response state machine.
  *
  * @details We only request attributes that are registered with @ref bt_ancs_attr_add
- *          once they have been reveiced we stop parsing.
+ *          once they have been received we stop parsing.
  *
  * @param[in] ancs_c   Pointer to an ANCS instance to which the event belongs.
  * @param[in] data_src Pointer to data that was received from the Notification Provider.
@@ -147,7 +147,7 @@ static enum bt_ancs_parse_state attr_id_parse(struct bt_ancs_client *ancs_c,
 /**@brief Function for parsing the length of an iOS attribute.
  *        Used in the @ref parse_get_notif_attrs_response state machine.
  *
- * @details The Length is 2 bytes. Since there is a chance we reveice the bytes in two different
+ * @details The Length is 2 bytes. Since there is a chance we receive the bytes in two different
  *          GATT notifications, we parse only the first byte here and then set the state machine
  *          ready to parse the next byte.
  *

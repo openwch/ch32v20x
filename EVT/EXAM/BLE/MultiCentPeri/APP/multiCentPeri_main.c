@@ -1,5 +1,5 @@
 /********************************** (C) COPYRIGHT *******************************
- * File Name          : main.c
+ * File Name          : multiCentPeri_main.c
  * Author             : WCH
  * Version            : V1.0
  * Date               : 2022/03/18

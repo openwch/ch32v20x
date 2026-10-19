@@ -22,10 +22,10 @@
  */
 #define ADV_TIMEOUT       K_MINUTES(10)
 
-#define SELENCE_ADV_ON    0x01
-#define SELENCE_ADV_OF    0x00
+#define SILENCE_ADV_ON    0x01
+#define SILENCE_ADV_OFF   0x00
 
-#define APP_WAIT_ADD_APPKEY_DELAY     1600*10
+#define APP_WAIT_ADD_APPKEY_DELAY     (1600 * 10)
 
 #define APP_DELETE_LOCAL_NODE_DELAY   3200
 // shall not less than APP_DELETE_LOCAL_NODE_DELAY
@@ -50,7 +50,7 @@ NET_BUF_SIMPLE_DEFINE_STATIC(rx_buf, 65);
 #endif /* !PB_GATT */
 
 /*********************************************************************
- * LOCAL FUNCION
+ * LOCAL FUNCTION
  */
 
 static void cfg_srv_rsp_handler( const cfg_srv_status_t *val );
@@ -179,7 +179,7 @@ static void prov_enable(void)
         return;
     }
 
-    // Make sure we're scanning for provisioning inviations
+    // Make sure we're scanning for provisioning invitations
     bt_mesh_scan_enable();
     // Enable unprovisioned beacon sending
     bt_mesh_beacon_enable();
@@ -193,7 +193,7 @@ static void prov_enable(void)
 /*********************************************************************
  * @fn      link_open
  *
- * @brief   配网时后的link打开回调
+ * @brief   配网时的link打开回调
  *
  * @param   bearer  - 当前link是PB_ADV还是PB_GATT
  *
@@ -220,7 +220,7 @@ static void link_close(bt_mesh_prov_bearer_t bearer, uint8_t reason)
     if(reason != CLOSE_REASON_SUCCESS)
         APP_DBG("reason %x", reason);
 
-    // 延迟一段事件后开启LPN，为了等待配套的配网者例程下发绑定appkey的命令
+    // 延迟一段时间后开启LPN，为了等待配套的配网者例程下发绑定appkey的命令
     tmos_start_task(App_TaskID, APP_LPN_ENABLE_EVT, 3200);
 }
 
@@ -230,7 +230,7 @@ static void link_close(bt_mesh_prov_bearer_t bearer, uint8_t reason)
  * @brief   配网完成回调，重新开始广播
  *
  * @param   net_idx     - 网络key的index
- * @param   addr        - link关闭原因网络地址
+ * @param   addr        - 网络地址
  * @param   flags       - 是否处于key refresh状态
  * @param   iv_index    - 当前网络iv的index
  *
@@ -298,7 +298,7 @@ static void cfg_srv_rsp_handler( const cfg_srv_status_t *val )
     }
     else
     {
-        APP_DBG("Unknow opcode 0x%02x", val->cfgHdr.opcode);
+        APP_DBG("Unknown opcode 0x%02x", val->cfgHdr.opcode);
     }
 }
 
@@ -324,7 +324,7 @@ static void lpn_state(uint16_t frd_addr, uint8_t state)
     }
     else
     {
-        APP_DBG("unknow state %x", state);
+        APP_DBG("unknown state %x", state);
     }
 }
 
@@ -411,7 +411,7 @@ static void vendor_model_srv_rsp_handler(const vendor_model_srv_status_t *val)
     }
     else
     {
-        APP_DBG("Unknow opcode 0x%02x", val->vendor_model_srv_Hdr.opcode);
+        APP_DBG("Unknown opcode 0x%02x", val->vendor_model_srv_Hdr.opcode);
     }
 }
 
@@ -586,7 +586,7 @@ void blemesh_on_sync(void)
     {
         APP_DBG("Mesh network restored from flash");
 
-        // 若从flash中回复配网信息，则直接进入LPN模式
+        // 若从flash中恢复配网信息，则直接进入LPN模式
         tmos_set_event(App_TaskID, APP_LPN_ENABLE_EVT);
     }
     else
@@ -604,7 +604,7 @@ void blemesh_on_sync(void)
  *
  * @return  none
  */
-void App_Init()
+void App_Init(void)
 {
     App_TaskID = TMOS_ProcessEventRegister(App_ProcessEvent);
 

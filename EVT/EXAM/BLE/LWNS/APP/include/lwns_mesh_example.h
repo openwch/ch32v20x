@@ -14,8 +14,8 @@
 
 #include "lwns_config.h"
 
-#define MESH_EXAMPLE_TX_PERIOD_EVT    1 << (0)
-#define MESH_EXAMPLE_TX_NODE_EVT      1 << (1)
+#define MESH_EXAMPLE_TX_PERIOD_EVT    (1 << (0))
+#define MESH_EXAMPLE_TX_NODE_EVT      (1 << (1))
 void lwns_mesh_process_init(void);
 
 #endif /* _LWNS_MESH_EXAMPLE_H_ */

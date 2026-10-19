@@ -1,8 +1,8 @@
 /********************************** (C) COPYRIGHT *******************************
  * File Name          : usb_endp.c
  * Author             : WCH
- * Version            : V1.0.0
- * Date               : 2021/08/08
+ * Version            : V1.0.1
+ * Date               : 2026/10/16
  * Description        : Endpoint routines
 *********************************************************************************
 * Copyright (c) 2021 Nanjing Qinheng Microelectronics Co., Ltd.
@@ -20,10 +20,10 @@
 #define IN_FRAME_INTERVAL             5
 
 
-u8 EP2_Rx_Buffer[USBD_DATA_SIZE];
+extern u8 EP2_Rx_Buffer[USBD_DATA_SIZE];
 u16 EP2_Rx_Cnt=0;
 
-u8 EP2_Tx_Buffer[2];
+extern u8 EP2_Tx_Buffer[2];
 u16 EP2_Tx_Cnt=0;
 
 u8 EP2_IN_Flag = 0;

@@ -1,5 +1,5 @@
 /********************************** (C) COPYRIGHT *******************************
- * File Name          : adv_periodic.C
+ * File Name          : adv_periodic.c
  * Author             : WCH
  * Version            : V1.0
  * Date               : 2018/12/10
@@ -51,7 +51,7 @@ static uint8_t advPeriodicData[B_MAX_ADV_PERIODIC_LEN] =
         'n',
 };
 #define PAWR_SUBEVENT_NUM  4
-#define PAWR_RESPOSE_COUNT 16
+#define PAWR_RESPONSE_COUNT 16
 #define PAWR_DATALEN_MAX   32
 
 static uint8_t gAdvHandle = 0;
@@ -75,13 +75,13 @@ static gapRolesCBs_t Peripheral_PeripheralCBs = {
 uint8_t gPeriodicState;
 
 /*********************************************************************
- * @fn      Peripheral_Init
+ * @fn      Periodic_Init
  *
  * @brief   Initialization function for the Peripheral App Task.
  *          This is called during initialization and should contain
  *          any application specific initialization (ie. hardware
  *          initialization/setup, table initialization, power up
- *          notificaiton ... ).
+ *          notification ... ).
  *
  * @param   task_id - the ID assigned by TMOS.  This ID should be
  *                    used to send messages and set timers.
@@ -125,7 +125,7 @@ void Periodic_Init(void)
 }
 
 /*********************************************************************
- * @fn      Peripheral_ProcessEvent
+ * @fn      Periodic_ProcessEvent
  *
  * @brief   Peripheral Application Task event processor.  This function
  *          is called to process all events for the task.  Events
@@ -213,7 +213,7 @@ static void Peripheral_ProcessGAPMsg(gapRoleEvent_t *pEvent)
                 {
                     param[i].subevent = pEvent_t->subeventStart + i;
                     param[i].rspSlotStart = 4;
-                    param[i].rspSlotCount = PAWR_RESPOSE_COUNT - param[i].rspSlotStart;
+                    param[i].rspSlotCount = PAWR_RESPONSE_COUNT - param[i].rspSlotStart;
                     param[i].rspMaxLength = param[i].rspSlotCount * 10;
                     param[i].dataLength = 16;
                     //              tmos_memset( pawrData[i],0,param[i].dataLength);
@@ -339,7 +339,7 @@ static void peripheralStateNotificationCB(gapRole_States_t newState, gapRoleEven
                     param.advProperties = GAP_PERI_PROPERTIES_INCLUDE_TXPOWER;
                     param.rspSlotDelay = 0x2;
                     param.rspSlotSpacing = 0x02;
-                    param.numRspSlots = PAWR_RESPOSE_COUNT;
+                    param.numRspSlots = PAWR_RESPONSE_COUNT;
                     param.numSubevents = PAWR_SUBEVENT_NUM;
                     param.subInterval = 2 + param.rspSlotDelay + (1 + (param.numRspSlots * param.rspSlotSpacing) / 10) + 4;
                     param.advIntervalMin = ((uint16_t)(param.numSubevents) * param.subInterval) + 1000;
