@@ -32,7 +32,7 @@
 // Scan duration in (625us)
 #define DEFAULT_SCAN_DURATION            4800
 
-// Discovey mode (limited, general, all)
+// Discovery mode (limited, general, all)
 #define DEFAULT_DISCOVERY_MODE           DEVDISC_MODE_ALL
 
 // TRUE to use active scan
@@ -105,7 +105,7 @@ static const gapRoleObserverCB_t ObserverRoleCB = {
  *
  * @return  none
  */
-void Observer_Init()
+void Observer_Init(void)
 {
     ObserverTaskId = TMOS_ProcessEventRegister(Observer_ProcessEvent);
 

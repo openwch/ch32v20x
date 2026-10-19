@@ -14,7 +14,7 @@
 
 #include "lwns_config.h"
 
-#define UNINETFLOOD_EXAMPLE_TX_PERIOD_EVT    1 << (0)
+#define UNINETFLOOD_EXAMPLE_TX_PERIOD_EVT    (1 << (0))
 
 void lwns_uninetflood_process_init(void);
 

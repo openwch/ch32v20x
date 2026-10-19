@@ -1,5 +1,5 @@
 /********************************** (C) COPYRIGHT *******************************
- * File Name          : heartrateservice.C
+ * File Name          : heartrateservice.c
  * Author             : WCH
  * Version            : V1.0
  * Date               : 2018/12/11

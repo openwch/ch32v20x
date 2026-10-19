@@ -138,8 +138,8 @@ extern bStatus_t Batt_MeasLevel(void);
  * @brief   Set up which ADC source is to be used. Defaults to VDD/3.
  *
  * @param   adc_ch - ADC Channel, e.g. HAL_ADC_CHN_AIN6
- * @param   minVal - max battery level
- * @param   maxVal - min battery level
+ * @param   minVal - min battery level
+ * @param   maxVal - max battery level
  * @param   sCB - HW setup callback
  * @param   tCB - HW tear down callback
  * @param   cCB - percentage calculation callback

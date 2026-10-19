@@ -24,7 +24,7 @@
 
 #define ALI_DEF_TTL    (10)
 
-// 模拟led_mode值
+// 模拟angle_auto_LR值
 uint8_t device_angle_auto_LR = 0;
 
 /*******************************************************************************
@@ -35,7 +35,7 @@ uint8_t device_angle_auto_LR = 0;
  *******************************************************************************/
 uint8_t read_angle_auto_LR(void)
 {
-    APP_DBG("device_led_mode: %d ", device_angle_auto_LR);
+    APP_DBG("device_angle_auto_LR: %d ", device_angle_auto_LR);
     return device_angle_auto_LR;
 }
 

@@ -1,8 +1,8 @@
 /********************************** (C) COPYRIGHT  *******************************
  * File Name          : iap.h
  * Author             : WCH
- * Version            : V1.0.1
- * Date               : 2025/01/09
+ * Version            : V1.0.2
+ * Date               : 2026/10/15
  * Description        : IAP
 *********************************************************************************
 * Copyright (c) 2021 Nanjing Qinheng Microelectronics Co., Ltd.
@@ -63,9 +63,6 @@ struct{
 
 } isp_cmd;
 
-typedef void (*iapfun)(void);
-extern u32 Program_Verify_addr;
-extern u32 User_APP_Addr_offset;
 extern u8 EP2_IN_Flag;
 extern u8 EP2_OUT_Flag;
 extern u16 EP2_Rx_Cnt;

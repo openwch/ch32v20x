@@ -21,10 +21,10 @@
 /*********************************************************************
  * GLOBAL TYPEDEFS
  */
-#define ADV_TIMEOUT       K_MINUTES(10)
+#define ADV_TIMEOUT       (K_MINUTES(10))
 
-#define SELENCE_ADV_ON    0x01
-#define SELENCE_ADV_OF    0x00
+#define SILENT_ADV_ON     0x01
+#define SILENT_ADV_OFF    0x00
 
 /*********************************************************************
  * GLOBAL TYPEDEFS
@@ -44,7 +44,7 @@ NET_BUF_SIMPLE_DEFINE_STATIC(rx_buf, 65);
 #endif /* !PB_GATT */
 
 /*********************************************************************
- * LOCAL FUNCION
+ * LOCAL FUNCTION
  */
 
 static void link_open(bt_mesh_prov_bearer_t bearer);
@@ -121,7 +121,7 @@ static const struct bt_mesh_prov app_prov = {
  */
 
 /*********************************************************************
- * @fn      silen_adv_set
+ * @fn      silent_adv_set
  *
  * @brief   设置静默广播
  *
@@ -129,7 +129,7 @@ static const struct bt_mesh_prov app_prov = {
  *
  * @return  none
  */
-static void silen_adv_set(uint8_t flag)
+static void silent_adv_set(uint8_t flag)
 {
     tm_uuid[13] &= ~BIT(0);
     tm_uuid[13] |= (BIT_MASK(1) & flag);
@@ -146,14 +146,14 @@ static void silen_adv_set(uint8_t flag)
  */
 static void prov_enable(void)
 {
-    silen_adv_set(SELENCE_ADV_OF);
+    silent_adv_set(SILENT_ADV_OFF);
 
     if(bt_mesh_is_provisioned())
     {
         return;
     }
 
-    // Make sure we're scanning for provisioning inviations
+    // Make sure we're scanning for provisioning invitations
     bt_mesh_scan_enable();
     // Enable unprovisioned beacon sending
     bt_mesh_beacon_enable();
@@ -169,7 +169,7 @@ static void prov_enable(void)
 /*********************************************************************
  * @fn      link_open
  *
- * @brief   配网时后的link打开回调
+ * @brief   配网时的link打开回调
  *
  * @param   bearer  - 当前link是PB_ADV还是PB_GATT
  *
@@ -322,7 +322,7 @@ void send_support_attr(void)
 
     // 添加开关属性
     {
-        /* Add generic onoff attrbute op */
+        /* Add generic onoff attribute op */
         net_buf_simple_add_le16(&(ind->buf->b), ALI_GEN_ATTR_TYPE_POWER_STATE);
 
         /* Add current generic onoff status */
@@ -331,7 +331,7 @@ void send_support_attr(void)
     //	// 可选根据阿里云设置的产品属性功能添加对应属性 ( BLE_MESH_MODEL_OP_LIGHT_LIGHTNESS_SET )
     //	// 这里添加亮度属性留作参考,还需要添加对应的opcode处理函数,添加方式参考开关属性的 gen_onoff_op 结构
     //	{
-    //		/* Add brightness attrbute opcode */
+    //		/* Add brightness attribute opcode */
     //		net_buf_simple_add_le16(&(ind->buf->b), ALI_GEN_ATTR_TYPE_BRIGHTNESS);
 
     //	/* Add brightness status (655~65535对应天猫控制1~100) */
@@ -418,8 +418,8 @@ void send_reset_indicate(void)
     bt_mesh_indicate_send(ind);
 }
 
-#define HAL_KEY_SEND_MSG    BIT(0)
-#define HAL_KEY_RESET       BIT(1)
+#define HAL_KEY_SEND_MSG    (BIT(0))
+#define HAL_KEY_RESET       (BIT(1))
 
 /*********************************************************************
  * @fn      keyPress
@@ -463,7 +463,7 @@ static void app_silent_adv(void)
         return;
     }
 
-    silen_adv_set(SELENCE_ADV_ON);
+    silent_adv_set(SILENT_ADV_ON);
 
     /* Disable Scanner not response Provisioner message */
     bt_mesh_scan_disable();

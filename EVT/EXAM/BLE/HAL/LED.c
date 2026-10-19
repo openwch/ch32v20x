@@ -76,7 +76,7 @@ void HAL_LedInit(void)
  *
  * @brief   Turn ON/OFF/TOGGLE given LEDs
  *
- * @param   led     - bit mask value of leds to be turned ON/OFF/TOGGLE
+ * @param   leds    - bit mask value of leds to be turned ON/OFF/TOGGLE
  * @param   mode    - BLINK, FLASH, TOGGLE, ON, OFF
  *
  * @return  0
@@ -141,7 +141,7 @@ uint8_t HalLedSet(uint8_t leds, uint8_t mode)
  *
  * @brief   Blink the leds
  *
- * @param   led         - bit mask value of leds to be turned ON/OFF/TOGGLE
+ * @param   leds        - bit mask value of leds to be turned ON/OFF/TOGGLE
  * @param   numBlinks   - number of blinks
  * @param   percent     - the percentage in each period where the led will be on
  * @param   period      - length of each cycle in milliseconds
@@ -289,7 +289,7 @@ void HalLedUpdate(void)
  *
  * @brief   Turns specified LED ON or OFF
  *
- * @param   led         - LED bit mask
+ * @param   leds        - LED bit mask
  * @param   mode        - LED_ON,LED_OFF,
  *
  * @return  none
@@ -352,13 +352,13 @@ void HalLedOnOff(uint8_t leds, uint8_t mode)
 }
 
 /***************************************************************************************************
- * @fn      HalGetLedState
+ * @fn      HalLedGetState
  *
- * @brief   Dim LED2 - Dim (set level) of LED2
+ * @brief   Return the current LED state
  *
  * @return  led state
  */
-uint8_t HalLedGetState()
+uint8_t HalLedGetState(void)
 {
     return HalLedState;
 }

@@ -34,7 +34,7 @@ extern "C" {
 // OTA 通讯通道UUID定义
 #define OTAPROFILE_CHAR_UUID    0xFEE1
 
-// Simple Keys Profile Services bit fields
+// OTA Profile Services bit fields
 #define OTAPROFILE_SERVICE      0x00000001
 
 /*********************************************************************

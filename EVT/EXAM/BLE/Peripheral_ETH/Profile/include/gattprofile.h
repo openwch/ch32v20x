@@ -30,12 +30,12 @@ extern "C" {
 #define SIMPLEPROFILE_CHAR2         1           // RW uint8_t - Profile Characteristic 2 value
 #define SIMPLEPROFILE_CHAR3         2           // RW uint8_t - Profile Characteristic 3 value
 #define SIMPLEPROFILE_CHAR4         3           // RW uint8_t - Profile Characteristic 4 value
-#define SIMPLEPROFILE_CHAR5         4           // RW uint8_t - Profile Characteristic 4 value
+#define SIMPLEPROFILE_CHAR5         4           // RW uint8_t - Profile Characteristic 5 value
 
 // Simple Profile Service UUID
 #define SIMPLEPROFILE_SERV_UUID     0xFFE0
 
-// Key Pressed UUID
+// Simple Profile Characteristic UUIDs
 #define SIMPLEPROFILE_CHAR1_UUID    0xFFE1
 #define SIMPLEPROFILE_CHAR2_UUID    0xFFE2
 #define SIMPLEPROFILE_CHAR3_UUID    0xFFE3

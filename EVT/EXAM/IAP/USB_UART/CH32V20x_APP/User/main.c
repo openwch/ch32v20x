@@ -174,7 +174,8 @@ u16 Get_ConversionVal(s16 val)
 void APP_2_IAP(void)
 {
     NVIC_SystemReset();
-    while(1){
+    while(1)
+    {
     }
 }
 
@@ -254,7 +255,9 @@ int main(void)
         {
              Delay_Ms(10);
              APP_2_IAP();
-             while(1);
+             while(1)
+             {
+             }
         }
     }
 }

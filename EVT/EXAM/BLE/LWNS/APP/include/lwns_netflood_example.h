@@ -14,7 +14,7 @@
 
 #include "lwns_config.h"
 
-#define NETFLOOD_EXAMPLE_TX_PERIOD_EVT    1 << (0)
+#define NETFLOOD_EXAMPLE_TX_PERIOD_EVT    (1 << (0))
 
 void lwns_netflood_process_init(void);
 

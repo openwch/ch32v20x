@@ -46,7 +46,7 @@ typedef enum
 
   #define LWNS_MAC_SEND_PACKET_MAX_NUM     8                      //发送链表最多支持几个数据包等待发送
 
-  #define LWNS_MAC_SEND_DELAY_MAX_TIMES    LWNS_NEIGHBOR_MAX_NUM / 2 //在发送被取消，延迟几次后，不再随机等待，立刻发送
+  #define LWNS_MAC_SEND_DELAY_MAX_TIMES    (LWNS_NEIGHBOR_MAX_NUM / 2) //在发送被取消，延迟几次后，不再随机等待，立刻发送
 
   #define LLE_MODE_ORIGINAL_RX             (0x80) //如果配置LLEMODE时加上此宏，则接收第一字节为原始数据（原来为RSSI）
 

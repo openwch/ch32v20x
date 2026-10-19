@@ -232,7 +232,7 @@ tmosEvents HAL_ProcessEvent(tmosTaskID task_id, tmosEvents events)
  *
  * @return  None.
  */
-void HAL_Init()
+void HAL_Init(void)
 {
     halTaskID = TMOS_ProcessEventRegister(HAL_ProcessEvent);
     HAL_TimeInit();

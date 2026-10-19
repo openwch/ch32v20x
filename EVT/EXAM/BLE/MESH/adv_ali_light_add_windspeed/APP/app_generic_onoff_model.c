@@ -75,7 +75,7 @@ void toggle_led_state(uint32_t led_pin)
     GPIO_InitStructure.GPIO_Pin = led_pin;
     GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;
     GPIO_InitStructure.GPIO_Mode = GPIO_Mode_Out_PP;
-    GPIO_Init(GPIOA, &GPIO_InitStructure);
+    GPIO_Init(MSG_GPIO, &GPIO_InitStructure);
 
     GPIO_WriteBit(MSG_GPIO, led_pin, Bit_SET-GPIO_ReadOutputDataBit(MSG_GPIO, led_pin));
 }

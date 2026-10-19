@@ -1,5 +1,5 @@
 /********************************** (C) COPYRIGHT *******************************
- * File Name          : main.c
+ * File Name          : RF_PHY.c
  * Author             : WCH
  * Version            : V1.0
  * Date               : 2020/08/06
@@ -34,7 +34,7 @@ volatile uint8_t rx_end_flag=0;
  */
 __attribute__((section(".highcode")))
 __attribute__((noinline))
-void RF_Wait_Tx_End()
+void RF_Wait_Tx_End(void)
 {
     uint32_t i=0;
     while(!tx_end_flag)
@@ -59,7 +59,7 @@ void RF_Wait_Tx_End()
  */
 __attribute__((section(".highcode")))
 __attribute__((noinline))
-void RF_Wait_Rx_End()
+void RF_Wait_Rx_End(void)
 {
     uint32_t i=0;
     while(!rx_end_flag)
@@ -76,7 +76,7 @@ void RF_Wait_Rx_End()
 }
 
 /*********************************************************************
- * @fn      RF_2G4StatusCallBack
+ * @fn      RF_2G4StatusCallback
  *
  * @brief   RF 状态回调，此函数在中断中调用。注意：不可在此函数中直接调用RF接收或者发送API，需要使用事件的方式调用
  *          在此回调中直接使用或调用函数涉及到的变量需注意，此函数在中断中调用。
@@ -87,7 +87,7 @@ void RF_Wait_Rx_End()
  *
  * @return  none
  */
-void RF_2G4StatusCallBack(uint8_t sta, uint8_t crc, uint8_t *rxBuf)
+void RF_2G4StatusCallback(uint8_t sta, uint8_t crc, uint8_t *rxBuf)
 {
     switch(sta)
     {
@@ -284,7 +284,7 @@ void RF_Init(void)
     rfConfig.CRCInit = 0x555555;
     rfConfig.ChannelMap = 0xFFFFFFFF;
     rfConfig.LLEMode = LLE_MODE_AUTO;
-    rfConfig.rfStatusCB = RF_2G4StatusCallBack;
+    rfConfig.rfStatusCB = RF_2G4StatusCallback;
     rfConfig.RxMaxlen = 251;
 #if (CLK_OSC32K != 0)
     //It is better to choose a shorter heartbeat interval for the internal clock.
@@ -302,4 +302,4 @@ void RF_Init(void)
     }
 }
 
-/******************************** endfile @ main ******************************/
+/******************************** endfile @ RF_PHY ******************************/

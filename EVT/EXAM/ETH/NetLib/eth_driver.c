@@ -469,8 +469,16 @@ void ETH_Start(void)
  */
 void ETH_SetClock(void)
 {
-    /* ETH initialization */
-    RCC_ETHDIVConfig(RCC_ETHCLK_Div2);  // 120M/2 = 60MHz
+    if(SystemCoreClock == 120000000)
+    {
+        /* ETH initialization */
+        RCC_ETHDIVConfig(RCC_ETHCLK_Div2);  // 120M/2 = 60MHz
+    }
+    else if (SystemCoreClock == 60000000) {
+        /* ETH initialization */
+        RCC_ETHDIVConfig(RCC_ETHCLK_Div1);  //60MHz
+    }
+    else printf("System clock error\r\n");
 }
 
 /*********************************************************************

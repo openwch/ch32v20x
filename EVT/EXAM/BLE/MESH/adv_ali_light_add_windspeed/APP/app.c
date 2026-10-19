@@ -24,8 +24,8 @@
  */
 #define ADV_TIMEOUT       K_MINUTES(10)
 
-#define SELENCE_ADV_ON    0x01
-#define SELENCE_ADV_OF    0x00
+#define SILENCE_ADV_ON    0x01
+#define SILENCE_ADV_OFF   0x00
 
 /*********************************************************************
  * GLOBAL TYPEDEFS
@@ -45,7 +45,7 @@ NET_BUF_SIMPLE_DEFINE_STATIC(rx_buf, 65);
 #endif /* !PB_GATT */
 
 /*********************************************************************
- * LOCAL FUNCION
+ * LOCAL FUNCTION
  */
 
 static void link_open(bt_mesh_prov_bearer_t bearer);
@@ -130,7 +130,7 @@ static const struct bt_mesh_prov app_prov = {
  *
  * @return  none
  */
-static void silen_adv_set(uint8_t flag)
+static void silence_adv_set(uint8_t flag)
 {
     tm_uuid[13] &= ~BIT(0);
     tm_uuid[13] |= (BIT_MASK(1) & flag);
@@ -147,14 +147,14 @@ static void silen_adv_set(uint8_t flag)
  */
 static void prov_enable(void)
 {
-    silen_adv_set(SELENCE_ADV_OF);
+    silence_adv_set(SILENCE_ADV_OFF);
 
     if(bt_mesh_is_provisioned())
     {
         return;
     }
 
-    // Make sure we're scanning for provisioning inviations
+    // Make sure we're scanning for provisioning invitations
     bt_mesh_scan_enable();
     // Enable unprovisioned beacon sending
     bt_mesh_beacon_enable();
@@ -203,7 +203,7 @@ static void link_close(bt_mesh_prov_bearer_t bearer, uint8_t reason)
     }
     else
     {
-        /*天猫精灵不会下发Config_model_app_bind和Config_Model_Subscrption_Add消息。
+        /*天猫精灵不会下发Config_model_app_bind和Config_Model_Subscription_Add消息。
             IOT设备需要自行给所有Element的所有model绑定下发的AppKey，并根据产品类型为各个
             model订阅相应的组播地址（具体品类组播地址请参阅各产品软件规范）。蓝牙Mesh设备
             完成配网后需要进行消息上报，上报消息包括该设备所有支持的可上报的属性。*/
@@ -323,7 +323,7 @@ void send_support_attr(void)
 
     // 添加开关属性
     {
-        /* Add generic onoff attrbute op */
+        /* Add generic onoff attribute op */
         net_buf_simple_add_le16(&(ind->buf->b), ALI_GEN_ATTR_TYPE_POWER_STATE);
 
         /* Add current generic onoff status */
@@ -331,7 +331,7 @@ void send_support_attr(void)
     }
     // 添加windspeed属性
     {
-        /* Add windspeed attrbute opcode */
+        /* Add windspeed attribute opcode */
         net_buf_simple_add_le16(&(ind->buf->b), ALI_GEN_ATTR_TYPE_WINDSPEED);
 
         /* Add windspeed status  */
@@ -463,7 +463,7 @@ static void app_silent_adv(void)
         return;
     }
 
-    silen_adv_set(SELENCE_ADV_ON);
+    silence_adv_set(SILENCE_ADV_ON);
 
     /* Disable Scanner not response Provisioner message */
     bt_mesh_scan_disable();
@@ -591,7 +591,7 @@ void blemesh_on_sync(void)
  *
  * @return  none
  */
-void App_Init()
+void App_Init(void)
 {
     App_TaskID = TMOS_ProcessEventRegister(App_ProcessEvent);
 

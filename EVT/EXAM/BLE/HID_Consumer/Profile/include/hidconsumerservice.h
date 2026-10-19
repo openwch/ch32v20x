@@ -54,7 +54,7 @@ extern "C" {
 /*********************************************************************
  * @fn      Hid_AddService
  *
- * @brief   Initializes the HID service for keyboard by registering
+ * @brief   Initializes the HID service for consumer by registering
  *          GATT attributes with the GATT server.
  *
  * @param   none

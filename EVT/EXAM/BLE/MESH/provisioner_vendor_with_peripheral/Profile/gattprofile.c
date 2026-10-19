@@ -470,8 +470,7 @@ bStatus_t SimpleProfile_GetParameter(uint8_t param, void *value)
 /*********************************************************************
  * @fn          simpleProfile_Notify
  *
- * @brief       Send a notification containing a heart rate
- *              measurement.
+ * @brief       Send a notification.
  *
  * @param       connHandle - connection handle
  * @param       pNoti - pointer to notification structure
@@ -694,7 +693,7 @@ static bStatus_t simpleProfile_WriteAttrCB(uint16_t connHandle, gattAttribute_t 
         status = ATT_ERR_INVALID_HANDLE;
     }
 
-    // If a charactersitic value changed then callback function to notify application of change
+    // If a characteristic value changed then callback function to notify application of change
     if((notifyApp != 0xFF) && simpleProfile_AppCBs && simpleProfile_AppCBs->pfnSimpleProfileChange)
     {
         simpleProfile_AppCBs->pfnSimpleProfileChange(notifyApp, pValue, len);

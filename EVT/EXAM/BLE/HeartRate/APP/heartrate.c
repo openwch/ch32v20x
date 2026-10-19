@@ -58,7 +58,7 @@
 // Supervision timeout value (units of 10ms)
 #define DEFAULT_DESIRED_CONN_TIMEOUT         1000
 
-// Delay of start connect paramter update
+// Delay of start connect parameter update
 #define DEFAULT_CONN_PARAM_UPDATE_DELAY      1600
 
 // Battery level is critical when it is less than this %
@@ -201,14 +201,14 @@ static gapBondCBs_t heartRateBondCB = {
  *          This is called during initialization and should contain
  *          any application specific initialization (ie. hardware
  *          initialization/setup, table initialization, power up
- *          notificaiton ... ).
+ *          notification ... ).
  *
  * @param   task_id - the ID assigned by TMOS.  This ID should be
  *                    used to send messages and set timers.
  *
  * @return  none
  */
-void HeartRate_Init()
+void HeartRate_Init(void)
 {
     heartRate_TaskID = TMOS_ProcessEventRegister(HeartRate_ProcessEvent);
 

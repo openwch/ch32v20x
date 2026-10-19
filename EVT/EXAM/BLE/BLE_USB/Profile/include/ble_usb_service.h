@@ -1,5 +1,5 @@
 /********************************** (C) COPYRIGHT *******************************
- * File Name          : BLE_USB_SERVICE.h
+ * File Name          : ble_usb_service.h
  * Author             : WCH
  * Version            : V1.1
  * Date               : 2022/01/19
@@ -26,7 +26,7 @@ typedef enum
 {
     BLE_USB_EVT_TX_NOTI_DISABLED = 1,
     BLE_USB_EVT_TX_NOTI_ENABLED,
-    BLE_USB_EVT_BLE_DATA_RECIEVED,
+    BLE_USB_EVT_BLE_DATA_RECEIVED,
 } ble_usb_evt_type_t;
 
 typedef struct
@@ -67,4 +67,4 @@ extern bStatus_t ble_usb_notify(uint16_t connHandle, attHandleValueNoti_t *pNoti
 }
 #endif
 
-#endif /* _BLE_usb_SERVICE_H */
+#endif /* _BLE_USB_SERVICE_H */

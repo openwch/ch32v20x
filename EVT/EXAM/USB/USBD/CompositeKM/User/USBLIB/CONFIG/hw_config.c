@@ -147,7 +147,7 @@ void USB_Interrupts_Config(void)
  * @brief      Set USB IO port.
  *
  * @param      NewState: DISABLE or ENABLE.
- *             Pin_In_IPU: Enables or Disables intenal pull-up resistance.
+ *             Pin_In_IPU: Enables or Disables internal pull-up resistance.
  *
  * @return     None
  */

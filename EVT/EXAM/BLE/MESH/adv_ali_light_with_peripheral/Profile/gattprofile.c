@@ -530,7 +530,7 @@ static bStatus_t simpleProfile_ReadAttrCB(uint16_t connHandle, gattAttribute_t *
             // gattserverapp handles those reads
 
             // characteristics 1 and 2 have read permissions
-            // characteritisc 3 does not have read permissions; therefore it is not
+            // characteristic 3 does not have read permissions; therefore it is not
             //   included here
             // characteristic 4 does not have read permissions, but because it
             //   can be sent as a notification, it is included here
@@ -666,7 +666,7 @@ static bStatus_t simpleProfile_WriteAttrCB(uint16_t connHandle, gattAttribute_t 
         status = ATT_ERR_INVALID_HANDLE;
     }
 
-    // If a charactersitic value changed then callback function to notify application of change
+    // If a characteristic value changed then callback function to notify application of change
     if((notifyApp != 0xFF) && simpleProfile_AppCBs && simpleProfile_AppCBs->pfnSimpleProfileChange)
     {
         simpleProfile_AppCBs->pfnSimpleProfileChange(notifyApp, pValue, len);

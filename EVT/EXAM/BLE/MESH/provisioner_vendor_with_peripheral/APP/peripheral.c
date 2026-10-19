@@ -192,11 +192,11 @@ static simpleProfileCBs_t Peripheral_SimpleProfileCBs = {
  *          This is called during initialization and should contain
  *          any application specific initialization (ie. hardware
  *          initialization/setup, table initialization, power up
- *          notificaiton ... ).
+ *          notification ... ).
  *
  * @return  none
  */
-void Peripheral_Init()
+void Peripheral_Init(void)
 {
     Peripheral_TaskID = TMOS_ProcessEventRegister(Peripheral_ProcessEvent);
 

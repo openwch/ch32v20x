@@ -1,5 +1,5 @@
 /********************************** (C) COPYRIGHT *******************************
- * File Name          : peripheral.C
+ * File Name          : peripheral.c
  * Author             : WCH
  * Version            : V1.0
  * Date               : 2018/12/10
@@ -118,7 +118,7 @@ static uint8_t scanRspData[] = {
 };
 
 // GAP - Advertisement data (max size = 31 bytes, though this is
-// best kept short to conserve power while advertisting)
+// best kept short to conserve power while advertising)
 static uint8_t advertData[] = {
     // Flags; this sets the device to use limited discoverable
     // mode (advertises for 30 seconds at a time) instead of general
@@ -172,7 +172,7 @@ static gapBondCBs_t Peripheral_BondMgrCBs = {
 
 // Simple GATT Profile Callbacks
 static simpleProfileCBs_t Peripheral_SimpleProfileCBs = {
-    simpleProfileChangeCB // Charactersitic value change callback
+    simpleProfileChangeCB // Characteristic value change callback
 };
 /*********************************************************************
  * PUBLIC FUNCTIONS
@@ -185,14 +185,14 @@ static simpleProfileCBs_t Peripheral_SimpleProfileCBs = {
  *          This is called during initialization and should contain
  *          any application specific initialization (ie. hardware
  *          initialization/setup, table initialization, power up
- *          notificaiton ... ).
+ *          notification ... ).
  *
  * @param   task_id - the ID assigned by TMOS.  This ID should be
  *                    used to send messages and set timers.
  *
  * @return  none
  */
-void Peripheral_Init()
+void Peripheral_Init(void)
 {
     Peripheral_TaskID = TMOS_ProcessEventRegister(Peripheral_ProcessEvent);
 
@@ -298,7 +298,7 @@ static void peripheralInitConnItem(peripheralConnItem_t *peripheralConnList)
  */
 uint16_t Peripheral_ProcessEvent(uint8_t task_id, uint16_t events)
 {
-    //  VOID task_id; // TMOS required parameter that isn't used in this function
+    //  void task_id; // TMOS required parameter that isn't used in this function
 
     if(events & SYS_EVENT_MSG)
     {

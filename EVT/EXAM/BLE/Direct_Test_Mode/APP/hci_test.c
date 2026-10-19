@@ -95,7 +95,7 @@ static void le_rx_test_v2(struct simple_buf *buf, struct simple_buf **evt)
 		break;
 	case BT_HCI_LE_RX_PHY_2M:
 		PRINT("2M\n");
-		break;;
+		break;
 	case BT_HCI_LE_RX_PHY_CODED:
 		PRINT("CODED\n");
 		break;
@@ -148,7 +148,7 @@ static void le_tx_test(struct simple_buf *buf, struct simple_buf **evt)
 		break;
 	}
 	
-    status =API_LE_TransmitterTestCmd((uint8_t *)cmd, BT_HCI_OP_LE_TX_TEST);
+    status = API_LE_TransmitterTestCmd((uint8_t *)cmd, BT_HCI_OP_LE_TX_TEST);
     *evt = cmd_complete_status(status);
 }
 
@@ -157,7 +157,7 @@ static void le_tx_test_v2(struct simple_buf *buf, struct simple_buf **evt)
 	struct bt_hci_cp_le_tx_test_v2 *cmd = (void *)buf->data;
 	uint8_t status;
 
-	PRINT("%s:", __FUNCTION__);
+	PRINT("%s:\n", __FUNCTION__);
 	PRINT("  tx channel: %#x\n", cmd->tx_ch);
 	PRINT("  test data len: %d\n", cmd->test_data_len);
 	PRINT("  pkt payload: ");
@@ -198,7 +198,7 @@ static void le_tx_test_v2(struct simple_buf *buf, struct simple_buf **evt)
 		break;
 	case BT_HCI_LE_TX_PHY_2M:
 		PRINT("2M\n");
-		break;;
+		break;
 	case BT_HCI_LE_TX_PHY_CODED_S8:
 		PRINT("CODED_S8\n");
 		break;
@@ -226,7 +226,7 @@ static void le_test_end(struct simple_buf *buf, struct simple_buf **evt)
 	status = API_LE_TestEndCmd();
 
 	PRINT("  status: %#x\n", status);
-	PRINT("  pkt count: %ld\n", rx_pkt_count);
+	PRINT("  pkt count: %d\n", rx_pkt_count);
 
     rp = hci_cmd_complete(evt, sizeof(*rp));
 	rp->status = status;
@@ -254,7 +254,7 @@ static void le_set_xt32m_tune(struct simple_buf *buf, struct simple_buf **evt)
 	PRINT("  xt32m tune: %#x\n", xt->xt32m_tune);
 
 	if(xt->xt32m_tune > 7) {
-		*evt = cmd_complete_status(0x12); //Invalid hci comd param
+		*evt = cmd_complete_status(0x12); // Invalid hci cmd param
 	}
 
 	OSC->HSE_CAL_CTRL &= ~(0x07<<28);

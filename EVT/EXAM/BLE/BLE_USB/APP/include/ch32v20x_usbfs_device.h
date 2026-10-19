@@ -590,7 +590,7 @@ typedef struct __PACKED _UDISK_BOC_CSW {/* status of BulkOnly USB-FlashDisk */
 //   00: DATA0 or DATA1 then expecting ACK (ready)
 //   01: DATA0 or DATA1 then expecting no response, time out from host, for non-zero endpoint isochronous transactions
 //   10: NAK (busy)
-//   11: TALL (error)
+//   11: STALL (error)
 
 #ifdef  USBFS_HOST
 /* USBFSD_FS HOST CONTROL&CFG */
@@ -606,8 +606,8 @@ typedef struct __PACKED _UDISK_BOC_CSW {/* status of BulkOnly USB-FlashDisk */
 #define     USBFS_UIS_H_RES_MASK   0x0F      // RO, bit mask of current transfer handshake response for USB host mode: 0000=no response, time out from device, others=handshake response PID received
 /* USB_BUF_MOD */
 #define  USBFS_UH_EP_MOD        USBFS_UEP2_3_MOD               //host endpoint mode
-#define    USBFS__UH_EP_TX_EN      0x40      // enable USB host OUT endpoint transmittal
-#define    USBFS__UH_EP_TBUF_MOD   0x10      // buffer mode of USB host OUT endpoint
+#define    USBFS_UH_EP_TX_EN      0x40      // enable USB host OUT endpoint transmittal
+#define    USBFS_UH_EP_TBUF_MOD   0x10      // buffer mode of USB host OUT endpoint
 // UH_EP_TX_EN & UH_EP_TBUF_MOD: USB host OUT endpoint buffer mode, buffer start address is UH_TX_DMA
 //   0 x:  disable endpoint and disable buffer
 //   1 0:  64 bytes buffer for transmittal (OUT endpoint)
@@ -720,7 +720,7 @@ typedef struct __PACKED _UDISK_BOC_CSW {/* status of BulkOnly USB-FlashDisk */
 #endif
 
 /* 端点大小定义 */
-#define DEF_USB_LS_EP_SIZE     8                                               /* 端点全速模式大小 */
+#define DEF_USB_LS_EP_SIZE     8                                               /* 端点低速模式大小 */
 #define DEF_USB_FS_EP_SIZE     64                                              /* 端点全速模式大小 */
 
 /******************************************************************************/

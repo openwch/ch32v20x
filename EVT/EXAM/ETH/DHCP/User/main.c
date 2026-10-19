@@ -91,8 +91,11 @@ void WCHNET_CreateTcpSocket(void)
     TmpSocketInf.ProtoType = PROTO_TYPE_TCP;
     TmpSocketInf.RecvBufLen = RECE_BUF_LEN;
     i = WCHNET_SocketCreat(&SocketId, &TmpSocketInf);
-    printf("WCHNET_SocketCreat %d\r\n", SocketId);
     mStopIfError(i);
+    if (i != WCHNET_ERR_SUCCESS) {
+        return;
+    }
+    printf("SocketId %d\r\n", SocketId);
     i = WCHNET_SocketConnect(SocketId);                        //make a TCP connection
     mStopIfError(i);
 }
@@ -128,7 +131,7 @@ void WCHNET_DataLoopback(u8 id)
     u8 *p = MyBuf, TransCnt = 255;
 
     len = WCHNET_SocketRecvLen(id, NULL);                                //query length
-    printf("Receive Len = %d\r\n", len);
+    printf("Receive Len = %lu\r\n", (unsigned long) len);
     totallen = len;
     WCHNET_SocketRecv(id, MyBuf, &len);                                  //Read the data of the receive buffer into MyBuf
     while(1){
@@ -167,6 +170,9 @@ void WCHNET_HandleSockInt(u8 socketid, u8 intstat)
     if (intstat & SINT_STAT_DISCONNECT)                         //disconnect
     {
         printf("TCP Disconnect\r\n");
+        /* The stack has already released the socket, so re-establishing the
+         * connection only needs a new socket, there is nothing to close. */
+        WCHNET_CreateTcpSocket();
     }
     if (intstat & SINT_STAT_TIM_OUT)                            //timeout disconnect
     {
@@ -232,6 +238,11 @@ u8 WCHNET_DHCPCallBack(u8 status, void *arg)
     if(!status)
     {
         p = arg;
+        if (p == NULL)
+        {
+            printf("DHCP Success but arg is NULL\r\n");
+            return NoREADY;
+        }
         printf("DHCP Success\r\n");
         /*If the obtained IP is the same as the last IP, exit this function.*/
         if(!memcmp(IPAddr, p ,sizeof(IPAddr)))
@@ -245,11 +256,11 @@ u8 WCHNET_DHCPCallBack(u8 status, void *arg)
         memcpy(IPAddr, p, 4);
         memcpy(GWIPAddr, &p[4], 4);
         memcpy(IPMask, &p[8], 4);
-        printf("IPAddr = %d.%d.%d.%d \r\n", (u16)IPAddr[0], (u16)IPAddr[1],
+        printf("IPAddr: %d.%d.%d.%d \r\n", (u16)IPAddr[0], (u16)IPAddr[1],
                (u16)IPAddr[2], (u16)IPAddr[3]);
-        printf("GWIPAddr = %d.%d.%d.%d \r\n", (u16)GWIPAddr[0], (u16)GWIPAddr[1],
+        printf("GWIPAddr: %d.%d.%d.%d \r\n", (u16)GWIPAddr[0], (u16)GWIPAddr[1],
                (u16)GWIPAddr[2], (u16)GWIPAddr[3]);
-        printf("IPMask = %d.%d.%d.%d \r\n", (u16)IPMask[0], (u16)IPMask[1],
+        printf("IPMask: %d.%d.%d.%d \r\n", (u16)IPMask[0], (u16)IPMask[1],
                (u16)IPMask[2], (u16)IPMask[3]);
         printf("DNS1: %d.%d.%d.%d \r\n", p[12], p[13], p[14], p[15]);
         printf("DNS2: %d.%d.%d.%d \r\n", p[16], p[17], p[18], p[19]);
@@ -279,28 +290,35 @@ int main(void)
 {
     u8 i;
 
+    SystemCoreClockUpdate();
     Delay_Init();
     USART_Printf_Init(115200);                                            //USART initialize
-    printf("DHCP Test\r\n");  	
+    printf("DHCP Test\r\n");
     if((SystemCoreClock == 60000000) || (SystemCoreClock == 120000000))
-        printf("SystemClk:%d\r\n", SystemCoreClock);
+        printf("SystemClk:%lu\r\n", (unsigned long)SystemCoreClock);
     else
         printf("Error: Please choose 60MHz and 120MHz clock when using Ethernet!\r\n");
-    printf("net version:%x\n", WCHNET_GetVer());
+    printf("ChipID:%08lx\r\n", (unsigned long)DBGMCU_GetCHIPID());
+    printf("net version:%x\r\n", (unsigned)WCHNET_GetVer());
     if( WCHNET_LIB_VER != WCHNET_GetVer()){
-        printf("version error.\n");
+        printf("version error.\r\n");
     }
     WCHNET_GetMacAddr(MACAddr);                                           //get the chip MAC address
     printf("mac addr:");
-    for(i = 0; i < 6; i++) 
-        printf("%x ", MACAddr[i]);
-    printf("\n");
+    for(i = 0; i < 6; i++)
+        printf("%x ", (unsigned)MACAddr[i]);
+    printf("\r\n");
     TIM2_Init();
     WCHNET_DHCPSetHostname("WCHNET");                                     //Configure DHCP host name
     i = ETH_LibInit(IPAddr,GWIPAddr,IPMask,MACAddr);                      //Ethernet library initialize
     mStopIfError(i);
-    if(i == WCHNET_ERR_SUCCESS)
+    if(i == WCHNET_ERR_SUCCESS) {
         printf("WCHNET_LibInit Success\r\n");
+    }
+    else {
+        printf("WCHNET_LibInit failed, halted\r\n");
+        while(1);
+    }
     WCHNET_DHCPStart(WCHNET_DHCPCallBack);                                //Start DHCP
 
     while(1)

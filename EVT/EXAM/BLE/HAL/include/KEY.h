@@ -42,7 +42,7 @@ extern "C" {
 #define KEY3_GPIO                ()
 #define KEY4_GPIO                ()
 
-#define KEY1_BV                  BV(13)
+#define KEY1_BV                  (BV(13))
 #define KEY2_BV                  ()
 #define KEY3_BV                  ()
 #define KEY4_BV                  ()
@@ -86,11 +86,11 @@ void HAL_KeyInit(void);
 void HAL_KeyPoll(void);
 
 /**
- * @brief   Configure the Key serivce
+ * @brief   Configure the Key service
  *
  * @param   cback - pointer to the CallBack function
  */
-void HalKeyConfig(const halKeyCBack_t cback);
+void HalKeyConfig(halKeyCBack_t cback);
 
 /**
  * @brief   Read the Key callback

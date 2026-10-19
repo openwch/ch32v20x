@@ -19,7 +19,7 @@
  * GLOBAL TYPEDEFS
  */
 // 应用层最大发送长度，不分包最大为CONFIG_MESH_UNSEG_LENGTH_DEF，分包最大为CONFIG_MESH_TX_SEG_DEF*BLE_MESH_APP_SEG_SDU_MAX-8（依据RAM使用情况决定）
-#define APP_MAX_TX_SIZE    MAX(CONFIG_MESH_UNSEG_LENGTH_DEF, CONFIG_MESH_TX_SEG_DEF *BLE_MESH_APP_SEG_SDU_MAX - 8)
+#define APP_MAX_TX_SIZE    (MAX(CONFIG_MESH_UNSEG_LENGTH_DEF, CONFIG_MESH_TX_SEG_DEF *BLE_MESH_APP_SEG_SDU_MAX - 8))
 
 static uint8_t vendor_model_srv_TaskID = 0; // Task ID for internal task/event processing
 static uint8_t srv_send_tid = 128;

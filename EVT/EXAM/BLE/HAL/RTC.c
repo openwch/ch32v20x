@@ -19,15 +19,15 @@
  */
 #define RTC_INIT_TIME_HOUR      0
 #define RTC_INIT_TIME_MINUTE    0
-#define RTC_INIT_TIME_SECEND    0
+#define RTC_INIT_TIME_SECOND    0
 
 /***************************************************
  * Global variables
  */
-volatile uint32_t RTCTigFlag;
+volatile uint32_t RTCTrigFlag;
 
 /*******************************************************************************
- * @fn      RTC_SetTignTime
+ * @fn      RTC_SetTrigTime
  *
  * @brief   Configure RTC trigger time
  *
@@ -35,16 +35,16 @@ volatile uint32_t RTCTigFlag;
  *
  * @return  None.
  */
-void RTC_SetTignTime(uint32_t time)
+void RTC_SetTrigTime(uint32_t time)
 {
     RTC_WaitForLastTask();
     RTC_SetAlarm(time);
     RTC_WaitForLastTask();
-    RTCTigFlag = 0;
+    RTCTrigFlag = 0;
 }
 
 /*******************************************************************************
- * @fn      HAL_Time0Init
+ * @fn      HAL_TimeInit
  *
  * @brief   System timer initialization
  *
@@ -66,7 +66,7 @@ void HAL_TimeInit(void)
     RCC_RTCCLKConfig(RCC_RTCCLKSource_LSI);
 #else
     RCC_LSEConfig(RCC_LSE_ON);
-    /* Check the specified RCC logo position settings or not, 
+    /* Check whether the specified RCC flag is set or not, 
      * wait for the low-speed crystal oscillator to be ready */
     while (RCC_GetFlagStatus(RCC_FLAG_LSERDY) == RESET) 
     {
@@ -104,7 +104,7 @@ void HAL_TimeInit(void)
 __attribute__((interrupt("WCH-Interrupt-fast")))
 void RTCAlarm_IRQHandler(void)
 {
-    RTCTigFlag = 1;
+    RTCTrigFlag = 1;
     EXTI_ClearITPendingBit(EXTI_Line17);
     RTC_ClearITPendingBit(RTC_IT_ALR);
     RTC_WaitForLastTask();

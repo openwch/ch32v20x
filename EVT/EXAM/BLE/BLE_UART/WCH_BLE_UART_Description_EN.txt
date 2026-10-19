@@ -1,4 +1,4 @@
-﻿
+
 UART transmission:
 
 Features:
@@ -7,7 +7,7 @@ Features:
 3. MTU can be set as any value from 20 to 247, adaptive to the current MTU.
 4. By default, debug on CH32V208, with UART3, TXD3@PB10, RXD3@PB11. The code should be modified when another UART is used.
 5. BLE name: wch_ble_uart
-6. By default, enable serial port Notify success writeback, and the code (the BLE_UART_EVT_BLE_DATA_RECIEVED event in the on_bleuartServiceEvt callback functions) can be removed when not needed. 
+6. By default, enable serial port Notify success writeback, and the code (the BLE_UART_EVT_BLE_DATA_RECEIVED event in the on_bleuartServiceEvt callback functions) can be removed when not needed. 
 7.  By default, serial debugging is enabled, with serial port 1, PA9_TXD 115200. 
 
 

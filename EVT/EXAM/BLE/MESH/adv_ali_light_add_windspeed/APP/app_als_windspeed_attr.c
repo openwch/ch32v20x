@@ -39,7 +39,7 @@ uint8_t read_windspeed(void)
 }
 
 /*******************************************************************************
- * Function Name  : set_windspeeds
+ * Function Name  : set_windspeed
  * Description    : …Ë÷√µ±«∞windspeed
  * Input          : None
  * Return         : None

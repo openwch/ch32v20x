@@ -71,7 +71,7 @@ void TIM2_Init( void )
 /*********************************************************************
  * @fn      WCHNET_CreateIPRawSocket
  *
- * @brief   Create raw IP Socket
+ * @brief   Create raw IP Socket.
  *
  * @return  none
  */
@@ -93,7 +93,7 @@ void WCHNET_CreateIPRawSocket(void)
 /*********************************************************************
  * @fn      WCHNET_HandleSockInt
  *
- * @brief   Socket Interrupt Handle
+ * @brief   Socket Interrupt Handle.
  *
  * @param   socketid - socket id.
  *          intstat - interrupt status
@@ -127,7 +127,7 @@ void WCHNET_HandleSockInt(u8 socketid,u8 intstat)
 /*********************************************************************
  * @fn      WCHNET_HandleGlobalInt
  *
- * @brief   Global Interrupt Handle
+ * @brief   Global Interrupt Handle.
  *
  * @return  none
  */
@@ -166,7 +166,7 @@ void WCHNET_HandleGlobalInt(void)
 /*********************************************************************
  * @fn      main
  *
- * @brief   Main program
+ * @brief   Main program.
  *
  * @return  none
  */
@@ -174,26 +174,34 @@ int main(void)
 {
     u8 i;
 
+    SystemCoreClockUpdate();
     Delay_Init();
     USART_Printf_Init(115200);                                              //USART initialize
     printf("IPRaw_PING Test\r\n");   	
     if((SystemCoreClock == 60000000) || (SystemCoreClock == 120000000))
-        printf("SystemClk:%d\r\n", SystemCoreClock);
+        printf("SystemClk:%lu\r\n", (unsigned long)SystemCoreClock);
     else
         printf("Error: Please choose 60MHz and 120MHz clock when using Ethernet!\r\n");
-    printf("net version:%x\n",WCHNET_GetVer());
+    printf("ChipID:%08lx\r\n", (unsigned long)DBGMCU_GetCHIPID());
+    printf("net version:%x\r\n",(unsigned)WCHNET_GetVer());
     if(WCHNET_LIB_VER != WCHNET_GetVer()){
-        printf("version error.\n");
+        printf("version error.\r\n");
     }
     WCHNET_GetMacAddr(MACAddr);                                             //get the chip MAC address
     printf("mac addr:");
-    for(i = 0; i < 6; i++) 
-        printf("%x ", MACAddr[i]);
-    printf("\n");
+    for(i = 0; i < 6; i++)
+        printf("%x ", (unsigned)MACAddr[i]);
+    printf("\r\n");
     TIM2_Init();
     i = ETH_LibInit(IPAddr,GWIPAddr,IPMask,MACAddr);                        //Ethernet library initialize
     mStopIfError(i);
-    if(i == WCHNET_ERR_SUCCESS) printf("WCHNET_LibInit Success\r\n");
+    if(i == WCHNET_ERR_SUCCESS) {
+        printf("WCHNET_LibInit Success\r\n");
+    }
+    else {
+        printf("WCHNET_LibInit failed, halted\r\n");
+        while(1);
+    }
     WCHNET_CreateIPRawSocket();                                             //create IPRAW socket
     InitParameter();
     InitPING();

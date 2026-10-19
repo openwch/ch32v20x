@@ -65,7 +65,7 @@ static uint8_t attr_negaction[ATTR_DATA_SIZE];
 static uint8_t attr_disp_name[ATTR_DATA_SIZE];
 
 /* String literals for the iOS notification categories.
- * Used then printing to UART.
+ * Used when printing to UART.
  */
 static const char *lit_catid[BT_ANCS_CATEGORY_ID_COUNT] = {
     "Other",
@@ -83,7 +83,7 @@ static const char *lit_catid[BT_ANCS_CATEGORY_ID_COUNT] = {
 };
 
 /* String literals for the iOS notification event types.
- * Used then printing to UART.
+ * Used when printing to UART.
  */
 static const char *lit_eventid[BT_ANCS_EVT_ID_COUNT] = { "Added",
                              "Modified",
@@ -149,7 +149,7 @@ static void notif_attr_print(const struct bt_ancs_attr *attr)
     }
 }
 
-/**@brief Function for printing iOS notification attribute data.
+/**@brief Function for printing iOS App attribute data.
  *
  * @param[in] attr Pointer to an iOS App attribute.
  */

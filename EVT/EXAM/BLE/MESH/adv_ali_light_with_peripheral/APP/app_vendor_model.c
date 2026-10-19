@@ -228,11 +228,11 @@ static void uuid_generate(struct bt_als_cfg const *cfg)
      01：BLE4.2
      10：BLE5.0
      11：BLE5.0以上 */
-    /* Advertising Verison */
+    /* Advertising Version */
     tm_uuid[2] = BIT(0) | /* adv version */
                  BIT(4) | /* secret */
                  BIT(5) | /* ota */
-                 BIT(7);  /* ble verison */
+                 BIT(7);  /* ble version */
 
     /* Product Id */
     tm_uuid[2 + 1] = cfg->pid;
@@ -246,7 +246,7 @@ static void uuid_generate(struct bt_als_cfg const *cfg)
         tm_uuid[2 + 1 + 4 + i] = cfg->mac[5 - i];
     }
 
-    /* UUID Verison */
+    /* UUID Version */
     tm_uuid[2 + 1 + 4 + 6] = BIT(1);
 
     /* RFU */
@@ -544,7 +544,7 @@ void send_led_indicate(struct indicate_param *param)
     /* Add tid field */
     net_buf_simple_add_u8(&(ind->buf->b), param->tid);
 
-    /* Add generic onoff attrbute op */
+    /* Add generic onoff attribute op */
     net_buf_simple_add_le16(&(ind->buf->b), ALI_GEN_ATTR_TYPE_POWER_STATE);
 
     /* Add current generic onoff status */
@@ -579,7 +579,7 @@ void send_lightness_indicate(struct indicate_param *param)          //添加处
     /* Add tid field */
     net_buf_simple_add_u8(&(ind->buf->b), param->tid);
 
-    /* Add brightness attrbute opcode */
+    /* Add brightness attribute opcode */
     net_buf_simple_add_le16(&(ind->buf->b), ALI_GEN_ATTR_TYPE_BRIGHTNESS);
 
     /* Add brightness status (655~65535对应天猫控制1~100) */
@@ -614,7 +614,7 @@ void send_color_indicate(struct indicate_param *param)          //添加处
     /* Add tid field */
     net_buf_simple_add_u8(&(ind->buf->b), param->tid);
 
-    /* Add brightness attrbute opcode */
+    /* Add brightness attribute opcode */
     net_buf_simple_add_le16(&(ind->buf->b), ALI_GEN_ATTR_TYPE_COLOR);
 
     /* Add brightness status (992~20000对应天猫控制3000~6400) */
@@ -640,7 +640,7 @@ int als_vendor_init(struct bt_mesh_model *model)
     oob_key_generate(&cfg);
 
     /** Random Local TID Value
-     *  @Caution Don't use single octer only.
+     *  @Caution Don't use single octet only.
      */
     ran = tmos_rand();
     als_tid += ((uint8_t *)&ran)[0];

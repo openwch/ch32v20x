@@ -152,14 +152,14 @@ static gapBondCBs_t hidDevBondCB = {
  *          This is called during initialization and should contain
  *          any application specific initialization (ie. hardware
  *          initialization/setup, table initialization, power up
- *          notificaiton ... ).
+ *          notification ... ).
  *
  * @param   task_id - the ID assigned by TMOS.  This ID should be
  *                    used to send messages and set timers.
  *
  * @return  none
  */
-void HidDev_Init()
+void HidDev_Init(void)
 {
     hidDevTaskId = TMOS_ProcessEventRegister(HidDev_ProcessEvent);
 
@@ -348,7 +348,7 @@ void HidDev_Close(void)
  * @brief   Set a HID Dev parameter.
  *
  * @param   param - Profile parameter ID
- * @param   len - length of data to right
+ * @param   len - length of data to write
  * @param   pValue - pointer to data to write.  This is dependent on
  *          the parameter ID and WILL be cast to the appropriate
  *          data type (example: data type of uint16_t will be cast to
@@ -520,7 +520,7 @@ bStatus_t HidDev_ReadAttrCB(uint16_t connHandle, gattAttribute_t *pAttr,
 /*********************************************************************
  * @fn      HidDev_WriteAttrCB
  *
- * @brief   HID Dev attribute read callback.
+ * @brief   HID Dev attribute write callback.
  *
  * @param   connHandle - connection message was received on
  * @param   pAttr - pointer to attribute
@@ -1063,7 +1063,7 @@ static uint8_t hidDevSendReport(uint8_t id, uint8_t type, uint8_t len, uint8_t *
 }
 
 /*********************************************************************
- * @fn      hidDevSendNoti
+ * @fn      HidDev_sendNoti
  *
  * @brief   Send a HID notification.
  *

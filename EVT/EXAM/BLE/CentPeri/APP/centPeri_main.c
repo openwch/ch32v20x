@@ -1,5 +1,5 @@
 /********************************** (C) COPYRIGHT *******************************
- * File Name          : main.c
+ * File Name          : centPeri_main.c
  * Author             : WCH
  * Version            : V1.1
  * Date               : 2019/11/05

@@ -63,13 +63,13 @@ typedef union
     struct
     {
         uint8_t cmd;                            /* 命令码 CMD_PROVISION */
-        uint8_t net_key[PROVISION_NET_KEY_LEN]; /* 后续数据长度 */
-        uint8_t addr[ADDRESS_LEN];              /* 擦除地址 */
+        uint8_t net_key[PROVISION_NET_KEY_LEN]; /* 网络密钥 */
+        uint8_t addr[ADDRESS_LEN];              /* 网络地址 */
     } provision;                                /* 配网命令 */
     struct
     {
         uint8_t cmd;                /* 命令码 CMD_DELETE_NODE */
-        uint8_t addr[ADDRESS_LEN];  /* 擦除地址 */
+        uint8_t addr[ADDRESS_LEN];  /* 节点地址 */
     } delete_node;                  /* 删除节点命令 */
     struct
     {

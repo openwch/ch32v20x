@@ -14,7 +14,7 @@
 
 #include "lwns_config.h"
 
-#define RUCFT_EXAMPLE_TX_PERIOD_EVT    1 << (0)
+#define RUCFT_EXAMPLE_TX_PERIOD_EVT    (1 << (0))
 
 void lwns_rucft_process_init(void);
 

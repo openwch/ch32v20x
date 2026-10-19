@@ -103,7 +103,7 @@ typedef union
     struct
     {
         uint8_t cmd;                /* 命令码 CMD_DELETE_NODE */
-        uint8_t addr[ADDRESS_LEN];  /* 擦除地址 */
+        uint8_t addr[ADDRESS_LEN];  /* 节点地址 */
     } delete_node;                  /* 删除节点命令 */
     struct
     {

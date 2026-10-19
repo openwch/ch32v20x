@@ -24,22 +24,22 @@
     <link>
       <name>Core</name>
       <type>2</type>
-      <locationURI>PARENT-4-PROJECT_LOC/SRC/Core</locationURI>
+      <location>PARENT-4-PROJECT_LOC/SRC/Core</location>
     </link>
     <link>
       <name>Debug</name>
       <type>2</type>
-      <locationURI>PARENT-4-PROJECT_LOC/SRC/Debug</locationURI>
+      <location>PARENT-4-PROJECT_LOC/SRC/Debug</location>
     </link>
     <link>
       <name>Ld</name>
       <type>2</type>
-      <locationURI>PARENT-4-PROJECT_LOC/SRC/Ld</locationURI>
+      <location>PARENT-4-PROJECT_LOC/SRC/Ld</location>
     </link>
     <link>
       <name>Peripheral</name>
       <type>2</type>
-      <locationURI>PARENT-4-PROJECT_LOC/SRC/Peripheral</locationURI>
+      <location>PARENT-4-PROJECT_LOC/SRC/Peripheral</location>
     </link>
     <link>
       <name>Startup</name>
@@ -54,9 +54,8 @@
   </linkedResources>
   <filteredResources>
     <filter>
-      <id>1595986042669</id>
       <name/>
-      <type>22</type>
+      <type>6</type>
       <matcher>
         <id>org.eclipse.ui.ide.multiFilter</id>
         <arguments>1.0-name-matches-false-false-*.wvproj</arguments>

@@ -23,8 +23,8 @@
  */
 #define ADV_TIMEOUT       K_MINUTES(10)
 
-#define SELENCE_ADV_ON    0x01
-#define SELENCE_ADV_OF    0x00
+#define SILENCE_ADV_ON    0x01
+#define SILENCE_ADV_OFF   0x00
 
 /*********************************************************************
  * GLOBAL TYPEDEFS
@@ -70,7 +70,7 @@ NET_BUF_SIMPLE_DEFINE_STATIC(rx_buf, 65);
 #endif /* !PB_GATT */
 
 /*********************************************************************
- * LOCAL FUNCION
+ * LOCAL FUNCTION
  */
 
 static void link_open(bt_mesh_prov_bearer_t bearer);
@@ -647,7 +647,7 @@ static const cfg_cb_t local_cfg_cb = {
  * @brief   配网完成回调，重新开始广播
  *
  * @param   net_idx     - 网络key的index
- * @param   addr        - link关闭原因网络地址
+ * @param   addr        - 网络地址
  * @param   flags       - 是否处于key refresh状态
  * @param   iv_index    - 当前网络iv的index
  *
@@ -663,7 +663,7 @@ static void prov_complete(uint16_t net_idx, uint16_t addr, uint8_t flags, uint32
     err = bt_mesh_provisioner_enable(BLE_MESH_PROV_ADV);
     if(err)
     {
-        APP_DBG("Unabled Enable Provisoner (err:%d)", err);
+        APP_DBG("Unable Enable Provisioner (err:%d)", err);
     }
 
     node = node_get(addr);
@@ -1095,7 +1095,7 @@ void blemesh_on_sync(void)
                                 self_prov_iv_index, self_prov_addr, self_prov_dev_key);
         if(err)
         {
-            APP_DBG("Self Privisioning (err %d)", err);
+            APP_DBG("Self Provisioning (err %d)", err);
             return;
         }
     }

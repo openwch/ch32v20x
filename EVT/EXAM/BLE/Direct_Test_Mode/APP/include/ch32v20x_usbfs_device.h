@@ -52,11 +52,11 @@ extern "C" {
 #define USBFSD_UEP_BUF_MOD            0x01
 #define DEF_UEP_DMA_LOAD              0 /* Direct the DMA address to the data to be processed */
 #define DEF_UEP_CPY_LOAD              1 /* Use memcpy to move data to a buffer */
-#define USBFSD_UEP_MOD(n)             (*((volatile uint8_t *)(USBFSD_UEP_MOD_BASE+n)))
-#define USBFSD_UEP_CTRL(n)            (*((volatile uint8_t *)(USBFSD_UEP_CTL_BASE+n*0x04)))
-#define USBFSD_UEP_DMA(n)             (*((volatile uint32_t *)(USBFSD_UEP_DMA_BASE+n*0x04)))
-#define USBFSD_UEP_BUF(n)             ((uint8_t *)(*((volatile uint32_t *)(USBFSD_UEP_DMA_BASE+n*0x04)))+0x20000000)
-#define USBFSD_UEP_TLEN(n)            (*((volatile uint16_t *)(USBFSD_UEP_LEN_BASE+n*0x04)))
+#define USBFSD_UEP_MOD(n)             (*((volatile uint8_t *)(USBFSD_UEP_MOD_BASE+(n))))
+#define USBFSD_UEP_CTRL(n)            (*((volatile uint8_t *)(USBFSD_UEP_CTL_BASE+(n)*0x04)))
+#define USBFSD_UEP_DMA(n)             (*((volatile uint32_t *)(USBFSD_UEP_DMA_BASE+(n)*0x04)))
+#define USBFSD_UEP_BUF(n)             ((uint8_t *)(*((volatile uint32_t *)(USBFSD_UEP_DMA_BASE+(n)*0x04)))+0x20000000)
+#define USBFSD_UEP_TLEN(n)            (*((volatile uint16_t *)(USBFSD_UEP_LEN_BASE+(n)*0x04)))
 
 /* Setup Request Packets */
 #define pUSBFS_SetupReqPak                 ((PUSB_SETUP_REQ)USBFS_EP0_Buf)

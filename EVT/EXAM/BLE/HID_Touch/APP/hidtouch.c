@@ -182,18 +182,18 @@ static hidDevCB_t hidEmuHidCBs = {
 /*********************************************************************
  * @fn      HidEmu_Init
  *
- * @brief   Initialization function for the HidEmuKbd App Task.
+ * @brief   Initialization function for the HidEmuTouch App Task.
  *          This is called during initialization and should contain
  *          any application specific initialization (ie. hardware
  *          initialization/setup, table initialization, power up
- *          notificaiton ... ).
+ *          notification ... ).
  *
  * @param   task_id - the ID assigned by TMOS.  This ID should be
  *                    used to send messages and set timers.
  *
  * @return  none
  */
-void HidEmu_Init()
+void HidEmu_Init(void)
 {
     hidEmuTaskId = TMOS_ProcessEventRegister(HidEmu_ProcessEvent);
 
@@ -231,7 +231,7 @@ void HidEmu_Init()
         Batt_SetParameter(BATT_PARAM_CRITICAL_LEVEL, sizeof(uint8_t), &critical);
     }
 
-    // Set up HID keyboard service
+    // Set up HID touch service
     Hid_AddService();
 
     // Register for HID Dev callback
@@ -244,7 +244,7 @@ void HidEmu_Init()
 /*********************************************************************
  * @fn      HidEmu_ProcessEvent
  *
- * @brief   HidEmuKbd Application Task event processor.  This function
+ * @brief   HidEmuTouch Application Task event processor.  This function
  *          is called to process all events for the task.  Events
  *          include timers, messages and any other user defined events.
  *

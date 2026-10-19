@@ -20,17 +20,17 @@ const uint8_t  USBD_DeviceDescriptor[] = {
     0x00,                            // bDeviceClass (Use class information in the Interface Descriptors)
     0x00,                            // bDeviceSubClass 
     0x00,                            // bDeviceProtocol 
-    DEF_USBD_UEP0_SIZE,              // bMaxPacketSize0 8
+    DEF_USBD_UEP0_SIZE,              // bMaxPacketSize0 64
     0x86, 0x1A,                      // idVendor 0x1A86
     0x07, 0xFE,                      // idProduct 0xFE07
-    0x00, 0x01,                      // bcdDevice 2.00
+    0x00, 0x01,                      // bcdDevice 1.00
     0x01,                            // iManufacturer (String Index)
     0x02,                            // iProduct (String Index)
     0x00,                            // iSerialNumber (String Index)
     0x01,                            // bNumConfigurations 1
 };
 
-/* USB Configration Descriptors */
+/* USB Configuration Descriptors */
 const uint8_t  USBD_ConfigDescriptor[] = { 
     /* Configuration Descriptor */
     0x09,                           // bLength
@@ -39,7 +39,7 @@ const uint8_t  USBD_ConfigDescriptor[] = {
     0x01,                           // bNumInterfaces
     0x01,                           // bConfigurationValue
     0x03,                           // iConfiguration (String Index)
-    0x80,                           // bmAttributes Remote Wakeup
+    0x80,                           // bmAttributes (bit7 reserved = 1, no remote wakeup)
     0x23,                           // bMaxPower 70mA
 
     /* Interface Descriptor */

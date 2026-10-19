@@ -1,5 +1,5 @@
 /********************************** (C) COPYRIGHT *******************************
- * File Name          : main.c
+ * File Name          : eth.c
  * Author             : WCH
  * Version            : V1.2
  * Date               : 2022/06/22
@@ -184,7 +184,7 @@ void WCHNET_HandleSockInt(u8 socketid, u8 intstat)
         }
         printf("TCP Connect Success\r\n");
         printf("socket id: %d\r\n", socket[i]);
-        tmos_start_task(eth_TaskID, ETH_SENG_DATA_EVENT, 160);
+        tmos_start_task(eth_TaskID, ETH_SEND_DATA_EVENT, 160);
     }
     if (intstat & SINT_STAT_DISCONNECT)                         //disconnect
     {
@@ -195,7 +195,7 @@ void WCHNET_HandleSockInt(u8 socketid, u8 intstat)
             }
         }
         printf("TCP Disconnect\r\n");
-        tmos_stop_task(eth_TaskID, ETH_SENG_DATA_EVENT);
+        tmos_stop_task(eth_TaskID, ETH_SEND_DATA_EVENT);
     }
     if (intstat & SINT_STAT_TIM_OUT)                             //timeout disconnect
     {
@@ -276,7 +276,7 @@ uint16_t eth_ProcessEvent(uint8_t task_id, uint16_t events)
         // return unprocessed events
         return (events ^ SYS_EVENT_MSG);
     }
-    if(events & ETH_SENG_DATA_EVENT)
+    if(events & ETH_SEND_DATA_EVENT)
     {
         uint32_t stata;
         uint8_t data[2] = {0x77};
@@ -285,8 +285,8 @@ uint16_t eth_ProcessEvent(uint8_t task_id, uint16_t events)
         {
             printf("eth send fail %x \n",stata);
         }
-        tmos_start_task(eth_TaskID, ETH_SENG_DATA_EVENT, 1600);
-        return (events ^ ETH_SENG_DATA_EVENT);
+        tmos_start_task(eth_TaskID, ETH_SEND_DATA_EVENT, 1600);
+        return (events ^ ETH_SEND_DATA_EVENT);
     }
 
     // Discard unknown events

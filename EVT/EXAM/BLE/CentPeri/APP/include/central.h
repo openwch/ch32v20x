@@ -3,7 +3,7 @@
  * Author             : WCH
  * Version            : V1.0
  * Date               : 2018/11/12
- * Description        : Observe the initialization of the main function and task system
+ * Description        : Central role initialization and task system
  *********************************************************************************
  * Copyright (c) 2021 Nanjing Qinheng Microelectronics Co., Ltd.
  * Attention: This software (modified or not) and binary are used for 
@@ -25,7 +25,7 @@ extern "C" {
  * CONSTANTS
  */
 
-// Simple BLE Observer Task Events
+// Simple BLE Central Task Events
 #define START_DEVICE_EVT              0x0001
 #define START_DISCOVERY_EVT           0x0002
 #define START_SCAN_EVT                0x0004

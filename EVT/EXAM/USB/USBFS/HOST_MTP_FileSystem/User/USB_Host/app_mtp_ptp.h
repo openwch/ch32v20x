@@ -887,7 +887,7 @@ extern uint8_t USBH_PTP_GetResponse( void );
 extern uint8_t USBH_PTP_OpenSession( uint32_t session );
 extern uint8_t USBH_PTP_GetDeviceInfo( void );
 extern uint8_t USBH_PTP_GetStorageIds( void );
-extern void PTP_GetString( uint8_t *str, uint8_t *data, uint32_t *len );
+extern void PTP_GetString( uint8_t *str, uint8_t *data, uint32_t *len, uint32_t max_len );
 extern uint8_t USBH_PTP_GetStorageInfo( uint32_t storage_id );
 extern uint8_t USBH_PTP_GetNumObjects( uint32_t storage_id, uint32_t objectformatcode, uint32_t objecthandle, uint32_t *numobs );
 extern void ObjectHandles_Process( uint8_t *pdata, uint32_t len );

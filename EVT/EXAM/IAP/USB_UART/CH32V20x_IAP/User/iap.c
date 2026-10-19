@@ -1,8 +1,8 @@
 /********************************** (C) COPYRIGHT  *******************************
  * File Name          : iap.c
  * Author             : WCH
- * Version            : V1.0.2
- * Date               : 2025/10/27
+ * Version            : V1.0.3
+ * Date               : 2026/10/15
  * Description        : IAP
 *********************************************************************************
 * Copyright (c) 2021 Nanjing Qinheng Microelectronics Co., Ltd.
@@ -17,10 +17,8 @@
 #include "usb_lib.h"
 /******************************************************************************/
 
-iapfun jump2app;
 vu32 Program_addr = FLASH_Base;
 vu32 Verify_addr = FLASH_Base;
-u32 User_APP_Addr_offset = 0x5000;
 vu8 Verify_Star_flag = 0;
 u8 Fast_Program_Buf[390];
 vu32 CodeLen = 0;
@@ -39,24 +37,22 @@ u8 EP2_Rx_Buffer[USBD_DATA_SIZE+4];
  */
 u8 RecData_Deal(void)
 {
-     u8 i, s, Lenth;
+     u8 i, s, Length;
 
-     Lenth = isp_cmd_t->other.buf[1];
+     Length = isp_cmd_t->other.buf[1];
 
      switch ( isp_cmd_t->other.buf[0]) {
      case CMD_IAP_ERASE:
-         FLASH_Unlock_Fast();
          s = ERR_SUCCESS;
          break;
 
      case CMD_IAP_PROM:
-         for (i = 0; i < Lenth; i++) {
+         for (i = 0; i < Length; i++) {
              Fast_Program_Buf[CodeLen + i] = isp_cmd_t->program.data[i];
          }
-         CodeLen += Lenth;
+         CodeLen += Length;
          if (CodeLen >= 256) {
-             FLASH_Unlock_Fast();
-             FLASH_ErasePage_Fast(Program_addr);
+             FLASH_ROM_ERASE(Program_addr,256);
              CH32_IAP_Program(Program_addr, (u32*) Fast_Program_Buf);
              CodeLen -= 256;
              for (i = 0; i < CodeLen; i++) {
@@ -79,21 +75,21 @@ u8 RecData_Deal(void)
              {
                  Fast_Program_Buf[CodeLen + i] = 0xff;
              }
-             FLASH_ErasePage_Fast(Program_addr);
+             FLASH_ROM_ERASE(Program_addr,256);
              CH32_IAP_Program(Program_addr, (u32*) Fast_Program_Buf);
              CodeLen = 0;
           }
         }
 
          s = ERR_SUCCESS;
-         for (i = 0; i < Lenth; i++) {
+         for (i = 0; i < Length; i++) {
              if (isp_cmd_t->verify.data[i] != *(u8*) (Verify_addr + i)) {
                  s = ERR_ERROR;
                  break;
              }
          }
 
-         Verify_addr += Lenth;
+         Verify_addr += Length;
 
          break;
 
@@ -104,9 +100,7 @@ u8 RecData_Deal(void)
          Verify_addr = FLASH_Base;
          s = ERR_End;
 
-         FLASH_ErasePage_Fast(CalAddr & 0xFFFFFF00);
-         FLASH->CTLR |= ((uint32_t)0x00008000);
-         FLASH->CTLR |= ((uint32_t)0x00000080);
+         FLASH_ROM_ERASE(CalAddr & 0xFFFFFF00,256);
          break;
 
      case CMD_JUMP_IAP:
@@ -133,24 +127,22 @@ u8 RecData_Deal(void)
  */
 u8 UART_RecData_Deal(void)
 {
-    u8 i, s, Lenth;
+    u8 i, s, Length;
 
-    Lenth = isp_cmd_t->UART.Len;
+    Length = isp_cmd_t->UART.Len;
     switch ( isp_cmd_t->UART.Cmd) {
     case CMD_IAP_ERASE:
 
-        FLASH_Unlock_Fast();
         s = ERR_SUCCESS;
         break;
 
     case CMD_IAP_PROM:
-        for (i = 0; i < Lenth; i++) {
+        for (i = 0; i < Length; i++) {
             Fast_Program_Buf[CodeLen + i] = isp_cmd_t->UART.data[i];
         }
-        CodeLen += Lenth;
+        CodeLen += Length;
         if (CodeLen >= 256) {
-            FLASH_Unlock_Fast();
-            FLASH_ErasePage_Fast(Program_addr);
+            FLASH_ROM_ERASE(Program_addr, 256);
             CH32_IAP_Program(Program_addr, (u32*) Fast_Program_Buf);
             CodeLen -= 256;
             for (i = 0; i < CodeLen; i++) {
@@ -174,20 +166,20 @@ u8 UART_RecData_Deal(void)
             {
                 Fast_Program_Buf[CodeLen + i] = 0xff;
             }
-            FLASH_ErasePage_Fast(Program_addr);
+            FLASH_ROM_ERASE(Program_addr,256);
             CH32_IAP_Program(Program_addr, (u32*) Fast_Program_Buf);
             CodeLen = 0;
           }
         }
         s = ERR_SUCCESS;
-        for (i = 0; i < Lenth; i++) {
+        for (i = 0; i < Length; i++) {
             if (isp_cmd_t->UART.data[i] != *(u8*) (Verify_addr + i)) {
                 s = ERR_ERROR;
                 break;
             }
         }
 
-        Verify_addr += Lenth;
+        Verify_addr += Length;
         break;
 
     case CMD_IAP_END:
@@ -197,9 +189,7 @@ u8 UART_RecData_Deal(void)
         Verify_addr = FLASH_Base;
         s = ERR_End;
 
-        FLASH_ErasePage_Fast(CalAddr & 0xFFFFFF00);
-        FLASH->CTLR |= ((uint32_t)0x00008000);
-        FLASH->CTLR |= ((uint32_t)0x00000080);
+        FLASH_ROM_ERASE(CalAddr & 0xFFFFFF00,256);
 
         break;
 

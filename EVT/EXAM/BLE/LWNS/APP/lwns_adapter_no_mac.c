@@ -67,7 +67,7 @@ volatile uint8_t tx_end_flag=0;
  */
 __attribute__((section(".highcode")))
 __attribute__((noinline))
-void RF_Wait_Tx_End()
+void RF_Wait_Tx_End(void)
 {
     uint32_t i=0;
     while(!tx_end_flag)
@@ -270,7 +270,7 @@ static void ble_new_neighbor_callback(lwns_addr_t *n)
  * @param   dataptr     - 待发送的数据缓冲头指针.
  * @param   len         - 待发送的数据缓冲长度.
  *
- * @return  TRUE if success, FLASE is failed.
+ * @return  TRUE if success, FALSE is failed.
  */
 static BOOL ble_phy_output(uint8_t *dataptr, uint8_t len)
 {
@@ -402,7 +402,7 @@ static uint16_t lwns_phyoutput_ProcessEvent(uint8_t task_id, uint16_t events)
  *
  * @return  None.
  */
-void lwns_shut()
+void lwns_shut(void)
 {
     uint8_t *pMsg;
     RF_Shut(); //关闭RF接收
@@ -440,7 +440,7 @@ void lwns_shut()
  *
  * @return  None.
  */
-void lwns_start()
+void lwns_start(void)
 {
     RF_Shut();
     RF_Rx(NULL, 0, USER_RF_RX_TX_TYPE, USER_RF_RX_TX_TYPE); //打开RF接收，如果需要低功耗管理，在其他地方打开。

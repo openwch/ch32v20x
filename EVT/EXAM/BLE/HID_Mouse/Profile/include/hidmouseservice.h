@@ -54,7 +54,7 @@ extern "C" {
 /*********************************************************************
  * @fn      Hid_AddService
  *
- * @brief   Initializes the HID service for keyboard by registering
+ * @brief   Initializes the HID service for mouse by registering
  *          GATT attributes with the GATT server.
  *
  * @param   none
@@ -71,7 +71,7 @@ extern bStatus_t Hid_AddService(void);
  * @param   id     - HID report ID.
  * @param   type   - HID report type.
  * @param   uuid   - attribute uuid.
- * @param   len    - length of data to right.
+ * @param   len    - length of data to write.
  * @param   pValue - pointer to data to write.  This is dependent on
  *          the input parameters and WILL be cast to the appropriate
  *          data type (example: data type of uint16_t will be cast to

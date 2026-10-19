@@ -53,7 +53,7 @@ uint16_t lwns_rucft_ProcessEvent(uint8_t task_id, uint16_t events);
  *
  * @brief   lwns rucft接收回调函数，作为写入文件回调函数
  *
- * @param   ptr         -   本次接收到的数据所属的netflood控制结构体指针.
+ * @param   ptr         -   本次接收到的数据所属的rucft控制结构体指针.
  * @param   sender      -   本次接收到的数据的发送者地址指针.
  * @param   offset      -   本次接收到的数据的偏移量，也是本次文件传输接收已经收到的数据量.
  * @param   flag        -   本次接收到数据的标志，LWNS_RUCFT_FLAG_NONE/LWNS_RUCFT_FLAG_NEWFILE/LWNS_RUCFT_FLAG_END.
@@ -93,7 +93,7 @@ static void write_file(lwns_controller_ptr ptr, const lwns_addr_t *sender,
  *
  * @brief   lwns rucft发送完成回调函数，作为读取文件回调函数
  *
- * @param   ptr         -   本次接收到的数据所属的netflood控制结构体指针.
+ * @param   ptr         -   本次接收到的数据所属的rucft控制结构体指针.
  * @param   offset      -   本次接收到的数据的偏移量，也是本次文件传输发送已经发送的数据量.
  * @param   to          -   本次需要发送的数据缓冲区的头指针，用户将数据拷贝到此指针指向的内存空间。.
  *
@@ -157,7 +157,7 @@ void lwns_rucft_process_init(void)
     );                                      //返回0代表打开失败。返回1打开成功。
     int i;
     for(i = 0; i < FILESIZE; i++)
-    { //LWNS_RUCFT_DATASIZE个LWNSNK_RUCFT_DATASIZE个b，等等，初始化需要发送的数据
+    { //每次填充LWNS_RUCFT_DATASIZE个相同的字符，初始化需要发送的数据
         strsend[i] = 'a' + i / LWNS_RUCFT_DATASIZE;
     }
     strp = strsend;

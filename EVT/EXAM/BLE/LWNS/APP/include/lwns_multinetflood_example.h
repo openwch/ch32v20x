@@ -14,7 +14,7 @@
 
 #include "lwns_config.h"
 
-#define MULTINETFLOOD_EXAMPLE_TX_PERIOD_EVT    1 << (0)
+#define MULTINETFLOOD_EXAMPLE_TX_PERIOD_EVT    (1 << (0))
 
 void lwns_multinetflood_process_init(void);
 

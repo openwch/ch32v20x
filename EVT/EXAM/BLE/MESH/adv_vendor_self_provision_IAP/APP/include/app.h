@@ -10,8 +10,8 @@
  * microcontroller manufactured by Nanjing Qinheng Microelectronics.
  *******************************************************************************/
 
-#ifndef app_H
-#define app_H
+#ifndef __APP_H
+#define __APP_H
 
 #ifdef __cplusplus
 extern "C" {
@@ -24,12 +24,12 @@ extern "C" {
 /* FLASH定义 */
 #define FLASH_PAGE_SIZE                    256
 #define FLASH_BLOCK_SIZE                   4096
-#define IMAGE_SIZE                         152 * 1024
+#define IMAGE_SIZE                         (152 * 1024)
 
 /* imageIAP定义 */
 #define IMAGE_IAP_FLAG                     0x03
 #define IMAGE_IAP_START_ADD                0x08000000
-#define IMAGE_IAP_SIZE                     8 * 1024
+#define IMAGE_IAP_SIZE                     (8 * 1024)
 
 /* imageA定义 */
 #define IMAGE_A_FLAG                       0x01

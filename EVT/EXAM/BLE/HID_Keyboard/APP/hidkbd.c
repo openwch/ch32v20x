@@ -144,7 +144,7 @@ static uint8_t advertData[] = {
     'r',
     'o',
     'a',
-    'd',  // connection interval range
+    'd'   // end of complete local name
 };
 
 // Device name attribute value
@@ -191,14 +191,14 @@ static hidDevCB_t hidEmuHidCBs = {
  *          This is called during initialization and should contain
  *          any application specific initialization (ie. hardware
  *          initialization/setup, table initialization, power up
- *          notificaiton ... ).
+ *          notification ... ).
  *
  * @param   task_id - the ID assigned by TMOS.  This ID should be
  *                    used to send messages and set timers.
  *
  * @return  none
  */
-void HidEmu_Init()
+void HidEmu_Init(void)
 {
     hidEmuTaskId = TMOS_ProcessEventRegister(HidEmu_ProcessEvent);
 

@@ -1,5 +1,5 @@
 /********************************** (C) COPYRIGHT *******************************
- * File Name          : peripheral.h
+ * File Name          : rsp.h
  * Author             : WCH
  * Version            : V1.0
  * Date               : 2018/12/11
@@ -34,7 +34,7 @@ extern "C" {
 #define SBP_SET_SYNC_PARAM   (1 << 14)
 
 /*********************************************************************
- * MACROS
+ * TYPEDEFS
  */
 typedef struct
 {

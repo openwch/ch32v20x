@@ -55,7 +55,7 @@ extern "C" {
 #define CSC_MULTI_SENS_SUPP            0x04
 #define CSC_FULL_SUPPORT               0x07
 
-//CSC Censor Locations
+//CSC Sensor Locations
 #define CSC_SENSOR_LOC_OTHER           0
 #define CSC_SENSOR_LOC_TOP_OF_SHOE     1
 #define CSC_SENSOR_LOC_IN_SHOE         2

@@ -296,7 +296,7 @@ uint16_t RunningService_ProcessEvent(uint8_t task_id, uint16_t events)
  *
  * @brief   process incoming TMOS msg.
  *
- * @param   pMsg- pointer to messag to be read.
+ * @param   pMsg- pointer to message to be read.
  *
  * @return  none
  */
@@ -318,7 +318,7 @@ void running_ProcessTMOSMsg(tmos_event_hdr_t *pMsg)
  *
  * @brief   process incoming GATT msg.
  *
- * @param   pMsg- pointer to messag to be read.
+ * @param   pMsg- pointer to message to be read.
  *
  * @return  none
  */
@@ -406,7 +406,7 @@ void Running_Register(runningServiceCB_t pfnServiceCB)
  * @brief   Set a RSC parameter.
  *
  * @param   param - Profile parameter ID
- * @param   len - length of data to right
+ * @param   len - length of data to write
  * @param   value - pointer to data to write.  This is dependent on
  *          the parameter ID and WILL be cast to the appropriate
  *          data type (example: data type of uint16_t will be cast to
@@ -644,7 +644,7 @@ static void running_ProcessRSCCmd(uint16_t attrHandle, uint8_t *pValue, uint8_t 
             break;
 
         default:
-            // Send an indication with opcode not suported response
+            // Send an indication with opcode not supported response
             rscStatus = RSC_OPCODE_NOT_SUPPORTED;
             break;
     }

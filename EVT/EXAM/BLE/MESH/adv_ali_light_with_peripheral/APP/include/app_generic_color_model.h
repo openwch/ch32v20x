@@ -11,7 +11,7 @@
  *******************************************************************************/
 
 #ifndef app_generic_color_model_H
-#define app_generic_colormodel_H
+#define app_generic_color_model_H
 
 #ifdef __cplusplus
 extern "C" {

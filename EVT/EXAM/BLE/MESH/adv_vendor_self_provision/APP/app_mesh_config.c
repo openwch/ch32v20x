@@ -153,9 +153,9 @@ int erase_flash(int offset, unsigned int len)
 /*********************************************************************
  * @fn      flash_write_protection
  *
- * @brief   no used
+ * @brief   not used
  *
- * @param   enable  - no uesd
+ * @param   enable  - not used
  *
  * @return  always success
  */

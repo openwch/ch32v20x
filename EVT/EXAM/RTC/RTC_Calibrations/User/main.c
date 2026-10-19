@@ -1,8 +1,8 @@
 /********************************** (C) COPYRIGHT *******************************
  * File Name          : main.c
  * Author             : WCH
- * Version            : V1.0.0
- * Date               : 2024/07/18
+ * Version            : V1.0.1
+ * Date               : 2026/10/15
  * Description        : Main program body.
  *********************************************************************************
  * Copyright (c) 2021 Nanjing Qinheng Microelectronics Co., Ltd.
@@ -81,9 +81,11 @@ void RTC_IRQHandler(void)
             RTC_ClearITPendingBit(RTC_IT_ALR);
             RTC_Get();
         }
+        #if 0
         printf("year/month/day/week/hour/min/sec:\r\n");
         printf("%d-%d-%d  %d  %d:%d:%d\r\n", calendar.w_year, calendar.w_month, calendar.w_date,
                calendar.week, calendar.hour, calendar.min, calendar.sec);
+        #endif
     }
     else
     {
@@ -101,8 +103,10 @@ void RTC_IRQHandler(void)
 
                 TIM1->CTLR1 &= ~TIM_CEN;
                 CalibrationVal = TIM1->CNT + CalibrationTIMCir * 65536;
+
+                #if 0
                 CalibrationVal < 1000000 ? printf("Calibration val = %ld\n", 1000000 - CalibrationVal) : printf("Calibration val = %ld\n", CalibrationVal - 1000000);
-                ;
+                #endif
 
                 TIM1->CNT = 0;
                 Calibration_STA = 0;

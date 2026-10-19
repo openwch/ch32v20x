@@ -43,7 +43,6 @@
 KEEP_2kRAM   u32 DataBuf0[256];
 KEEP_30kRAM  u32 DataBuf1[1024];
 
-
 /*********************************************************************
  * @fn      TestDataWrite
  *
@@ -81,12 +80,12 @@ void TestDataRead(void)
     printf("Read data in 2K RAM:\r\n");
     for( i=0; i<256; i++ )
     {
-        printf("DataBuf0#%d = 0x%08lx\r\n",i,DataBuf0[i]);
+        printf("DataBuf0#%d = 0x%08x\r\n",i,DataBuf0[i]);
     }
     printf("Read data in 30K RAM:\r\n");
     for( i=0; i<1024; i++ )
     {
-        printf("DataBuf1#%d = 0x%08lx\r\n",i,DataBuf1[i]);
+        printf("DataBuf1#%d = 0x%08x\r\n",i,DataBuf1[i]);
     }
 
 }

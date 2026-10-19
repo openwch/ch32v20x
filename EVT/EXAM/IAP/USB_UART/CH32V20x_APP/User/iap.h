@@ -63,9 +63,6 @@ struct{
 
 } isp_cmd;
 
-typedef void (*iapfun)(void);
-extern u32 Program_Verify_addr;
-extern u32 User_APP_Addr_offset;
 extern u8 EP2_IN_Flag;
 extern u8 EP2_OUT_Flag;
 extern u16 EP2_Rx_Cnt;

@@ -1,8 +1,8 @@
 /********************************** (C) COPYRIGHT *******************************
  * File Name          : main.c
  * Author             : WCH
- * Version            : V1.0.1
- * Date               : 2025/01/17
+ * Version            : V1.0.2
+ * Date               : 2026/10/16
  * Description        : Main program body.
  *********************************************************************************
  * Copyright (c) 2021 Nanjing Qinheng Microelectronics Co., Ltd.
@@ -80,11 +80,15 @@ void ADC_Function_Init(void)
  */
 u16 Get_ConversionVal(s16 val)
 {
-    if((val + Calibrattion_Val) < 0||val==0)
+    if( ( val + Calibrattion_Val ) < 0 || val==0 )
+    {
         return 0;
-    if((Calibrattion_Val + val) > 4095||val==4095)
+    }
+    if( ( Calibrattion_Val + val ) > 4095 || val==4095 )
+    {
         return 4095;
-    return (val + Calibrattion_Val);
+    }
+    return ( val + Calibrattion_Val );
 }
 
 /*********************************************************************

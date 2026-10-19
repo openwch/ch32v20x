@@ -1,5 +1,5 @@
 /********************************** (C) COPYRIGHT *******************************
- * File Name          : gattprofile.C
+ * File Name          : gattprofile.c
  * Author             : WCH
  * Version            : V1.0
  * Date               : 2018/12/10

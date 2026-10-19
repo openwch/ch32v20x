@@ -25,10 +25,10 @@
 
 /**********************************************************************
 *@Note:
-AT24Cxx£º
+AT24Cxx:
 
-READ EEPROM£ºStart + 0xA0 + 8bit Data Address + Start + 0xA1 + Read Data + Stop.
-WRITE EERPOM£ºStart + 0xA0 + 8bit Data Address + Write Data + Stop.
+READ EEPROM:Start + 0xA0 + 8bit Data Address + Start + 0xA1 + Read Data + Stop.
+WRITE EERPOM:Start + 0xA0 + 8bit Data Address + Write Data + Stop.
 *******************************************************************************/
 /* EERPOM DATA ADDRESS Length Definition */
 #define Address_8bit  0

@@ -257,7 +257,7 @@ static bStatus_t ble_uart_ReadAttrCB(uint16_t connHandle, gattAttribute_t *pAttr
 }
 
 /*********************************************************************
- * @fn      simpleProfile_WriteAttrCB
+ * @fn      ble_uart_WriteAttrCB
  *
  * @brief   Validate attribute data prior to a write operation
  *
@@ -309,7 +309,7 @@ static bStatus_t ble_uart_WriteAttrCB(uint16_t connHandle, gattAttribute_t *pAtt
             if(ble_uart_AppCBs)
             {
                 ble_uart_evt_t evt;
-                evt.type = BLE_UART_EVT_BLE_DATA_RECIEVED;
+                evt.type = BLE_UART_EVT_BLE_DATA_RECEIVED;
                 evt.data.length = (uint16_t)len;
                 evt.data.p_data = pValue;
                 ble_uart_AppCBs(connHandle, &evt);
@@ -320,7 +320,7 @@ static bStatus_t ble_uart_WriteAttrCB(uint16_t connHandle, gattAttribute_t *pAtt
 }
 
 /*********************************************************************
- * @fn          simpleProfile_HandleConnStatusCB
+ * @fn          ble_uart_HandleConnStatusCB
  *
  * @brief       Simple Profile link status change handler function.
  *
@@ -351,7 +351,7 @@ uint8_t ble_uart_notify_is_ready(uint16_t connHandle)
     return (GATT_CLIENT_CFG_NOTIFY == GATTServApp_ReadCharCfg(connHandle, ble_uart_TxCCCD));
 }
 /*********************************************************************
- * @fn          BloodPressure_IMeasNotify
+ * @fn          ble_uart_notify
  *
  * @brief       Send a notification containing a bloodPressure
  *              measurement.

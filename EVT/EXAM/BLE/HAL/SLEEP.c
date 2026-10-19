@@ -14,12 +14,12 @@
 /* Header file contains */
 #include "HAL.h"
 
-#define US_TO_TICK(us)        (uint32_t)((us) / (1000000 / ((CAB_LSIFQ / 2))))
+#define US_TO_TICK(us)        ((uint32_t)((us) / (1000000 / ((CAB_LSIFQ / 2)))))
 
 #define SLEEP_PERIOD_MIN_US   200
 #define SLEEP_PERIOD_MAX_TICK 0xFFD2393F
 #define SLEEP_PERIOD_MIN_TICK US_TO_TICK(SLEEP_PERIOD_MIN_US)
-#define HESREADY_TICK         US_TO_TICK(WAKE_UP_MAX_TIME_US)
+#define HSEREADY_TICK         US_TO_TICK(WAKE_UP_MAX_TIME_US)
 
 /*******************************************************************************
  * @fn          BLE_LowPower
@@ -37,7 +37,7 @@ uint32_t BLE_LowPower(uint32_t time)
     uint32_t sleep_period;
     uint32_t wake_time;
 
-    wake_time = time - HESREADY_TICK;
+    wake_time = time - HSEREADY_TICK;
 
     __disable_irq();
     current_time = RTC_GetCounter();
@@ -49,7 +49,7 @@ uint32_t BLE_LowPower(uint32_t time)
         return 2;
     }
 
-    RTC_SetTignTime(wake_time);
+    RTC_SetTrigTime(wake_time);
     __enable_irq();
 
 #if(DEBUG == DEBUG_UART1) // To use other serial ports to output printing information, you need to modify this line of code
@@ -59,7 +59,7 @@ uint32_t BLE_LowPower(uint32_t time)
     }
 #endif
     // LOW POWER-sleep
-    if(!RTCTigFlag)
+    if(!RTCTrigFlag)
     {
         PWR_EnterSTOPMode_RAM_LV(PWR_Regulator_LowPower, PWR_STOPEntry_WFI);
         SystemInit();

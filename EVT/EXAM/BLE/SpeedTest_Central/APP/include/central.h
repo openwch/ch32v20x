@@ -25,7 +25,7 @@ extern "C" {
  * CONSTANTS
  */
 
-// Simple BLE Observer Task Events
+// Simple BLE Central Task Events
 #define START_DEVICE_EVT              0x0001
 #define START_DISCOVERY_EVT           0x0002
 #define START_SCAN_EVT                0x0004

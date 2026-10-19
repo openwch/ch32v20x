@@ -161,7 +161,7 @@ static uint16_t lwns_netflood_ProcessEvent(uint8_t task_id, uint16_t events)
         lwns_buffer_load_data(TX_DATA, sizeof(TX_DATA)); //载入需要发送的数据到缓冲区
         lwns_netflood_send(&netflood);                   //发送网络泛洪数据包
         tmos_start_task(netflood_taskID, NETFLOOD_EXAMPLE_TX_PERIOD_EVT,
-                        MS1_TO_SYSTEM_TIME(3000)); //10s发送一次
+                        MS1_TO_SYSTEM_TIME(3000)); //3s发送一次
         return (events ^ NETFLOOD_EXAMPLE_TX_PERIOD_EVT);
     }
     if(events & SYS_EVENT_MSG)

@@ -1,5 +1,5 @@
 /********************************** (C) COPYRIGHT *******************************
- * File Name          : main.c
+ * File Name          : RF_PHY.c
  * Author             : WCH
  * Version            : V1.0
  * Date               : 2020/08/06
@@ -19,7 +19,7 @@
  * GLOBAL TYPEDEFS
  */
 
-#define RF_AUTO_MODE_EXAM       1
+#define RF_AUTO_MODE_EXAMPLE    1
 
 uint8_t taskID;
 uint8_t TX_DATA[10] = {1, 2, 3, 4, 5, 6, 7, 8, 9, 0};
@@ -36,7 +36,7 @@ volatile uint8_t rx_end_flag=0;
  */
 __attribute__((section(".highcode")))
 __attribute__((noinline))
-void RF_Wait_Tx_End()
+void RF_Wait_Tx_End(void)
 {
     uint32_t i=0;
     while(!tx_end_flag)
@@ -61,7 +61,7 @@ void RF_Wait_Tx_End()
  */
 __attribute__((section(".highcode")))
 __attribute__((noinline))
-void RF_Wait_Rx_End()
+void RF_Wait_Rx_End(void)
 {
     uint32_t i=0;
     while(!rx_end_flag)
@@ -158,13 +158,13 @@ void RF_2G4StatusCallBack(uint8_t sta, uint8_t crc, uint8_t *rxBuf)
         case RX_MODE_TX_FINISH:
         {
             rx_end_flag = TRUE;
-            tmos_set_event(taskID, SBP_RF_RF_RX_EVT);
+            tmos_set_event(taskID, SBP_RF_RX_EVT);
             break;
         }
         case RX_MODE_TX_FAIL:
         {
             rx_end_flag = TRUE;
-            tmos_set_event(taskID, SBP_RF_RF_RX_EVT);
+            tmos_set_event(taskID, SBP_RF_RX_EVT);
             break;
         }
     }
@@ -210,7 +210,7 @@ uint16_t RF_ProcessEvent(uint8_t task_id, uint16_t events)
         tmos_start_task(taskID, SBP_RF_PERIODIC_EVT, 1000);
         return events ^ SBP_RF_PERIODIC_EVT;
     }
-    if(events & SBP_RF_RF_RX_EVT)
+    if(events & SBP_RF_RX_EVT)
     {
         uint8_t state;
         RF_Shut();
@@ -218,7 +218,7 @@ uint16_t RF_ProcessEvent(uint8_t task_id, uint16_t events)
         rx_end_flag = FALSE;
         state = RF_Rx(TX_DATA, 10, 0xFF, 0xFF);
         PRINT("RX mode.state = %x\n", state);
-        return events ^ SBP_RF_RF_RX_EVT;
+        return events ^ SBP_RF_RX_EVT;
     }
     return 0;
 }
@@ -259,4 +259,4 @@ void RF_Init(void)
     }
 }
 
-/******************************** endfile @ main ******************************/
+/******************************** endfile @ rf_phy ******************************/

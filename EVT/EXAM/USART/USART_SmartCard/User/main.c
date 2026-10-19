@@ -1,8 +1,8 @@
 /********************************** (C) COPYRIGHT *******************************
  * File Name          : main.c
  * Author             : WCH
- * Version            : V1.0.0
- * Date               : 2024/02/20
+ * Version            : V1.0.1
+ * Date               : 2026/10/16
  * Description        : Main program body.
  *********************************************************************************
  * Copyright (c) 2024 Nanjing Qinheng Microelectronics Co., Ltd.
@@ -167,6 +167,10 @@ int ATR_Parse(ATR_TypeDef *atr, uint8_t *atr_buf, int32_t len) {
             }
             index++;
             atr->pn = index;
+            if (index >= ATR_MAX_PROTOCOLS) {
+                printf("error: too many protocols\n");
+                return 1;
+            }
 
             if (Yi & 0xF0) {
                 if (Yi & 0x10) {
@@ -300,7 +304,7 @@ void SC_TransmitData(uint8_t *data, uint16_t size) {
     }
 }
 
-void SC_ReceiveData(uint8_t *data, uint16_t *size) {
+void SC_ReceiveData(uint8_t *data, uint16_t *size, uint16_t max) {
     uint32_t i = 0, t = 0;
     SC_ClearUart();
     while (USART_GetFlagStatus(USART2, USART_FLAG_RXNE) == RESET) {
@@ -356,7 +360,7 @@ int main(void) {
     GPIO_SetBits(GPIOA, RST_PIN);
 
     // try to get ATR
-    SC_ReceiveData(recvbuf, &(recvpos));
+    SC_ReceiveData(recvbuf, &(recvpos), ATR_MAX_SIZE);
 
     if (recvpos == 0) {
         printf("cannot get atr\n");
@@ -376,8 +380,8 @@ int main(void) {
         recvpos = 0;
         // send pps
         SC_TransmitData(pps, 3);
-        SC_ReceiveData(recvbuf, &(recvpos));
-        if (memcmp(pps, recvbuf, recvpos) != 0) {
+        SC_ReceiveData(recvbuf, &(recvpos), ATR_MAX_SIZE);
+        if (recvpos != sizeof(pps) || memcmp(pps, recvbuf, sizeof(pps)) != 0) {
             printf("cannot switch to T=0 mode\n");
             printf("end\n");
             while (1) {
@@ -388,14 +392,16 @@ int main(void) {
     }
 
     SC_TransmitData(testcmd, 5);
-    SC_ReceiveData(recvbuf, &(recvpos));
+    SC_ReceiveData(recvbuf, &(recvpos), ATR_MAX_SIZE);
 
     for (int i = 0; i < recvpos; i++) {
         printf("[%d]=%x \n", i, recvbuf[i]);
     }
-    printf("SW1 = %x \n", recvbuf[recvpos - 2]);
-    printf("SW2 = %x \n", recvbuf[recvpos - 1]);
-    if (recvbuf[recvpos - 2] == 0x90 && recvbuf[recvpos - 1] == 0x00 && recvpos == 11) {
+    if (recvpos >= 2) {
+        printf("SW1 = %x \n", recvbuf[recvpos - 2]);
+        printf("SW2 = %x \n", recvbuf[recvpos - 1]);
+    }
+    if ((recvpos >= 2) && (recvbuf[recvpos - 2] == 0x90) && (recvbuf[recvpos - 1] == 0x00) && recvpos == 11) {
         printf("success\n");
     }
     printf("end\n");

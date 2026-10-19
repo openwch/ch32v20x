@@ -1,5 +1,5 @@
 /********************************** (C) COPYRIGHT *******************************
- * File Name          : RingMem.C
+ * File Name          : RingMem.c
  * Author             : WCH
  * Version            : V1.4
  * Date               : 2019/12/20
@@ -120,7 +120,7 @@ uint8_t RingMemRead( RingMemParm_t *Parm, uint8_t *pData, uint32_t len )
     if( len > Parm->CurrentLen )	//Not enough reading length
 		return !SUCCESS;
 	
-	edgelen = Parm->pEnd - Parm->pRead;			//Calculate the length of the remaining to the boundarythe length of the remaining to the boundary
+	edgelen = Parm->pEnd - Parm->pRead;			//Calculate the length of the remaining to the boundary
 	
 	if( len > edgelen )
 	{
@@ -306,7 +306,7 @@ uint8_t RingAddInStart( RingMemParm_t *Parm, uint8_t *pData, uint32_t len )
 }
 
 /*********************************************************************
- * @fn      RingCopyOneData
+ * @fn      RingReturnSingleData
  *
  * @brief   Back the first data on the basis of the first address
  *

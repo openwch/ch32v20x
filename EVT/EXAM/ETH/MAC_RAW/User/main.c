@@ -93,7 +93,7 @@ void TIM2_Init(void)
 /*********************************************************************
  * @fn      main
  *
- * @brief   Main program
+ * @brief   Main program.
  *
  * @return  none
  */
@@ -102,18 +102,19 @@ int main(void)
     u8 i;
     uint32_t PktCnt = 0;
 
+    SystemCoreClockUpdate();
     Delay_Init();
     USART_Printf_Init(115200);                                  //USART initialize
     printf("MAC_RAW Test\r\n");
     if((SystemCoreClock == 60000000) || (SystemCoreClock == 120000000))
-        printf("SystemClk:%d\r\n", SystemCoreClock);
+        printf("SystemClk:%lu\r\n", (unsigned long)SystemCoreClock);
     else
         printf("Error: Please choose 60MHz and 120MHz clock when using Ethernet!\r\n");
     WCHNET_GetMacAddr(MACAddr);                                 //get the chip MAC address
     printf("mac addr:");
     for(i = 0; i < 6; i++)
-        printf("%x ", MACAddr[i]);
-    printf("\n");
+        printf("%x ", (unsigned)MACAddr[i]);
+    printf("\r\n");
     TIM2_Init();
     ETH_Init(MACAddr);
     /* change source MAC address */

@@ -22,7 +22,7 @@
  */
 
 // 应用层最大发送长度，不分包最大为CONFIG_MESH_UNSEG_LENGTH_DEF，分包最大为CONFIG_MESH_TX_SEG_DEF*BLE_MESH_APP_SEG_SDU_MAX-8（依据RAM使用情况决定）
-#define APP_MAX_TX_SIZE    MAX(CONFIG_MESH_UNSEG_LENGTH_DEF, CONFIG_MESH_TX_SEG_DEF *BLE_MESH_APP_SEG_SDU_MAX - 8)
+#define APP_MAX_TX_SIZE    (MAX(CONFIG_MESH_UNSEG_LENGTH_DEF, CONFIG_MESH_TX_SEG_DEF *BLE_MESH_APP_SEG_SDU_MAX - 8))
 
 static uint8_t vendor_model_cli_TaskID = 0; // Task ID for internal task/event processing
 static uint8_t cli_send_tid = 0;
@@ -98,7 +98,7 @@ static void vendor_model_cli_reset(void)
  * @brief   调用应用层传入的回调
  *
  * @param   val     - 回调参数，包括消息类型、数据内容、长度、来源地址
- * @param   statu   - 状态
+ * @param   status  - 状态
  *
  * @return  none
  */

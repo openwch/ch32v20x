@@ -3,7 +3,7 @@
  * Author             : WCH
  * Version            : V1.0.0
  * Date               : 2021/08/08
- * Description        : All processing related to Virtual Com Port Demo
+ * Description        : All processing related to the USB device
 *********************************************************************************
 * Copyright (c) 2021 Nanjing Qinheng Microelectronics Co., Ltd.
 * Attention: This software (modified or not) and binary are used for 
@@ -179,7 +179,7 @@ void USBD_init(void)
 /*******************************************************************************
  * @fn      USBD_Reset
  *
- * @brief   Virtual_Com_Port Mouse reset routine
+ * @brief   USB Device Reset routine
  *
  * @return  None.
  */
@@ -262,7 +262,7 @@ uint8_t *USBD_GetStringDescriptor(uint16_t Length)
 {
   uint8_t wValue0 = pInformation->USBwValue0;
 	
-  if (wValue0 > 4)
+  if (wValue0 > 3)
   {
     return NULL;
   }

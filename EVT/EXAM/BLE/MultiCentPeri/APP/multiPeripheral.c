@@ -1,5 +1,5 @@
 /********************************** (C) COPYRIGHT *******************************
- * File Name          : peripheral.C
+ * File Name          : multiPeripheral.c
  * Author             : WCH
  * Version            : V1.0
  * Date               : 2022/03/18
@@ -203,14 +203,14 @@ static simpleProfileCBs_t Peripheral_SimpleProfileCBs = {
  *          This is called during initialization and should contain
  *          any application specific initialization (ie. hardware
  *          initialization/setup, table initialization, power up
- *          notificaiton ... ).
+ *          notification ... ).
  *
  * @param   task_id - the ID assigned by TMOS.  This ID should be
  *                    used to send messages and set timers.
  *
  * @return  none
  */
-void Peripheral_Init()
+void Peripheral_Init(void)
 {
     Peripheral_TaskID = TMOS_ProcessEventRegister(Peripheral_ProcessEvent);
 
@@ -852,13 +852,11 @@ static void peripheralStateNotificationCB(gapRole_States_t newState, gapRoleEven
  * @fn      performPeriodicTask
  *
  * @brief   Perform a periodic application task. This function gets
- *          called every five seconds as a result of the SBP_PERIODIC_EVT
- *          TMOS event. In this example, the value of the third
- *          characteristic in the SimpleGATTProfile service is retrieved
- *          from the profile, and then copied into the value of the
- *          the fourth characteristic.
+ *          called as a result of the SBP_PERIODIC_EVT TMOS event.
+ *          In this example, a notification of the fourth
+ *          characteristic in the SimpleGATTProfile service is sent.
  *
- * @param   none
+ * @param   connHandle - connection handle
  *
  * @return  none
  */

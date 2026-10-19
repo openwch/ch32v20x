@@ -28,7 +28,7 @@
 #define SELENCE_ADV_OF    0x00
 
 // 命令超时设置，如果有低功耗节点，则不能小于低功耗节点唤醒间隔（默认10s）
-#define APP_CMD_TIMEOUT               1600*10
+#define APP_CMD_TIMEOUT               (1600*10)
 
 #define APP_DELETE_LOCAL_NODE_DELAY   3200
 // shall not less than APP_DELETE_LOCAL_NODE_DELAY
@@ -76,7 +76,7 @@ NET_BUF_SIMPLE_DEFINE_STATIC(rx_buf, 65);
 #endif /* !PB_GATT */
 
 /*********************************************************************
- * LOCAL FUNCION
+ * LOCAL FUNCTION
  */
 
 static void cfg_srv_rsp_handler( const cfg_srv_status_t *val );
@@ -87,7 +87,7 @@ static void cfg_cli_rsp_handler(const cfg_cli_status_t *val);
 static void vendor_model_srv_rsp_handler(const vendor_model_srv_status_t *val);
 static int  vendor_model_srv_send(uint16_t addr, uint8_t *pData, uint16_t len);
 static void prov_reset(void);
-void App_trans_model_reveived(uint8_t *pValue, uint16_t len, uint16_t addr );
+void App_trans_model_received(uint8_t *pValue, uint16_t len, uint16_t addr );
 void FLASH_read(uint32_t addr, uint8_t *pData, uint32_t len);
 
 
@@ -223,7 +223,7 @@ static void prov_enable(void)
         return;
     }
 
-    // Make sure we're scanning for provisioning inviations
+    // Make sure we're scanning for provisioning invitations
     bt_mesh_scan_enable();
     // Enable unprovisioned beacon sending
     bt_mesh_beacon_enable();
@@ -311,7 +311,7 @@ static void prov_complete(uint16_t net_idx, uint16_t addr, uint8_t flags, uint32
         return;
     }
     set_led_state(LED_PIN, TRUE);
-    Peripheral_AdvertData_Privisioned(TRUE);
+    Peripheral_AdvertData_Provisioned(TRUE);
 
     // 如果未配置过网络信息，则退出回调后，执行配置本地网络信息流程
     if( vnd_models[0].keys[0] == BLE_MESH_KEY_UNUSED )
@@ -347,8 +347,8 @@ static void prov_reset(void)
     ota_update_node_address=0;
     set_sub_node_address=0;
     set_led_state(LED_PIN, FALSE);
-    Peripheral_AdvertData_Privisioned(FALSE);
-    APP_DBG("Waiting for privisioning data");
+    Peripheral_AdvertData_Provisioned(FALSE);
+    APP_DBG("Waiting for provisioning data");
 #if(CONFIG_BLE_MESH_LOW_POWER)
     bt_mesh_lpn_set(FALSE);
     APP_DBG("Low power disable");
@@ -374,11 +374,11 @@ static void cfg_local_net_info(void)
     {
         APP_DBG("Unable set app key");
     }
-    APP_DBG("lcoal app key added");
+    APP_DBG("local app key added");
     // 绑定应用密钥到沁恒自定义模型
     vnd_models[0].keys[0] = (uint16_t)self_prov_app_idx;
     bt_mesh_store_mod_bind(&vnd_models[0]);
-    APP_DBG("lcoal app key binded");
+    APP_DBG("local app key binded");
 #if(CONFIG_BLE_MESH_LOW_POWER)
     bt_mesh_lpn_set(TRUE);
     APP_DBG("Low power enable");
@@ -441,7 +441,7 @@ static void cfg_srv_rsp_handler( const cfg_srv_status_t *val )
     }
     else
     {
-        APP_DBG("Unknow opcode 0x%02x", val->cfgHdr.opcode);
+        APP_DBG("Unknown opcode 0x%02x", val->cfgHdr.opcode);
     }
 }
 
@@ -487,7 +487,7 @@ static void vendor_model_srv_rsp_handler(const vendor_model_srv_status_t *val)
         APP_DBG("len %d, data 0x%02x from 0x%04x", val->vendor_model_srv_Event.trans.len,
                 val->vendor_model_srv_Event.trans.pdata[0],
                 val->vendor_model_srv_Event.trans.addr);
-        App_trans_model_reveived(val->vendor_model_srv_Event.trans.pdata, val->vendor_model_srv_Event.trans.len,
+        App_trans_model_received(val->vendor_model_srv_Event.trans.pdata, val->vendor_model_srv_Event.trans.len,
             val->vendor_model_srv_Event.trans.addr );
 //        // 转发给主机(如果已连接)
 //        peripheralChar4Notify(val->vendor_model_srv_Event.trans.pdata, val->vendor_model_srv_Event.trans.len);
@@ -507,7 +507,7 @@ static void vendor_model_srv_rsp_handler(const vendor_model_srv_status_t *val)
     }
     else
     {
-        APP_DBG("Unknow opcode 0x%02x", val->vendor_model_srv_Hdr.opcode);
+        APP_DBG("Unknown opcode 0x%02x", val->vendor_model_srv_Hdr.opcode);
     }
 }
 
@@ -589,7 +589,7 @@ static void friend_state(uint16_t lpn_addr, uint8_t state)
     }
     else
     {
-        APP_DBG("unknow state %x", state);
+        APP_DBG("unknown state %x", state);
     }
 }
 #endif
@@ -617,7 +617,7 @@ static void lpn_state(uint16_t friend_addr, uint8_t state)
     }
     else
     {
-        APP_DBG("unknow state %x", state);
+        APP_DBG("unknown state %x", state);
     }
 }
 #endif
@@ -744,8 +744,8 @@ void blemesh_on_sync(void)
     else
     {
         set_led_state(LED_PIN, FALSE);
-       APP_DBG("Waiting for privisioning data");
-        Peripheral_AdvertData_Privisioned(FALSE);
+       APP_DBG("Waiting for provisioning data");
+        Peripheral_AdvertData_Provisioned(FALSE);
     }
 
     APP_DBG("Mesh initialized");
@@ -758,7 +758,7 @@ void blemesh_on_sync(void)
  *
  * @return  none
  */
-void App_Init()
+void App_Init(void)
 {
     GAPRole_PeripheralInit();
     Peripheral_Init();
@@ -806,7 +806,7 @@ static uint16_t App_ProcessEvent(uint8_t task_id, uint16_t events)
                                     self_prov_iv_index, self_prov_addr, self_prov_dev_key);
             if(err)
             {
-                APP_DBG("Self Privisioning (err %d)", err);
+                APP_DBG("Self Provisioning (err %d)", err);
                 self_prov_addr = 0;
                 app_mesh_manage.provision_ack.cmd = CMD_PROVISION_ACK;
                 app_mesh_manage.provision_ack.addr[0] = app_nodes[0].node_addr&0xFF;
@@ -963,7 +963,7 @@ void SwitchImageFlag(uint8_t new_flag)
 }
 
 /*********************************************************************
- * @fn      App_trans_model_reveived
+ * @fn      App_trans_model_received
  *
  * @brief   透传模型收到数据
  *
@@ -973,7 +973,7 @@ void SwitchImageFlag(uint8_t new_flag)
  *
  * @return  none
  */
-void App_trans_model_reveived(uint8_t *pValue, uint16_t len, uint16_t addr )
+void App_trans_model_received(uint8_t *pValue, uint16_t len, uint16_t addr )
 {
     tmos_memcpy(&app_mesh_manage, pValue, len);
     switch(app_mesh_manage.data.buf[0])
@@ -1350,7 +1350,7 @@ void App_trans_model_reveived(uint8_t *pValue, uint16_t len, uint16_t addr )
                         *match = (uint16_t)sub_addr;
                         bt_mesh_store_mod_sub(&vnd_models[0]);
                         status = STATUS_SUCCESS;
-                        APP_DBG("lcoal sub addr added");
+                        APP_DBG("local sub addr added");
                     }
                     else
                     {
@@ -1366,7 +1366,7 @@ void App_trans_model_reveived(uint8_t *pValue, uint16_t len, uint16_t addr )
                         *match = (uint16_t)BLE_MESH_ADDR_UNASSIGNED;
                         bt_mesh_store_mod_sub(&vnd_models[0]);
                         status = STATUS_SUCCESS;
-                        APP_DBG("lcoal sub addr deleted");
+                        APP_DBG("local sub addr deleted");
                     }
                     else
                     {
@@ -1411,7 +1411,7 @@ void App_trans_model_reveived(uint8_t *pValue, uint16_t len, uint16_t addr )
 }
 
 /*********************************************************************
- * @fn      App_peripheral_reveived
+ * @fn      App_peripheral_received
  *
  * @brief   ble外设从机收到数据
  *
@@ -1420,7 +1420,7 @@ void App_trans_model_reveived(uint8_t *pValue, uint16_t len, uint16_t addr )
  *
  * @return  none
  */
-void App_peripheral_reveived(uint8_t *pValue, uint16_t len)
+void App_peripheral_received(uint8_t *pValue, uint16_t len)
 {
     tmos_memcpy(&app_mesh_manage, pValue, len);
     APP_DBG("CMD: %x", app_mesh_manage.data.buf[0]);
@@ -1431,7 +1431,7 @@ void App_peripheral_reveived(uint8_t *pValue, uint16_t len)
         {
             if(len != PROVISION_INFO_DATA_LEN)
             {
-                APP_DBG("Privisioning info data err!");
+                APP_DBG("Provisioning info data err!");
                 return;
             }
             // 判断是设置还是查询
@@ -1466,7 +1466,7 @@ void App_peripheral_reveived(uint8_t *pValue, uint16_t len)
         {
             if(len != PROVISION_DATA_LEN)
             {
-                APP_DBG("Privisioning data err!");
+                APP_DBG("Provisioning data err!");
                 return;
             }
             tmos_memcpy(self_prov_net_key, app_mesh_manage.provision.net_key, PROVISION_NET_KEY_LEN);
